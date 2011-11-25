@@ -24,7 +24,6 @@ void game_()
 /* START UP, DESCRIBE CURRENT LOCATION. */
 
     rspeak_(1);
-    printf ("[ Macintosh version compiled by Magnus Olsson (magnus@thep.lu.se) 19 Aug 1991 ]\n\n");
 /* 						!WELCOME ABOARD. */
     f = rmdesc_(3);
 /* 						!START GAME. */
