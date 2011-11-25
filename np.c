@@ -6,6 +6,7 @@
 
 #include <stdio.h>
 #include <ctype.h>
+#include <readline/readline.h>
 #include "funcs.h"
 #include "vars.h"
 
@@ -20,22 +21,19 @@ char *buffer;
 integer who;
 {
     /* Local variables */
-    char *z, *zlast;
+    char *z, *zlast, *prompt="", *line;
 
     /* Function Body */
 L5:
-    switch (who + 1) {
-	case 1:  goto L90;
-	case 2:  goto L10;
-    }
-/* 						!SEE WHO TO PROMPT FOR. */
-L10:
-    printf(">");
-/* 						!PROMPT FOR GAME. */
-L90:
-    (void) fflush(stdout);
-    if (fgets(buffer, 78, stdin) == NULL)
-	exit_();
+    if (who) prompt="> ";
+
+    line = readline(prompt);
+    if (!line)
+        exit_();
+    add_history(line);
+    strlcpy(buffer, line, 78);
+    free(line);
+
     more_input();
 
     if (buffer[0] == '!') {
