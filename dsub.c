@@ -5,14 +5,16 @@
 /* WRITTEN BY R. M. SUPNIK */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "funcs.h"
 #include "vars.h"
+#include "dtextc.h"
 
 #ifndef SEEK_SET
 #define SEEK_SET (0)
 #endif
 
-extern FILE *dbfile;
+extern DTEXTC_FILE *dbfile;
 
 static void rspsb2nl_ P((integer, integer, integer, logical));
 
@@ -80,7 +82,7 @@ logical nl;
 /* 						!SAID SOMETHING. */
 
     x = ((- x) - 1) * 8;
-    if (fseek(dbfile, x + (long)rmsg_1.mrloc, SEEK_SET) == EOF) {
+    if (dtextc_fseek(dbfile, x + (long)rmsg_1.mrloc, SEEK_SET) == EOF) {
 	fprintf(stderr, "Error seeking database loc %d\n", x);
 	exit_();
     }
@@ -91,7 +93,7 @@ logical nl;
     while (1) {
 	integer i;
 
-	i = getc(dbfile);
+	i = dtextc_getc(dbfile);
 	if (i == EOF) {
 	    fprintf(stderr, "Error reading database loc %d\n", x);
 	    exit_();
@@ -108,9 +110,9 @@ logical nl;
 	else if (i == '#' && y != 0) {
 	    long iloc;
 
-	    iloc = ftell(dbfile);
+	    iloc = dtextc_ftell(dbfile);
 	    rspsb2nl_(y, 0, 0, 0);
-	    if (fseek(dbfile, iloc, SEEK_SET) == EOF) {
+	    if (dtextc_fseek(dbfile, iloc, SEEK_SET) == EOF) {
 		fprintf(stderr, "Error seeking database loc %d\n", iloc);
 		exit_();
 	    }
@@ -423,7 +425,7 @@ L1000:
 L1100:
     score_(0);
 /* 						!TELL SCORE. */
-    (void) fclose(dbfile);
+    (void) dtextc_fclose(dbfile);
     exit_();
 
 } /* jigsup_ */

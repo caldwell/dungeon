@@ -5,6 +5,7 @@
 /* WRITTEN BY R. M. SUPNIK */
 
 #include <stdio.h>
+#include <stdlib.h>
 
 #ifdef __AMOS__
 #include <amos.h>
@@ -13,11 +14,15 @@
 #include "funcs.h"
 #include "vars.h"
 
+#include "dtextc.c"
+#include "dtextc.h"
+size_t dtextc_length = sizeof(dtextc);
+
 /* This is here to avoid depending on the existence of <stdlib.h> */
 
 extern void srand P((unsigned int));
 
-FILE *dbfile;
+DTEXTC_FILE *dbfile;
 
 #ifndef TEXTFILE
 #ifdef __AMOS__
@@ -38,15 +43,15 @@ FILE *dbfile;
 /* Read a single two byte integer from the index file */
 
 #define rdint(indxfile) \
-    (ch = getc(indxfile), \
-     ((ch > 127) ? (ch - 256) : (ch)) * 256 + getc(indxfile))
+    (ch = dtextc_getc(indxfile), \
+     ((ch > 127) ? (ch - 256) : (ch)) * 256 + dtextc_getc(indxfile))
 
 /* Read a number of two byte integers from the index file */
 
 static void rdints(c, pi, indxfile)
 integer c;
 integer *pi;
-FILE *indxfile;
+DTEXTC_FILE *indxfile;
 {
     integer ch;	/* Local variable for rdint */
 
@@ -61,7 +66,7 @@ FILE *indxfile;
 static void rdpartialints(c, pi, indxfile)
 integer c;
 integer *pi;
-FILE *indxfile;
+DTEXTC_FILE *indxfile;
 {
     integer ch;	/* Local variable for rdint */
 
@@ -69,7 +74,7 @@ FILE *indxfile;
 	int i;
 
 	if (c < 255) {
-	    i = getc(indxfile);
+	    i = dtextc_getc(indxfile);
 	    if (i == 255)
 		return;
 	}
@@ -88,10 +93,10 @@ FILE *indxfile;
 static void rdflags(c, pf, indxfile)
 integer c;
 logical *pf;
-FILE *indxfile;
+DTEXTC_FILE *indxfile;
 {
     while (c-- != 0)
-	*pf++ = getc(indxfile);
+	*pf++ = dtextc_getc(indxfile);
 }
 
 logical init_()
@@ -104,7 +109,7 @@ logical init_()
     integer xmax, r2max, dirmax, recno;
     integer i, j, k;
     register integer ch;
-    register FILE *indxfile;
+    register DTEXTC_FILE *indxfile;
     integer mmax, omax, rmax, vmax, amax, cmax, fmax, smax;
 
     more_init();
@@ -338,8 +343,8 @@ L10000:
     if ((dbfile = fdopen(ropen(LOCALTEXTFILE, 0), BINREAD)) == NULL &&
 	(dbfile = fdopen(ropen(TEXTFILE, 0), BINREAD)) == NULL)
 #else
-    if ((dbfile = fopen(LOCALTEXTFILE, BINREAD)) == NULL &&
-	(dbfile = fopen(TEXTFILE, BINREAD)) == NULL)
+    if ((dbfile = dtextc_fopen(LOCALTEXTFILE, BINREAD)) == NULL &&
+	(dbfile = dtextc_fopen(TEXTFILE, BINREAD)) == NULL)
 #endif
 	goto L1950;
 
@@ -415,7 +420,7 @@ L10000:
     rdints(rmsg_1.mlnt, &rmsg_1.rtext[0], indxfile);
 
 /* Save location of start of message text */
-    rmsg_1.mrloc = ftell(indxfile);
+    rmsg_1.mrloc = dtextc_ftell(indxfile);
 
 /* 						!INIT DONE. */
 

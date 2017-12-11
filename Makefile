@@ -63,12 +63,11 @@ OBJS =	actors.o ballop.o clockr.o demons.o dgame.o dinit.o dmain.o\
 	dverb2.o gdt.o lightp.o local.o nobjs.o np.o np1.o np2.o np3.o\
 	nrooms.o objcts.o rooms.o sobjs.o supp.o sverbs.o verbs.o villns.o
 
-dungeon: $(OBJS) dtextc.dat
+dungeon: $(OBJS)
 	$(CC) $(CFLAGS) -o dungeon $(OBJS) $(LIBS)
 
-install: dungeon dtextc.dat
+install: dungeon
 	cp dungeon $(BINDIR)
-	cp dtextc.dat $(LIBDIR)
 
 clean:
 	rm -f $(OBJS) dungeon dtextc.dat core dsave.dat *~
@@ -76,7 +75,12 @@ clean:
 dtextc.dat:
 	cat dtextc.uu1 dtextc.uu2 dtextc.uu3 dtextc.uu4 | uudecode
 
-dinit.o: dinit.c funcs.h vars.h
+dtextc.c: dtextc.dat
+	echo "unsigned char dtextc[] = {" > $@
+	perl -e 'local $$/; open DTEXTC, "<dtextc.dat"; $$dtextc = <DTEXTC>; print join(",", map { sprintf("0x%02x", $$_) } unpack "C*",$$dtextc);' >> $@
+	echo "};" >> $@
+
+dinit.o: dinit.c funcs.h vars.h dtextc.h
 	$(CC) $(CFLAGS) $(GDTFLAG) -DTEXTFILE=\"$(LIBDIR)/dtextc.dat\" -c dinit.c
 
 dgame.o: dgame.c funcs.h vars.h
@@ -103,7 +107,7 @@ dso4.o: funcs.h vars.h
 dso5.o: funcs.h vars.h
 dso6.o: funcs.h vars.h
 dso7.o: funcs.h vars.h
-dsub.o: funcs.h vars.h
+dsub.o: funcs.h vars.h dtextc.h
 dverb1.o: funcs.h vars.h
 dverb2.o: funcs.h vars.h
 lightp.o: funcs.h vars.h
@@ -119,3 +123,4 @@ sobjs.o: funcs.h vars.h
 sverbs.o: funcs.h vars.h
 verbs.o: funcs.h vars.h
 villns.o: funcs.h vars.h
+dtextc.h: dtextc.c
