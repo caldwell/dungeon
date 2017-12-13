@@ -21,6 +21,12 @@ TERMFLAG =
 # LIBS = -lcurses
 # LIBS = /usr/lib/termcap.o
 
+os:=$(shell uname -s)
+
+ifeq ($(os),Linux)
+LIBS += -lbsd
+endif
+
 # more option 2: use the terminfo routines.  On some systems the LIBS
 # variable needs to be -lcursesX, but probably all such systems support
 # the termcap routines (option 1) anyhow.
