@@ -491,7 +491,7 @@ L8000:
 	goto L8300;
     }
 /* 						!MIRROR MUST BE N-S. */
-    curxt_1.xroom1 = (curxt_1.xroom1 - rindex_1.mra << 1) + rindex_1.mrae;
+    curxt_1.xroom1 = ((curxt_1.xroom1 - rindex_1.mra) * 2) + rindex_1.mrae;
 /* 						!CALC EAST ROOM. */
     if (prsvec_1.prso > xsrch_1.xsouth) {
 	++curxt_1.xroom1;
@@ -555,8 +555,8 @@ L10000:
 	    prsvec_1.prso != xsrch_1.xexit) {
 	goto L10200;
     }
-    curxt_1.xroom1 = (findex_1.mloc - rindex_1.mra << 1) + rindex_1.mrae + 1 
-	    - findex_1.mdir / 180;
+    curxt_1.xroom1 = ((findex_1.mloc - rindex_1.mra)*2) + rindex_1.mrae + 1 - (findex_1.mdir/180);
+
 /* 						!ASSUME E-W EXIT. */
     if (findex_1.mdir % 180 == 0) {
 	goto L10100;
