@@ -106,9 +106,8 @@ logical nocare;
 	if ((objcts_1.oflag1[i - 1] & VISIBT) == 0) {
 	    goto L1000;
 	}
-	if (~ (nocare) & (objcts_1.oflag1[i - 1] & TAKEBT) == 0 || (
-		objcts_1.oflag1[i - 1] & f1) == 0 && (objcts_1.oflag2[i - 1] 
-		& f2) == 0) {
+	if ((~(nocare) & (objcts_1.oflag1[i - 1] & TAKEBT)) == 0 ||
+            (objcts_1.oflag1[i - 1] & f1) == 0 && (objcts_1.oflag2[i - 1] & f2) == 0) {
 	    goto L500;
 	}
 	if (ret_val == 0) {
