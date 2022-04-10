@@ -16,7 +16,7 @@ LIBDIR = .
 # more option 1: use the termcap routines.  On some systems the LIBS
 # variable may need to be set to -lcurses.  On some it may need to
 # be /usr/lib/termcap.o.  These options are commented out below.
-LIBS = -ltermcap -ledit
+LIBS = -ltermcap
 TERMFLAG =
 # LIBS = -lcurses
 # LIBS = /usr/lib/termcap.o
@@ -24,7 +24,9 @@ TERMFLAG =
 os:=$(shell uname -s)
 
 ifeq ($(os),Linux)
-LIBS += -lbsd
+LIBS += -lbsd -lreadline
+else
+LIBS += -lbsd -ledit
 endif
 
 # more option 2: use the terminfo routines.  On some systems the LIBS
