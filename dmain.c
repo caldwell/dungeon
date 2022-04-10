@@ -10,7 +10,7 @@
 #include "funcs.h"
 #include "vars.h"
 
-void main(argc, argv)
+int main(argc, argv)
 int argc;
 char **argv;
 {
@@ -19,4 +19,5 @@ char **argv;
         char *prompt = game_move(line);
         rdline_(line, prompt);
     }
+    return 0;
 } /* MAIN__ */
