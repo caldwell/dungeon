@@ -119,7 +119,7 @@ local.o: local.c funcs.h vars.h
 	$(CC) $(CFLAGS) $(GDTFLAG) -c local.c
 
 supp.o: supp.c funcs.h vars.h
-	$(CC) $(CFLAGS) $(TERMFLAG) -c supp.c	
+	$(CC) $(CFLAGS) $(TERMFLAG) -c supp.c
 
 actors.o actors.wasm.o: funcs.h vars.h
 ballop.o ballop.wasm.o: funcs.h vars.h
