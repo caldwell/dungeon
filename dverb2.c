@@ -95,6 +95,7 @@ void savegm_()
     return;
 
 L100:
+    perror("savegm_()");
     rspeak_(598);
 /* 						!CANT DO IT. */
 } /* savegm_ */
