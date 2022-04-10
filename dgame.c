@@ -11,6 +11,7 @@
 /* Do all systems have <string.h>?  Don't use it, just in case */
 
 extern int strcmp P((const char *, const char *));
+extern size_t strlcpy(char *dst, const char *src, size_t siz);
 
 static logical xvehic_ P((integer));
 static void xendmv_ P((logical));

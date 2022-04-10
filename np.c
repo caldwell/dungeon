@@ -15,6 +15,7 @@
 /* This declaration is here since many systems don't have <stdlib.h> */
 
 extern int system P((const char *));
+extern size_t strlcpy(char *dst, const char *src, size_t siz);
 
 static logical lex_ P((char *, integer *, integer *, logical));
 
