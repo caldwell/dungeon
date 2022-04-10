@@ -81,8 +81,8 @@ dungeon.wasm: export CPATH=/usr/include/wasm32-wasi
 dungeon.wasm: LINK=wasm-ld-14 --no-entry --export game_move --import-undefined --export malloc --export free -z,'stack-size=$[8 * 1024 * 1024]'
 dungeon.wasm: CFLAGS=
 dungeon.wasm: LIBS=-L /usr/lib/wasm32-wasi -lc
-dungeon.wasm: $(WASM_OBJS)
-	$(LINK) $(CFLAGS) -o $@ $^ $(LIBS)
+dungeon.wasm: $(WASM_OBJS) Makefile
+	$(LINK) $(CFLAGS) -o $@ $(WASM_OBJS) $(LIBS)
 
 # These 2 turn off features that interactively ask questions of the user. wasm code can't block, so there's
 # way to connect these inputs to javascript.
