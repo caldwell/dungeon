@@ -1,7 +1,5 @@
 /* funcs.h -- functions for dungeon */
 
-#include "defs.h"    /* M.O. Mac version */
-
 #ifndef FUNCS_H
 #define FUNCS_H
 
