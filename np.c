@@ -5,9 +5,11 @@
 /* WRITTEN BY R. M. SUPNIK */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <ctype.h>
 #if !defined(__wasi__)
 #include <readline/readline.h>
+#include <readline/history.h>
 #endif
 #include "funcs.h"
 #include "vars.h"
