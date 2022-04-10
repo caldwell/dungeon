@@ -46,6 +46,9 @@ typedef int logical;
 #define min(a,b) ((a) <= (b) ? (a) : (b))
 #define max(a,b) ((a) >= (b) ? (a) : (b))
 
+extern char*
+	game_move P((char *));
+
 extern logical
 	protected P((void)),
 	wizard P((void));
@@ -63,7 +66,6 @@ extern void
 	encryp_ P((const char *, char *)),
 	exit_ P((void)),
 	fightd_ P((void)),
-	game_ P((void)),
 	gdt_ P((void)),
 	gttime_ P((integer *)),
 	invent_ P((integer)),
@@ -73,7 +75,7 @@ extern void
 	orphan_ P((integer, integer, integer, integer, integer)),
 	princo_ P((integer, integer)),
 	princr_ P((logical, integer)),
-	rdline_ P((char *, integer)),
+	rdline_ P((char *, char *)),
 	rspeak_ P((integer)),
 	rspsb2_ P((integer, integer, integer)),
 	rspsub_ P((integer, integer)),
@@ -84,6 +86,7 @@ extern void
 	swordd_ P((void)),
 	thiefd_ P((void)),
 	valuac_ P((integer));
+
 extern integer
 	blow_ P((integer, integer, integer, logical, integer)),
 	fights_ P((integer, logical)),

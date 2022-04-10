@@ -1,3 +1,4 @@
 *.o
 dungeon
 dtextc.c
+dungeon.wasm

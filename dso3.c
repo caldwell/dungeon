@@ -175,8 +175,13 @@ L100:
     rspeak_(q);
 /* 						!ASK */
     (void) fflush(stdout);
+#ifdef ASSUME_YES
+    printf("Y\n");
+    ans[0] = 'Y';
+#else
     (void) fgets(ans, sizeof ans, stdin);
     more_input();
+#endif
 /* 						!GET ANSWER */
     if (*ans == 'Y' || *ans == 'y') {
 	goto L200;

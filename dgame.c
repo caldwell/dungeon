@@ -15,12 +15,18 @@ extern int strcmp P((const char *, const char *));
 static logical xvehic_ P((integer));
 static void xendmv_ P((logical));
 
-void game_()
+enum { start, input, echo_room } game_input_block = start;
+char *game_move(char *line)
 {
     /* Local variables */
     logical f;
     integer i;
 
+    switch (game_input_block) {
+        case start:     if (!init_()) exit_(); break;
+        case input:     goto input;
+        case echo_room: goto echo_room;
+    }
 /* START UP, DESCRIBE CURRENT LOCATION. */
 
     rspeak_(1);
@@ -36,7 +42,12 @@ L100:
     play_1.telflg = FALSE_;
 /* 						!ASSUME NOTHING TOLD. */
     if (prsvec_1.prscon <= 1) {
-	rdline_(input_1.inbuf, 1);
+        game_input_block = input;
+        return "> ";
+      input:
+	strlcpy(input_1.inbuf, line, sizeof(input_1.inbuf));
+	//rdline_(input_1.inbuf, 1);
+        //printf("got input line: %s\n", input_1.inbuf);
     }
 
 #ifdef ALLOW_GDT
@@ -97,7 +108,11 @@ L900:
 /* IF INPUT IS NOT 'ECHO' OR A DIRECTION, JUST ECHO. */
 
 L1000:
-    rdline_(input_1.inbuf, 0);
+    game_input_block = echo_room;
+    return "";
+  echo_room:
+    strlcpy(input_1.inbuf, line, sizeof(input_1.inbuf));
+    //rdline_(input_1.inbuf, 0);
     ++state_1.moves;
 /* 						!CHARGE FOR MOVES. */
     if (strcmp(input_1.inbuf, "ECHO") != 0)

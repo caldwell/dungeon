@@ -14,13 +14,9 @@ void main(argc, argv)
 int argc;
 char **argv;
 {
-/* 1) INITIALIZE DATA STRUCTURES */
-/* 2) PLAY GAME */
-
-    if (init_()) {
-	game_();
+    char line[sizeof(input_1.inbuf)]="";
+    while (1) {
+        char *prompt = game_move(line);
+        rdline_(line, prompt);
     }
-/* 						!IF INIT, PLAY GAME. */
-    exit_();
-/* 						!DONE */
 } /* MAIN__ */

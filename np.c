@@ -6,7 +6,9 @@
 
 #include <stdio.h>
 #include <ctype.h>
+#if !defined(__wasi__)
 #include <readline/readline.h>
+#endif
 #include "funcs.h"
 #include "vars.h"
 
@@ -16,17 +18,15 @@ extern int system P((const char *));
 
 static logical lex_ P((char *, integer *, integer *, logical));
 
-void rdline_(buffer, who)
-char *buffer;
-integer who;
+#if !defined(__wasi__)
+void rdline_(buffer, prompt)
+char *buffer, *prompt;
 {
     /* Local variables */
-    char *z, *zlast, *prompt="", *line;
+    char *z, *zlast, *line;
 
     /* Function Body */
 L5:
-    if (who) prompt="> ";
-
     line = readline(prompt);
     if (!line)
         exit_();
@@ -56,6 +56,7 @@ L5:
     prsvec_1.prscon = 1;
 /* 						!RESTART LEX SCAN. */
 } /* rdline_ */
+#endif
 
 /* PARSE-	TOP LEVEL PARSE ROUTINE */
 

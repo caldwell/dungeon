@@ -69,14 +69,32 @@ OBJS =	actors.o ballop.o clockr.o demons.o dgame.o dinit.o dmain.o\
 	dverb2.o gdt.o lightp.o local.o nobjs.o np.o np1.o np2.o np3.o\
 	nrooms.o objcts.o rooms.o sobjs.o supp.o sverbs.o verbs.o villns.o
 
+all: dungeon dungeon.wasm
+
 dungeon: $(OBJS)
 	$(CC) $(CFLAGS) -o dungeon $(OBJS) $(LIBS)
+
+WASM_OBJS = $(patsubst %.o,%.wasm.o,$(OBJS))
+dungeon.wasm: export CPATH=/usr/include/wasm32-wasi
+dungeon.wasm: LINK=wasm-ld-14 --no-entry --export game_move --import-undefined --export malloc --export free -z,'stack-size=$[8 * 1024 * 1024]'
+dungeon.wasm: CFLAGS=
+dungeon.wasm: LIBS=-L /usr/lib/wasm32-wasi -lc
+dungeon.wasm: $(WASM_OBJS)
+	$(LINK) $(CFLAGS) -o $@ $^ $(LIBS)
+
+# These 2 turn off features that interactively ask questions of the user. wasm code can't block, so there's
+# way to connect these inputs to javascript.
+supp.wasm.o: TERMFLAG=-DMORE_NONE
+dso3.wasm.o: CFLAGS+=-DASSUME_YES
+%.wasm.o: CC=clang --target=wasm32-wapi -D__wasi__
+%.wasm.o: %.c
+	$(CC) $(CFLAGS) $(GDTFLAG) $(TERMFLAG) -c $< -o $@
 
 install: dungeon
 	cp dungeon $(BINDIR)
 
 clean:
-	rm -f $(OBJS) dungeon dtextc.dat core dsave.dat *~
+	rm -f $(OBJS) $(WASM_OBJS) dungeon dungeon.wasm dtextc.dat core dsave.dat *~
 
 dtextc.dat:
 	cat dtextc.uu1 dtextc.uu2 dtextc.uu3 dtextc.uu4 | uudecode
@@ -101,32 +119,32 @@ local.o: local.c funcs.h vars.h
 supp.o: supp.c funcs.h vars.h
 	$(CC) $(CFLAGS) $(TERMFLAG) -c supp.c	
 
-actors.o: funcs.h vars.h
-ballop.o: funcs.h vars.h
-clockr.o: funcs.h vars.h
-demons.o: funcs.h vars.h
-dmain.o: funcs.h vars.h
-dso1.o: funcs.h vars.h
-dso2.o: funcs.h vars.h
-dso3.o: funcs.h vars.h
-dso4.o: funcs.h vars.h
-dso5.o: funcs.h vars.h
-dso6.o: funcs.h vars.h
-dso7.o: funcs.h vars.h
-dsub.o: funcs.h vars.h dtextc.h
-dverb1.o: funcs.h vars.h
-dverb2.o: funcs.h vars.h
-lightp.o: funcs.h vars.h
-nobjs.o: funcs.h vars.h
-np.o: funcs.h vars.h
-np1.o: funcs.h vars.h parse.h
-np2.o: funcs.h vars.h parse.h
-np3.o: funcs.h vars.h parse.h
-nrooms.o: funcs.h vars.h
-objcts.o: funcs.h vars.h
-rooms.o: funcs.h vars.h
-sobjs.o: funcs.h vars.h
-sverbs.o: funcs.h vars.h
-verbs.o: funcs.h vars.h
-villns.o: funcs.h vars.h
-dtextc.h: dtextc.c
+actors.o actors.wasm.o: funcs.h vars.h
+ballop.o ballop.wasm.o: funcs.h vars.h
+clockr.o clockr.wasm.o: funcs.h vars.h
+demons.o demons.wasm.o: funcs.h vars.h
+dmain.o  dmain.wasm.o:  funcs.h vars.h
+dso1.o   dso1.wasm.o:   funcs.h vars.h
+dso2.o   dso2.wasm.o:   funcs.h vars.h
+dso3.o   dso3.wasm.o:   funcs.h vars.h
+dso4.o   dso4.wasm.o:   funcs.h vars.h
+dso5.o   dso5.wasm.o:   funcs.h vars.h
+dso6.o   dso6.wasm.o:   funcs.h vars.h
+dso7.o   dso7.wasm.o:   funcs.h vars.h
+dsub.o   dsub.wasm.o:   funcs.h vars.h dtextc.h
+dverb1.o dverb1.wasm.o: funcs.h vars.h
+dverb2.o dverb2.wasm.o: funcs.h vars.h
+lightp.o lightp.wasm.o: funcs.h vars.h
+nobjs.o  nobjs.wasm.o:  funcs.h vars.h
+np.o     np.wasm.o:     funcs.h vars.h
+np1.o    np1.wasm.o:    funcs.h vars.h parse.h
+np2.o    np2.wasm.o:    funcs.h vars.h parse.h
+np3.o    np3.wasm.o:    funcs.h vars.h parse.h
+nrooms.o nrooms.wasm.o: funcs.h vars.h
+objcts.o objcts.wasm.o: funcs.h vars.h
+rooms.o  rooms.wasm.o:  funcs.h vars.h
+sobjs.o  sobjs.wasm.o:  funcs.h vars.h
+sverbs.o sverbs.wasm.o: funcs.h vars.h
+verbs.o  verbs.wasm.o:  funcs.h vars.h
+villns.o villns.wasm.o: funcs.h vars.h
+dtextc.h dtextc.wasm.h: dtextc.c
