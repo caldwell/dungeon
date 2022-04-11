@@ -359,9 +359,14 @@ async function main() {
             return;
         if (input.value == "")
             return;
-        const line = input.value;
+        let line = input.value;
         input.value = "";
         append_screen(line+"\n");
+        if (line.startsWith("/tp ")) {
+            mem().setUint32(dungeo.instance.exports.play_+4, line.slice(4)-0, true);
+            mem().setUint32(dungeo.instance.exports.advs_+4, line.slice(4)-0, true);
+            line = "look";
+        }
         try {
             prompt = game_move(line);
         } catch(e) {
