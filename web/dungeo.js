@@ -145,6 +145,7 @@ const DSAVE_DAT_WR = 5;
 async function main() {
     const screen = document.getElementById("screen")
     const input = document.getElementById("input")
+    screen.onclick = () => input.focus();
 
     let dungeo = await WebAssembly.instantiateStreaming(fetch("/dungeo.wasm"), {
         env : {},
