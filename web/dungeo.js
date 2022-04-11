@@ -309,7 +309,7 @@ async function main() {
         const textEncoder = new TextEncoder();
         const buf = textEncoder.encode(s+"\0");
         const ptr = dungeo.instance.exports.malloc(buf.length);
-        new Uint8Array(mem().buffer).set(buf, ptr);
+        memcpy(ptr, buf);
         return ptr;
     }
 
