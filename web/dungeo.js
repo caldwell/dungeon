@@ -242,7 +242,7 @@ async function main() {
                     //console.log(`fd: ${fd}, buf: ${buf}, len: ${len}, data: ${d}`);
                     total += len;
                 }
-                mem.setUint32(read_ptr, total, true);
+                mem().setUint32(read_ptr, total, true);
                 return WASI_ERRNO_SUCCESS;
             },
             fd_seek: (fd, offset, whence, new_offset_ptr) => {
@@ -261,10 +261,10 @@ async function main() {
                 let u8 = new Uint8Array(total);
                 for (let iovp = u32ptr(iov), u8p = 0, i = 0; i < iovcnt; i++) {
                     let buf = iovp.deref_pp(), len = iovp.deref_pp();
-                    u8.set(new Uint8Array(mem.buffer).subarray(buf, buf+len), u8p);
+                    u8.set(new Uint8Array(mem().buffer).subarray(buf, buf+len), u8p);
                     u8p += len;
                 }
-                mem.setUint32(written_ptr, total, true);
+                mem().setUint32(written_ptr, total, true);
 
                 if (fd == STDOUT || fd == STDERR) {
                     const textDecoder = new TextDecoder()
@@ -289,18 +289,18 @@ async function main() {
             },
         },
     });
-    let mem = new DataView(dungeo.instance.exports.memory.buffer);
+    const mem = () => new DataView(dungeo.instance.exports.memory.buffer);
     const u32ptr = (ptr) => {
         return {
             deref_pp: () => { // *p++
-                let v = mem.getUint32(ptr, true);
+                let v = mem().getUint32(ptr, true);
                 ptr += 4;
                 return v;
             }
         }
     }
     const cstr = (ptr) => {
-        const s=new Uint8Array(mem.buffer).subarray(ptr);
+        const s=new Uint8Array(mem().buffer).subarray(ptr);
         const textDecoder = new TextDecoder();
         return textDecoder.decode(s.subarray(0, s.findIndex((c) => c == 0)));
     }
@@ -309,7 +309,7 @@ async function main() {
         const textEncoder = new TextEncoder();
         const buf = textEncoder.encode(s+"\0");
         const ptr = dungeo.instance.exports.malloc(buf.length);
-        new Uint8Array(mem.buffer).set(buf, ptr);
+        new Uint8Array(mem().buffer).set(buf, ptr);
         return ptr;
     }
 
@@ -318,7 +318,7 @@ async function main() {
             const textEncoder = new TextEncoder();
             src = textEncoder.encode(src);
         }
-        (new Uint8Array(mem.buffer)).set(src, ptr)
+        (new Uint8Array(mem().buffer)).set(src, ptr)
     }
 
     const free = (ptr) => {
@@ -326,7 +326,7 @@ async function main() {
     }
 
     const current_room = (ptr) => {
-        return mem.getUint32(dungeo.instance.exports.play_+4, true);
+        return mem().getUint32(dungeo.instance.exports.play_+4, true);
     }
 
     const game_move = (input) => {
