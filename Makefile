@@ -78,7 +78,7 @@ dungeon: $(OBJS)
 
 WASM_OBJS = $(patsubst %.o,%.wasm.o,$(OBJS))
 dungeon.wasm: export CPATH=/usr/include/wasm32-wasi
-dungeon.wasm: LINK=wasm-ld-14 --no-entry --export game_move --import-undefined --export malloc --export free -z,'stack-size=$[8 * 1024 * 1024]'
+dungeon.wasm: LINK=wasm-ld-14 --no-entry --export game_move --import-undefined --export malloc --export free --export play_ -z,'stack-size=$[8 * 1024 * 1024]'
 dungeon.wasm: CFLAGS=
 dungeon.wasm: LIBS=-L /usr/lib/wasm32-wasi -lc
 dungeon.wasm: $(WASM_OBJS) Makefile

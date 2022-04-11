@@ -323,6 +323,11 @@ async function main() {
     const free = (ptr) => {
         dungeo.instance.exports.free(ptr);
     }
+
+    const current_room = (ptr) => {
+        return mem.getUint32(dungeo.instance.exports.play_+4, true);
+    }
+
     const game_move = (input) => {
         const p = strdup(input.toUpperCase())
         try {
