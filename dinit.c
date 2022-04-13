@@ -19,91 +19,12 @@ extern size_t strlcpy(char *dst, const char *src, size_t siz);
 #include "funcs.h"
 #include "vars.h"
 
-#include "dtextc.c"
-#include "dtextc.h"
+#include "dindx.c"
 #include "lengthof.h"
-size_t dtextc_length = sizeof(dtextc);
 
 /* This is here to avoid depending on the existence of <stdlib.h> */
 
 extern void srand P((unsigned int));
-
-DTEXTC_FILE *dbfile;
-
-#ifndef TEXTFILE
-#ifdef __AMOS__
-#define TEXTFILE "lib:dungeon.dat"
-#else /* ! __AMOS__ */
-#ifdef unix
-#define TEXTFILE "/usr/games/lib/dunlib/dtextc.dat"
-#else /* ! unix */
-#define TEXTFILE "dungeon.dat"
-#endif /* ! unix */
-#endif /* ! __AMOS__ */
-#endif /* ! TEXTFILE */
-
-#ifndef LOCALTEXTFILE
-#define LOCALTEXTFILE "dungeon.dat"
-#endif
-
-/* Read a single two byte integer from the index file */
-
-#define rdint(indxfile) \
-    (ch = dtextc_getc(indxfile), \
-     ((ch > 127) ? (ch - 256) : (ch)) * 256 + dtextc_getc(indxfile))
-
-/* Read a number of two byte integers from the index file */
-
-static void rdints(c, pi, indxfile)
-integer c;
-integer *pi;
-DTEXTC_FILE *indxfile;
-{
-    integer ch;	/* Local variable for rdint */
-
-    while (c-- != 0)
-	*pi++ = rdint(indxfile);
-}
-
-/* Read a partial array of integers.  These are stored as index,value
- * pairs.
- */
-
-static void rdpartialints(c, pi, indxfile)
-integer c;
-integer *pi;
-DTEXTC_FILE *indxfile;
-{
-    integer ch;	/* Local variable for rdint */
-
-    while (1) {
-	int i;
-
-	if (c < 255) {
-	    i = dtextc_getc(indxfile);
-	    if (i == 255)
-		return;
-	}
-	else {
-	    i = rdint(indxfile);
-	    if (i == -1)
-		return;
-	}
-
-	pi[i] = rdint(indxfile);
-    }
-}
-
-/* Read a number of one byte flags from the index file */
-
-static void rdflags(c, pf, indxfile)
-integer c;
-logical *pf;
-DTEXTC_FILE *indxfile;
-{
-    while (c-- != 0)
-	*pf++ = dtextc_getc(indxfile);
-}
 
 logical init_()
 {
@@ -115,7 +36,6 @@ logical init_()
     integer xmax, r2max, dirmax, recno;
     integer i, j, k;
     register integer ch;
-    register DTEXTC_FILE *indxfile;
     integer mmax, omax, rmax, vmax, amax, cmax, fmax, smax;
 
     more_init();
@@ -345,88 +265,91 @@ L10000:
 
 /* NOW RESTORE FROM EXISTING INDEX FILE. */
 
-#ifdef __AMOS__
-    if ((dbfile = fdopen(ropen(LOCALTEXTFILE, 0), BINREAD)) == NULL &&
-	(dbfile = fdopen(ropen(TEXTFILE, 0), BINREAD)) == NULL)
-#else
-    if ((dbfile = dtextc_fopen(LOCALTEXTFILE, BINREAD)) == NULL &&
-	(dbfile = dtextc_fopen(TEXTFILE, BINREAD)) == NULL)
-#endif
-	goto L1950;
 
-    indxfile = dbfile;
-
-    i = rdint(indxfile);
-    j = rdint(indxfile);
-    k = rdint(indxfile);
+    i = data_vers_maj;
+    j = data_vers_min;
+    k = data_vers_edit;
 
 /* 						!GET VERSION. */
     if (i != vers_1.vmaj || j != vers_1.vmin) {
 	goto L1925;
     }
 
-    state_1.mxscor = rdint(indxfile);
-    star_1.strbit = rdint(indxfile);
-    state_1.egmxsc = rdint(indxfile);
+    state_1.mxscor = data_mxscor;
+    star_1.strbit = data_strbit;
+    state_1.egmxsc = data_egmxsc;
 
-    rooms_1.rlnt = rdint(indxfile);
-    rdints(rooms_1.rlnt, &rooms_1.rdesc1[0], indxfile);
-    rdints(rooms_1.rlnt, &rooms_1.rdesc2[0], indxfile);
-    rdints(rooms_1.rlnt, &rooms_1.rexit[0], indxfile);
-    rdpartialints(rooms_1.rlnt, &rooms_1.ractio[0], indxfile);
-    rdpartialints(rooms_1.rlnt, &rooms_1.rval[0], indxfile);
-    rdints(rooms_1.rlnt, &rooms_1.rflag[0], indxfile);
+    rooms_1.rlnt = lengthof(data_rooms);
+    for (unsigned i=0; i<lengthof(data_rooms); i++) {
+        rooms_1.rdesc1[i] = data_rooms[i].rdesc1;
+        rooms_1.rdesc2[i] = data_rooms[i].rdesc2;
+        rooms_1.rexit [i] = data_rooms[i].rexit ;
+        rooms_1.ractio[i] = data_rooms[i].ractio;
+        rooms_1.rval  [i] = data_rooms[i].rval  ;
+        rooms_1.rflag [i] = data_rooms[i].rflag ;
+    }
 
-    exits_1.xlnt = rdint(indxfile);
-    rdints(exits_1.xlnt, &exits_1.travel[0], indxfile);
+    exits_1.xlnt = lengthof(data_exits);
+    for (unsigned i=0; i<lengthof(data_exits); i++)
+        exits_1.travel[i] = data_exits[i];
 
-    objcts_1.olnt = rdint(indxfile);
-    rdints(objcts_1.olnt, &objcts_1.odesc1[0], indxfile);
-    rdints(objcts_1.olnt, &objcts_1.odesc2[0], indxfile);
-    rdpartialints(objcts_1.olnt, &objcts_1.odesco[0], indxfile);
-    rdpartialints(objcts_1.olnt, &objcts_1.oactio[0], indxfile);
-    rdints(objcts_1.olnt, &objcts_1.oflag1[0], indxfile);
-    rdpartialints(objcts_1.olnt, &objcts_1.oflag2[0], indxfile);
-    rdpartialints(objcts_1.olnt, &objcts_1.ofval[0], indxfile);
-    rdpartialints(objcts_1.olnt, &objcts_1.otval[0], indxfile);
-    rdints(objcts_1.olnt, &objcts_1.osize[0], indxfile);
-    rdpartialints(objcts_1.olnt, &objcts_1.ocapac[0], indxfile);
-    rdints(objcts_1.olnt, &objcts_1.oroom[0], indxfile);
-    rdpartialints(objcts_1.olnt, &objcts_1.oadv[0], indxfile);
-    rdpartialints(objcts_1.olnt, &objcts_1.ocan[0], indxfile);
-    rdpartialints(objcts_1.olnt, &objcts_1.oread[0], indxfile);
+    objcts_1.olnt = lengthof(data_objcts);
+    for (unsigned i=0; i<lengthof(data_objcts); i++) {
+        objcts_1.odesc1[i] = data_objcts[i].odesc1;
+        objcts_1.odesc2[i] = data_objcts[i].odesc2;
+        objcts_1.odesco[i] = data_objcts[i].odesco;
+        objcts_1.oactio[i] = data_objcts[i].oactio;
+        objcts_1.oflag1[i] = data_objcts[i].oflag1;
+        objcts_1.oflag2[i] = data_objcts[i].oflag2;
+        objcts_1.ofval [i] = data_objcts[i].ofval ;
+        objcts_1.otval [i] = data_objcts[i].otval ;
+        objcts_1.osize [i] = data_objcts[i].osize ;
+        objcts_1.ocapac[i] = data_objcts[i].ocapac;
+        objcts_1.oroom [i] = data_objcts[i].oroom ;
+        objcts_1.oadv  [i] = data_objcts[i].oadv  ;
+        objcts_1.ocan  [i] = data_objcts[i].ocan  ;
+        objcts_1.oread [i] = data_objcts[i].oread ;
+    }
 
-    oroom2_1.r2lnt = rdint(indxfile);
-    rdints(oroom2_1.r2lnt, &oroom2_1.oroom2[0], indxfile);
-    rdints(oroom2_1.r2lnt, &oroom2_1.rroom2[0], indxfile);
+    oroom2_1.r2lnt = lengthof(data_oroom2);
+    for (unsigned i=0; i<lengthof(data_oroom2); i++) {
+        oroom2_1.oroom2[i] = data_oroom2[i].oroom2;
+        oroom2_1.rroom2[i] = data_oroom2[i].rroom2;
+    }
 
-    cevent_1.clnt = rdint(indxfile);
-    rdints(cevent_1.clnt, &cevent_1.ctick[0], indxfile);
-    rdints(cevent_1.clnt, &cevent_1.cactio[0], indxfile);
-    rdflags(cevent_1.clnt, &cevent_1.cflag[0], indxfile);
+    cevent_1.clnt = lengthof(data_cevent);
+    for (unsigned i=0; i<lengthof(data_cevent); i++) {
+        cevent_1.ctick [i] = data_cevent[i].ctick ;
+        cevent_1.cactio[i] = data_cevent[i].cactio;
+        cevent_1.cflag [i] = data_cevent[i].cflag ;
+    }
 
-    vill_1.vlnt = rdint(indxfile);
-    rdints(vill_1.vlnt, &vill_1.villns[0], indxfile);
-    rdpartialints(vill_1.vlnt, &vill_1.vprob[0], indxfile);
-    rdpartialints(vill_1.vlnt, &vill_1.vopps[0], indxfile);
-    rdints(vill_1.vlnt, &vill_1.vbest[0], indxfile);
-    rdints(vill_1.vlnt, &vill_1.vmelee[0], indxfile);
+    vill_1.vlnt = lengthof(data_vill);
+    for (unsigned i=0; i<lengthof(data_vill); i++) {
+        vill_1.villns[i] = data_vill[i].villns;
+        vill_1.vprob [i] = data_vill[i].vprob ;
+        vill_1.vopps [i] = data_vill[i].vopps ;
+        vill_1.vbest [i] = data_vill[i].vbest ;
+        vill_1.vmelee[i] = data_vill[i].vmelee;
+    }
 
-    advs_1.alnt = rdint(indxfile);
-    rdints(advs_1.alnt, &advs_1.aroom[0], indxfile);
-    rdpartialints(advs_1.alnt, &advs_1.ascore[0], indxfile);
-    rdpartialints(advs_1.alnt, &advs_1.avehic[0], indxfile);
-    rdints(advs_1.alnt, &advs_1.aobj[0], indxfile);
-    rdints(advs_1.alnt, &advs_1.aactio[0], indxfile);
-    rdints(advs_1.alnt, &advs_1.astren[0], indxfile);
-    rdpartialints(advs_1.alnt, &advs_1.aflag[0], indxfile);
+    advs_1.alnt = lengthof(data_advs);
+    for (unsigned i=0; i<lengthof(data_advs); i++) {
+        advs_1.aroom [i] = data_advs[i].aroom ;
+        advs_1.ascore[i] = data_advs[i].ascore;
+        advs_1.avehic[i] = data_advs[i].avehic;
+        advs_1.aobj  [i] = data_advs[i].aobj  ;
+        advs_1.aactio[i] = data_advs[i].aactio;
+        advs_1.astren[i] = data_advs[i].astren;
+        advs_1.aflag [i] = data_advs[i].aflag ;
+    }
 
-    star_1.mbase = rdint(indxfile);
-    rmsg_1.mlnt = rdint(indxfile);
-    rdints(rmsg_1.mlnt, &rmsg_1.rtext[0], indxfile);
+    star_1.mbase = data_mbase;
+    rmsg_1.mlnt = lengthof(data_rmsg);
+    for (unsigned i=0; i<lengthof(data_rmsg); i++)
+        rmsg_1.rtext[i] = data_rmsg[i];
 
-/* Save location of start of message text */
-    rmsg_1.mrloc = dtextc_ftell(indxfile);
+    rmsg_1.mrloc = data_mrloc;
 
 #ifdef DUMP_DTEXT
     dtextc_fseek(indxfile, rmsg_1.mrloc, SEEK_SET);
@@ -650,14 +573,14 @@ L10000:
 
 L1925:
     more_output(NULL);
-    printf("%s is version %1d.%1d%c.\n", TEXTFILE, i, j, k);
+    printf("%s is version %1d.%1d%c.\n", "Dungeon Data", i, j, k);
     more_output(NULL);
     printf("I require version %1d.%1d%c.\n", vers_1.vmaj, vers_1.vmin,
 	   vers_1.vedit);
     goto L1975;
 L1950:
     more_output(NULL);
-    printf("I can't open %s.\n", TEXTFILE);
+    printf("I can't open %s.\n", "Dungeon Data");
 L1975:
     more_output("Suddenly a sinister, wraithlike figure appears before you,");
     more_output("seeming to float in the air.  In a low, sorrowful voice he says,");

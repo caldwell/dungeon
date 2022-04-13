@@ -96,20 +96,14 @@ install: dungeon
 	cp dungeon $(BINDIR)
 
 clean:
-	rm -f $(OBJS) $(WASM_OBJS) dungeon dungeon.wasm dtextc.dat core dsave.dat *~
+	rm -f $(OBJS) $(WASM_OBJS) dungeon dungeon.wasm core dsave.dat dtextc.c *~
 
-dtextc.dat:
-	cat dtextc.uu1 dtextc.uu2 dtextc.uu3 dtextc.uu4 | uudecode
-
-dtextc.c: dtextc.dat
-	echo "unsigned char dtextc[] = {" > $@
-	perl -e 'local $$/; open DTEXTC, "<dtextc.dat"; $$dtextc = <DTEXTC>; print join(",", map { sprintf("0x%02x", $$_) } unpack "C*",$$dtextc);' >> $@
-	echo "};" >> $@
+dtextc.c: dtextc.txt encode.rb
+	ruby ./encode.rb $< > $@.new
+	mv $@.new $@
 
 %.o: %.c
 	$(CC) $(CFLAGS) $(GDTFLAG) $(TERMFLAG) -c $< -o $@
-
-dinit.o: CFLAGS+=-DTEXTFILE=\"$(LIBDIR)/dtextc.dat\"
 
 actors.o actors.wasm.o: funcs.h vars.h
 ballop.o ballop.wasm.o: funcs.h vars.h
@@ -123,7 +117,7 @@ dso4.o   dso4.wasm.o:   funcs.h vars.h
 dso5.o   dso5.wasm.o:   funcs.h vars.h
 dso6.o   dso6.wasm.o:   funcs.h vars.h
 dso7.o   dso7.wasm.o:   funcs.h vars.h
-dsub.o   dsub.wasm.o:   funcs.h vars.h dtextc.h
+dsub.o   dsub.wasm.o:   funcs.h vars.h dtextc.c
 dverb1.o dverb1.wasm.o: funcs.h vars.h
 dverb2.o dverb2.wasm.o: funcs.h vars.h
 lightp.o lightp.wasm.o: funcs.h vars.h
@@ -139,4 +133,3 @@ sobjs.o  sobjs.wasm.o:  funcs.h vars.h
 sverbs.o sverbs.wasm.o: funcs.h vars.h
 verbs.o  verbs.wasm.o:  funcs.h vars.h
 villns.o villns.wasm.o: funcs.h vars.h
-dtextc.h dtextc.wasm.h: dtextc.c

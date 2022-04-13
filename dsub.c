@@ -8,13 +8,6 @@
 #include <stdlib.h>
 #include "funcs.h"
 #include "vars.h"
-#include "dtextc.h"
-
-#ifndef SEEK_SET
-#define SEEK_SET (0)
-#endif
-
-extern DTEXTC_FILE *dbfile;
 
 static void rspsb2nl_ P((integer, integer, integer, logical));
 
@@ -59,13 +52,14 @@ integer s2;
 
 /* rspsb2nl_ Display a substitutable message with an optional newline */
 
+#include "dtextc.c"
 static void rspsb2nl_(n, y, z, nl)
 integer n;
 integer y;
 integer z;
 logical nl;
 {
-    const char *zkey = "IanLanceTaylorJr";
+    const char zkey[] = "david+caldwell@porkrind.org";
     long x;
 
     x = (long)n;
@@ -81,46 +75,25 @@ logical nl;
     play_1.telflg = TRUE_;
 /* 						!SAID SOMETHING. */
 
-    x = ((- x) - 1) * 8;
-    if (dtextc_fseek(dbfile, x + (long)rmsg_1.mrloc, SEEK_SET) == EOF) {
-	fprintf(stderr, "Error seeking database loc %ld\n", x);
-	exit_();
-    }
-
-    if (nl)
-	more_output(NULL);
-
-    while (1) {
-	integer i;
-
-	i = dtextc_getc(dbfile);
-	if (i == EOF) {
-	    fprintf(stderr, "Error reading database loc %ld\n", x);
-	    exit_();
-	}
-	i ^= zkey[x & 0xf] ^ (x & 0xff);
-	x = x + 1;
-	if (i == '\0')
-	    break;
-	else if (i == '\n') {
+    unsigned offset = dtext_index[-x];
+    if (!offset)
+	fprintf(stderr, "Error seeking database loc %ld for %d\n", x, n);
+    for (unsigned i=offset; ; i++) {
+        unsigned char c = dtext_data[i] ^ zkey[i % (sizeof(zkey)-1)] ^ (i & 0xff);
+        if (c == '\0')
+            break;
+        else if (c == '\n') {
 	    putchar('\n');
 	    if (nl)
 		more_output(NULL);
 	}
-	else if (i == '#' && y != 0) {
-	    long iloc;
-
-	    iloc = dtextc_ftell(dbfile);
+	else if (c == '#' && y != 0) {
 	    rspsb2nl_(y, 0, 0, 0);
-	    if (dtextc_fseek(dbfile, iloc, SEEK_SET) == EOF) {
-		fprintf(stderr, "Error seeking database loc %ld\n", iloc);
-		exit_();
-	    }
 	    y = z;
 	    z = 0;
 	}
 	else
-	    putchar(i);
+	    putchar(c);
     }
 
     if (nl)
@@ -425,7 +398,6 @@ L1000:
 L1100:
     score_(0);
 /* 						!TELL SCORE. */
-    (void) dtextc_fclose(dbfile);
     exit_();
 
 } /* jigsup_ */
