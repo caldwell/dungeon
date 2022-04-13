@@ -51,7 +51,7 @@ endif
 # GDTFLAG = -DALLOW_GDT
 
 # Compilation flags
-CFLAGS = -O -g
+CFLAGS += -O -g
 # On SCO Unix Development System 3.2.2a, the const type qualifier does
 # not work correctly when using cc.  The following line will cause it
 # to not be used and should be uncommented.
@@ -82,7 +82,7 @@ dungeon.wasm: LINK=wasm-ld-14 --no-entry --export game_move --import-undefined -
 dungeon.wasm: CFLAGS=
 dungeon.wasm: LIBS=-L /usr/lib/wasm32-wasi -lc
 dungeon.wasm: $(WASM_OBJS) Makefile
-	$(LINK) $(CFLAGS) -o $@ $(WASM_OBJS) $(LIBS)
+	$(LINK) $(LDFLAGS) -o $@ $(WASM_OBJS) $(LIBS)
 
 # These 2 turn off features that interactively ask questions of the user. wasm code can't block, so there's
 # way to connect these inputs to javascript.
