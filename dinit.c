@@ -352,37 +352,21 @@ L10000:
     rmsg_1.mrloc = data_mrloc;
 
 #ifdef DUMP_DTEXT
-    dtextc_fseek(indxfile, rmsg_1.mrloc, SEEK_SET);
     char *messages[20000] = {};
-
-    const char *zkey = "IanLanceTaylorJr";
-    long x = 0;
-    int c;
-    int end=1;
+    const char zkey[] = "david+caldwell@porkrind.org";
     char buffer[16000];
-    int id;
-    char *p;
-    while ((c = dtextc_getc(indxfile)) != -1) {
-        if (end && !(x & 0x7)) {
-            id=-x/8-1;
-            p=buffer;
-            end = 0;
+    extern int dtext_index[];
+    extern unsigned char dtext_data[];
+    for (int mi=0; mi<15500/*fixme*/; mi++)
+        if (dtext_index[mi]) {
+            char *p=buffer;
+            for (unsigned i=dtext_index[mi]; ; i++, p++) {
+                *p = dtext_data[i] ^ zkey[i % (sizeof(zkey)-1)] ^ (i & 0xff);
+                if (*p == '\0')
+                    break;
+            }
+            messages[mi] = strdup(buffer);
         }
-
-        c ^= zkey[x & 0xf] ^ (x & 0xff);
-        x = x + 1;
-        if (end)
-            continue;
-        *p++ = c;
-        if (c == '\0') {
-            messages[-id] = strdup(buffer);
-            end = 1;
-        }
-    }
-
-
-
-
 
     printf("const int data_vers_maj = %d;\n", i);
     printf("const int data_vers_min = %d;\n", j);
