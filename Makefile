@@ -106,20 +106,10 @@ dtextc.c: dtextc.dat
 	perl -e 'local $$/; open DTEXTC, "<dtextc.dat"; $$dtextc = <DTEXTC>; print join(",", map { sprintf("0x%02x", $$_) } unpack "C*",$$dtextc);' >> $@
 	echo "};" >> $@
 
-dinit.o: dinit.c funcs.h vars.h dtextc.h
-	$(CC) $(CFLAGS) $(GDTFLAG) -DTEXTFILE=\"$(LIBDIR)/dtextc.dat\" -c dinit.c
+%.o: %.c
+	$(CC) $(CFLAGS) $(GDTFLAG) $(TERMFLAG) -c $< -o $@
 
-dgame.o: dgame.c funcs.h vars.h
-	$(CC) $(CFLAGS) $(GDTFLAG) -c dgame.c
-
-gdt.o: gdt.c funcs.h vars.h
-	$(CC) $(CFLAGS) $(GDTFLAG) -c gdt.c
-
-local.o: local.c funcs.h vars.h
-	$(CC) $(CFLAGS) $(GDTFLAG) -c local.c
-
-supp.o: supp.c funcs.h vars.h
-	$(CC) $(CFLAGS) $(TERMFLAG) -c supp.c
+dinit.o: CFLAGS+=-DTEXTFILE=\"$(LIBDIR)/dtextc.dat\"
 
 actors.o actors.wasm.o: funcs.h vars.h
 ballop.o ballop.wasm.o: funcs.h vars.h
