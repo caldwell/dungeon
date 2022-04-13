@@ -17,196 +17,221 @@ const int data_rooms_count = 190;
 const struct {
     int rdesc1, rdesc2, rexit, ractio, rval, rflag;
 } data_rooms[] = {
- { .rdesc1 =  -9590, .rdesc2 =  -9605, .rexit =      1, .ractio =      0, .rval =      5, .rflag =   8192 }, //   1 East-West Passage
- { .rdesc1 =  -9608, .rdesc2 =  -9618, .rexit =      5, .ractio =      0, .rval =      0, .rflag =  25632 }, //   2 West of House
- { .rdesc1 =  -9620, .rdesc2 =  -9633, .rexit =     10, .ractio =      0, .rval =      0, .rflag =  25632 }, //   3 North of House
- { .rdesc1 =  -9635, .rdesc2 =  -9648, .rexit =     15, .ractio =      0, .rval =      0, .rflag =  25632 }, //   4 South of House
- { .rdesc1 =      0, .rdesc2 =  -9650, .rexit =     20, .ractio =      1, .rval =      0, .rflag =  25632 }, //   5 Behind House
- { .rdesc1 =      0, .rdesc2 =  -9652, .rexit =     29, .ractio =      2, .rval =     10, .rflag =  25664 }, //   6 Kitchen
- { .rdesc1 =  -9653, .rdesc2 =  -9661, .rexit =     39, .ractio =      0, .rval =      0, .rflag =   8256 }, //   7 Attic
- { .rdesc1 =      0, .rdesc2 =  -9662, .rexit =     40, .ractio =      3, .rval =      0, .rflag =  25664 }, //   8 Living Room
- { .rdesc1 =      0, .rdesc2 =  -9664, .rexit =     47, .ractio =      4, .rval =     25, .rflag =   8192 }, //   9 Cellar
- { .rdesc1 =  -9665, .rdesc2 =  -9682, .rexit =     54, .ractio =      0, .rval =      0, .rflag =   8192 }, //  10 Troll Room
- { .rdesc1 =  -9684, .rdesc2 =  -9691, .rexit =     64, .ractio =      0, .rval =      0, .rflag =   8192 }, //  11 Maze
- { .rdesc1 =  -9684, .rdesc2 =  -9691, .rexit =     68, .ractio =      0, .rval =      0, .rflag =   8192 }, //  12 Maze
- { .rdesc1 =  -9684, .rdesc2 =  -9691, .rexit =     71, .ractio =      0, .rval =      0, .rflag =   8192 }, //  13 Maze
- { .rdesc1 =  -9684, .rdesc2 =  -9691, .rexit =     74, .ractio =      0, .rval =      0, .rflag =   8192 }, //  14 Maze
- { .rdesc1 =  -9692, .rdesc2 =  -9694, .rexit =     77, .ractio =      0, .rval =      0, .rflag =   8192 }, //  15 Dead End
- { .rdesc1 =  -9684, .rdesc2 =  -9691, .rexit =     78, .ractio =      0, .rval =      0, .rflag =   8192 }, //  16 Maze
- { .rdesc1 =  -9692, .rdesc2 =  -9694, .rexit =     81, .ractio =      0, .rval =      0, .rflag =   8192 }, //  17 Dead End
- { .rdesc1 =  -9684, .rdesc2 =  -9691, .rexit =     82, .ractio =      0, .rval =      0, .rflag =   8192 }, //  18 Maze
- { .rdesc1 =  -9684, .rdesc2 =  -9691, .rexit =     86, .ractio =      0, .rval =      0, .rflag =   8192 }, //  19 Maze
- { .rdesc1 =  -9684, .rdesc2 =  -9691, .rexit =     91, .ractio =      0, .rval =      0, .rflag =   8192 }, //  20 Maze
- { .rdesc1 =  -9692, .rdesc2 =  -9694, .rexit =     94, .ractio =      0, .rval =      0, .rflag =   8192 }, //  21 Dead End
- { .rdesc1 =  -9684, .rdesc2 =  -9691, .rexit =     95, .ractio =      0, .rval =      0, .rflag =   8192 }, //  22 Maze
- { .rdesc1 =  -9684, .rdesc2 =  -9691, .rexit =    101, .ractio =      0, .rval =      0, .rflag =   8192 }, //  23 Maze
- { .rdesc1 =  -9684, .rdesc2 =  -9691, .rexit =    104, .ractio =      0, .rval =      0, .rflag =   8192 }, //  24 Maze
- { .rdesc1 =      0, .rdesc2 =  -9696, .rexit =    108, .ractio =      5, .rval =      0, .rflag =   8192 }, //  25 Grating room
- { .rdesc1 =  -9684, .rdesc2 =  -9691, .rexit =    112, .ractio =      0, .rval =      0, .rflag =   8192 }, //  26 Maze
- { .rdesc1 =  -9692, .rdesc2 =  -9694, .rexit =    117, .ractio =      0, .rval =      0, .rflag =   8192 }, //  27 Dead End
- { .rdesc1 =  -9684, .rdesc2 =  -9691, .rexit =    118, .ractio =      0, .rval =      0, .rflag =   8192 }, //  28 Maze
- { .rdesc1 =  -9684, .rdesc2 =  -9691, .rexit =    122, .ractio =      0, .rval =      0, .rflag =   8192 }, //  29 Maze
- { .rdesc1 =  -9684, .rdesc2 =  -9691, .rexit =    126, .ractio =      0, .rval =      0, .rflag =   8192 }, //  30 Maze
- { .rdesc1 =  -9698, .rdesc2 =  -9706, .rexit =    129, .ractio =     11, .rval =      0, .rflag =  25632 }, //  31 Forest
- { .rdesc1 =  -9707, .rdesc2 =  -9706, .rexit =    135, .ractio =     11, .rval =      0, .rflag =  25632 }, //  32 Forest
- { .rdesc1 =  -9720, .rdesc2 =  -9706, .rexit =    141, .ractio =     11, .rval =      0, .rflag =  25632 }, //  33 Forest
- { .rdesc1 =  -9736, .rdesc2 =  -9706, .rexit =    146, .ractio =     11, .rval =      0, .rflag =  25632 }, //  34 Forest
- { .rdesc1 =  -9698, .rdesc2 =  -9706, .rexit =    152, .ractio =     11, .rval =      0, .rflag =  25632 }, //  35 Forest
- { .rdesc1 =      0, .rdesc2 =  -9751, .rexit =    158, .ractio =      6, .rval =      0, .rflag =  25632 }, //  36 Clearing
- { .rdesc1 =  -9753, .rdesc2 =  -9772, .rexit =    167, .ractio =      0, .rval =      0, .rflag =   8192 }, //  37 Deep Ravine
- { .rdesc1 =  -9774, .rdesc2 =  -9801, .rexit =    171, .ractio =      0, .rval =      0, .rflag =   8192 }, //  38 Rocky Crawl
- { .rdesc1 =      0, .rdesc2 =  -9803, .rexit =    174, .ractio =      7, .rval =      0, .rflag =   8704 }, //  39 Reservoir South
- { .rdesc1 =      0, .rdesc2 =  -9805, .rexit =    188, .ractio =      8, .rval =      0, .rflag =   4128 }, //  40 Reservoir
- { .rdesc1 =      0, .rdesc2 =  -9807, .rexit =    195, .ractio =      9, .rval =      0, .rflag =   8704 }, //  41 Reservoir North
- { .rdesc1 =  -9809, .rdesc2 =  -9822, .rexit =    203, .ractio =      0, .rval =      0, .rflag =   8704 }, //  42 Stream View
- { .rdesc1 =  -9824, .rdesc2 =  -9847, .rexit =    206, .ractio =      0, .rval =      0, .rflag =   4128 }, //  43 Stream
- { .rdesc1 =  -9848, .rdesc2 =  -9865, .rexit =    210, .ractio =      0, .rval =      0, .rflag =   8192 }, //  44 Egyptian Room
- { .rdesc1 =      0, .rdesc2 =  -9867, .rexit =    215, .ractio =     10, .rval =      0, .rflag =   8192 }, //  45 Glacier Room
- { .rdesc1 =  -9869, .rdesc2 =  -9884, .rexit =    220, .ractio =      0, .rval =      0, .rflag =   8192 }, //  46 Ruby Room
- { .rdesc1 =  -9886, .rdesc2 =  -9899, .rexit =    222, .ractio =      0, .rval =      0, .rflag =   8192 }, //  47 Atlantis Room
- { .rdesc1 =  -9901, .rdesc2 =  -9920, .rexit =    224, .ractio =      0, .rval =      0, .rflag =   8192 }, //  48 Deep Canyon
- { .rdesc1 =  -9922, .rdesc2 =  -9953, .rexit =    227, .ractio =      0, .rval =      0, .rflag =   8192 }, //  49 Loud Room
- { .rdesc1 =      0, .rdesc2 =  -9955, .rexit =    230, .ractio =     12, .rval =      0, .rflag =   8192 }, //  50 Mirror Room
- { .rdesc1 =      0, .rdesc2 =  -9955, .rexit =    233, .ractio =     12, .rval =      0, .rflag =  24576 }, //  51 Mirror Room
- { .rdesc1 =  -9957, .rdesc2 =  -9968, .rexit =    236, .ractio =      0, .rval =      0, .rflag =   8192 }, //  52 Cave
- { .rdesc1 =  -9969, .rdesc2 =  -9968, .rexit =    238, .ractio =     13, .rval =      0, .rflag =   8192 }, //  53 Cave
- { .rdesc1 =  -9982, .rdesc2 =  -9994, .rexit =    241, .ractio =      0, .rval =      0, .rflag =   8192 }, //  54 Steep Crawlway
- { .rdesc1 =  -9996, .rdesc2 = -10013, .rexit =    243, .ractio =      0, .rval =      0, .rflag =   8192 }, //  55 Narrow Crawlway
- { .rdesc1 = -10015, .rdesc2 = -10028, .rexit =    246, .ractio =      0, .rval =      0, .rflag =   8192 }, //  56 Cold Passage
- { .rdesc1 = -10030, .rdesc2 = -10051, .rexit =    249, .ractio =      0, .rval =      0, .rflag =   8192 }, //  57 Winding Passage
- { .rdesc1 = -10053, .rdesc2 = -10099, .rexit =    252, .ractio =      0, .rval =      0, .rflag =   8192 }, //  58 Slide Room
- { .rdesc1 = -10101, .rdesc2 = -10125, .rexit =    255, .ractio =      0, .rval =      0, .rflag =   8192 }, //  59 Mine Entrance
- { .rdesc1 = -10127, .rdesc2 = -10145, .rexit =    258, .ractio =      0, .rval =      0, .rflag =   8192 }, //  60 Squeaky Room
- { .rdesc1 = -10147, .rdesc2 = -10181, .rexit =    260, .ractio =      0, .rval =      0, .rflag =   8192 }, //  61 Shaft Room
- { .rdesc1 = -10183, .rdesc2 = -10205, .rexit =    264, .ractio =      0, .rval =      0, .rflag =   8192 }, //  62 Wooden Tunnel
- { .rdesc1 = -10207, .rdesc2 = -10227, .rexit =    267, .ractio =      0, .rval =      0, .rflag =   8192 }, //  63 Smelly Room
- { .rdesc1 = -10229, .rdesc2 = -10237, .rexit =    269, .ractio =     14, .rval =      0, .rflag =   9216 }, //  64 Gas Room
- { .rdesc1 = -10239, .rdesc2 = -10260, .rexit =    270, .ractio =      0, .rval =      0, .rflag =   8192 }, //  65 Ladder Top
- { .rdesc1 = -10262, .rdesc2 = -10268, .rexit =    272, .ractio =      0, .rval =      0, .rflag =   8192 }, //  66 Coal Mine
- { .rdesc1 = -10262, .rdesc2 = -10268, .rexit =    275, .ractio =      0, .rval =      0, .rflag =   8192 }, //  67 Coal Mine
- { .rdesc1 = -10262, .rdesc2 = -10268, .rexit =    279, .ractio =      0, .rval =      0, .rflag =   8192 }, //  68 Coal Mine
- { .rdesc1 = -10262, .rdesc2 = -10268, .rexit =    282, .ractio =      0, .rval =      0, .rflag =   8192 }, //  69 Coal Mine
- { .rdesc1 = -10262, .rdesc2 = -10268, .rexit =    286, .ractio =      0, .rval =      0, .rflag =   8192 }, //  70 Coal Mine
- { .rdesc1 = -10262, .rdesc2 = -10268, .rexit =    292, .ractio =      0, .rval =      0, .rflag =   8192 }, //  71 Coal Mine
- { .rdesc1 = -10262, .rdesc2 = -10268, .rexit =    295, .ractio =      0, .rval =      0, .rflag =   8192 }, //  72 Coal Mine
- { .rdesc1 = -10270, .rdesc2 = -10289, .rexit =    299, .ractio =      0, .rval =      0, .rflag =   8192 }, //  73 Ladder Bottom
- { .rdesc1 =  -9692, .rdesc2 =  -9694, .rexit =    302, .ractio =      0, .rval =      0, .rflag =   8192 }, //  74 Dead End
- { .rdesc1 = -10291, .rdesc2 = -10315, .rexit =    303, .ractio =     15, .rval =      0, .rflag =   9216 }, //  75 Timber Room
- { .rdesc1 = -10317, .rdesc2 = -10341, .rexit =    307, .ractio =     15, .rval =      0, .rflag =   9216 }, //  76 Lower Shaft
- { .rdesc1 =      0, .rdesc2 = -10343, .rexit =    316, .ractio =     16, .rval =      0, .rflag =   8192 }, //  77 Machine Room
- { .rdesc1 =      0, .rdesc2 = -10345, .rexit =    317, .ractio =     17, .rval =      0, .rflag =   9216 }, //  78 Bat Room
- { .rdesc1 =      0, .rdesc2 = -10347, .rexit =    318, .ractio =     18, .rval =      0, .rflag =   8192 }, //  79 Dome Room
- { .rdesc1 =      0, .rdesc2 = -10349, .rexit =    322, .ractio =     19, .rval =      0, .rflag =   8192 }, //  80 Torch Room
- { .rdesc1 = -10351, .rdesc2 = -10369, .rexit =    326, .ractio =      0, .rval =      0, .rflag =   8192 }, //  81 North-South Crawlway
- { .rdesc1 = -10372, .rdesc2 = -10398, .rexit =    331, .ractio =      0, .rval =      0, .rflag =   8192 }, //  82 West of Chasm
- { .rdesc1 =      0, .rdesc2 = -10400, .rexit =    336, .ractio =     20, .rval =      0, .rflag =   8192 }, //  83 Round Room
- { .rdesc1 = -10402, .rdesc2 = -10411, .rexit =    363, .ractio =      0, .rval =      0, .rflag =   8192 }, //  84 North-South Passage
- { .rdesc1 = -10414, .rdesc2 = -10428, .rexit =    366, .ractio =      0, .rval =      0, .rflag =   8192 }, //  85 Chasm
- { .rdesc1 = -10429, .rdesc2 = -10448, .rexit =    370, .ractio =      0, .rval =      0, .rflag =   8192 }, //  86 Damp Cave
- { .rdesc1 = -10450, .rdesc2 = -10465, .rexit =    374, .ractio =      0, .rval =      0, .rflag =   8192 }, //  87 Ancient Chasm
- { .rdesc1 =  -9692, .rdesc2 =  -9694, .rexit =    378, .ractio =      0, .rval =      0, .rflag =   8192 }, //  88 Dead End
- { .rdesc1 =  -9692, .rdesc2 =  -9694, .rexit =    379, .ractio =      0, .rval =      0, .rflag =   8192 }, //  89 Dead End
- { .rdesc1 = -10467, .rdesc2 = -10476, .rexit =    380, .ractio =      0, .rval =      0, .rflag =   8192 }, //  90 Engravings Cave
- { .rdesc1 = -10478, .rdesc2 = -10517, .rexit =    382, .ractio =      0, .rval =      0, .rflag =   8192 }, //  91 Riddle Room
- { .rdesc1 = -10519, .rdesc2 = -10528, .rexit =    386, .ractio =      0, .rval =      0, .rflag =   8192 }, //  92 Pearl Room
- { .rdesc1 =      0, .rdesc2 = -10530, .rexit =    388, .ractio =     21, .rval =      0, .rflag =  24576 }, //  93 Entrance to Hades
- { .rdesc1 =      0, .rdesc2 = -10533, .rexit =    395, .ractio =     22, .rval =     30, .rflag =  24576 }, //  94 Land of the Living Dead
- { .rdesc1 = -10536, .rdesc2 = -10552, .rexit =    398, .ractio =      0, .rval =      0, .rflag =   8192 }, //  95 Grail Room
- { .rdesc1 = -10554, .rdesc2 = -10585, .rexit =    401, .ractio =      0, .rval =      0, .rflag =  25600 }, //  96 Temple
- { .rdesc1 = -10586, .rdesc2 = -10598, .rexit =    403, .ractio =      0, .rval =      0, .rflag =  25600 }, //  97 Altar
- { .rdesc1 =      0, .rdesc2 = -10599, .rexit =    404, .ractio =     23, .rval =      0, .rflag =  25088 }, //  98 Dam
- { .rdesc1 = -10600, .rdesc2 = -10624, .rexit =    408, .ractio =      0, .rval =      0, .rflag =  24576 }, //  99 Dam Lobby
- { .rdesc1 = -10626, .rdesc2 = -10682, .rexit =    411, .ractio =      0, .rval =      0, .rflag =   8192 }, // 100 Maintenance Room
- { .rdesc1 =      0, .rdesc2 = -10685, .rexit =    413, .ractio =     25, .rval =      0, .rflag =   8192 }, // 101 Cyclops Room
- { .rdesc1 = -10687, .rdesc2 = -10706, .rexit =    420, .ractio =      0, .rval =     10, .rflag =   8192 }, // 102 Strange Passage
- { .rdesc1 = -10708, .rdesc2 = -10737, .rexit =    422, .ractio =     27, .rval =     25, .rflag =   8192 }, // 103 Treasure Room
- { .rdesc1 = -10739, .rdesc2 = -10793, .rexit =    424, .ractio =      0, .rval =      0, .rflag =   8192 }, // 104 Studio
- { .rdesc1 = -10794, .rdesc2 = -10817, .rexit =    429, .ractio =      0, .rval =      0, .rflag =  24576 }, // 105 Gallery
- { .rdesc1 = -10818, .rdesc2 = -10855, .rexit =    432, .ractio =      0, .rval =      0, .rflag =  26144 }, // 106 Dam Base
- { .rdesc1 = -10857, .rdesc2 = -10873, .rexit =    435, .ractio =      0, .rval =      0, .rflag =   5664 }, // 107 Frigid River
- { .rdesc1 = -10875, .rdesc2 = -10873, .rexit =    442, .ractio =      0, .rval =      0, .rflag =   5664 }, // 108 Frigid River
- { .rdesc1 = -10895, .rdesc2 = -10873, .rexit =    447, .ractio =      0, .rval =      0, .rflag =   5664 }, // 109 Frigid River
- { .rdesc1 = -10921, .rdesc2 = -10940, .rexit =    454, .ractio =     28, .rval =      0, .rflag =   9728 }, // 110 White Cliffs Beach
- { .rdesc1 = -10943, .rdesc2 = -10940, .rexit =    458, .ractio =     28, .rval =      0, .rflag =   9728 }, // 111 White Cliffs Beach
- { .rdesc1 = -10957, .rdesc2 = -10873, .rexit =    462, .ractio =     29, .rval =      0, .rflag =   5664 }, // 112 Frigid River
- { .rdesc1 = -10981, .rdesc2 = -10873, .rexit =    469, .ractio =      0, .rval =      0, .rflag =   5664 }, // 113 Frigid River
- { .rdesc1 =      0, .rdesc2 = -10994, .rexit =      0, .ractio =     30, .rval =      0, .rflag =   8192 }, // 114 Moby Lossage
- { .rdesc1 = -10996, .rdesc2 = -11018, .rexit =    474, .ractio =      0, .rval =      0, .rflag =   9728 }, // 115 Shore
- { .rdesc1 = -11019, .rdesc2 = -11036, .rexit =    477, .ractio =     31, .rval =      0, .rflag =   9728 }, // 116 Sandy Beach
- { .rdesc1 = -11038, .rdesc2 = -11053, .rexit =    479, .ractio =      0, .rval =      0, .rflag =   9728 }, // 117 Rocky Shore
- { .rdesc1 = -11055, .rdesc2 = -11064, .rexit =    481, .ractio =     32, .rval =      0, .rflag =   8192 }, // 118 Small Cave
- { .rdesc1 = -11066, .rdesc2 = -11079, .rexit =    483, .ractio =      0, .rval =      0, .rflag =   8224 }, // 119 Barrel
- { .rdesc1 =      0, .rdesc2 = -11080, .rexit =    484, .ractio =     33, .rval =      0, .rflag =   9728 }, // 120 Aragain Falls
- { .rdesc1 = -11082, .rdesc2 = -11102, .rexit =    493, .ractio =      0, .rval =      0, .rflag =  25632 }, // 121 Rainbow room
- { .rdesc1 = -11104, .rdesc2 = -11142, .rexit =    495, .ractio =      0, .rval =      0, .rflag =  25120 }, // 122 End of rainbow
- { .rdesc1 = -11144, .rdesc2 = -11169, .rexit =    505, .ractio =      0, .rval =      0, .rflag =  25632 }, // 123 Canyon Bottom
- { .rdesc1 = -11171, .rdesc2 = -11205, .rexit =    507, .ractio =      0, .rval =      0, .rflag =  25632 }, // 124 Rocky Ledge
- { .rdesc1 = -11207, .rdesc2 = -11282, .rexit =    509, .ractio =      0, .rval =      0, .rflag =  25632 }, // 125 Canyon View
- { .rdesc1 = -11284, .rdesc2 = -11304, .rexit =    512, .ractio =      0, .rval =      0, .rflag =   8192 }, // 126 Volcano Bottom
- { .rdesc1 = -11306, .rdesc2 = -11321, .rexit =      0, .ractio =      0, .rval =      0, .rflag =   3104 }, // 127 Volcano Core
- { .rdesc1 = -11323, .rdesc2 = -11341, .rexit =    513, .ractio =      0, .rval =      0, .rflag =   3104 }, // 128 Volcano near small ledge
- { .rdesc1 = -11345, .rdesc2 = -11370, .rexit =      0, .ractio =      0, .rval =      0, .rflag =   3104 }, // 129 Volcano near viewing ledge
- { .rdesc1 = -11374, .rdesc2 = -11391, .rexit =    515, .ractio =      0, .rval =      0, .rflag =   3104 }, // 130 Volcano near wide ledge
- { .rdesc1 = -11394, .rdesc2 = -11420, .rexit =    517, .ractio =      0, .rval =      0, .rflag =   8192 }, // 131 Narrow Ledge
- { .rdesc1 = -11422, .rdesc2 = -11463, .rexit =    524, .ractio =      0, .rval =      0, .rflag =   8192 }, // 132 Volcano View
- { .rdesc1 =      0, .rdesc2 = -11465, .rexit =    529, .ractio =     34, .rval =      0, .rflag =   8192 }, // 133 Wide ledge
- { .rdesc1 = -11467, .rdesc2 = -11491, .rexit =    536, .ractio =      0, .rval =      0, .rflag =   8192 }, // 134 Library
- { .rdesc1 =      0, .rdesc2 = -11492, .rexit =    538, .ractio =     35, .rval =      0, .rflag =  24576 }, // 135 Dusty Room
- { .rdesc1 = -11494, .rdesc2 = -11509, .rexit =    539, .ractio =      0, .rval =      0, .rflag =   8192 }, // 136 Lava Room
- { .rdesc1 =      0, .rdesc2 = -11511, .rexit =    541, .ractio =     58, .rval =      0, .rflag =   8192 }, // 137 Tomb of the Unknown Implementer
- { .rdesc1 =      0, .rdesc2 = -11515, .rexit =    548, .ractio =     36, .rval =      0, .rflag =   8192 }, // 138 Low Room
- { .rdesc1 = -11517, .rdesc2 = -10343, .rexit =    575, .ractio =      0, .rval =      0, .rflag =   8192 }, // 139 Machine Room
- { .rdesc1 = -11574, .rdesc2 = -11597, .rexit =    577, .ractio =      0, .rval =      0, .rflag =   8192 }, // 140 Dingy Closet
- { .rdesc1 = -11599, .rdesc2 = -11604, .rexit =      0, .ractio =     37, .rval =      0, .rflag =   8224 }, // 141 Cage
- { .rdesc1 = -11605, .rdesc2 = -11630, .rexit =    578, .ractio =      0, .rval =     10, .rflag =   8320 }, // 142 Top of Well
- { .rdesc1 = -11632, .rdesc2 = -11658, .rexit =    581, .ractio =      0, .rval =      0, .rflag =   8320 }, // 143 Bottom of Well
- { .rdesc1 = -11660, .rdesc2 = -11702, .rexit =    584, .ractio =      0, .rval =      0, .rflag =   8192 }, // 144 Tea Room
- { .rdesc1 = -11704, .rdesc2 = -11743, .rexit =    588, .ractio =      0, .rval =      0, .rflag =   8192 }, // 145 Posts Room
- { .rdesc1 = -11745, .rdesc2 = -11769, .rexit =    595, .ractio =      0, .rval =      0, .rflag =   8192 }, // 146 Pool Room
- { .rdesc1 =      0, .rdesc2 = -11771, .rexit =    597, .ractio =     24, .rval =      0, .rflag =  24608 }, // 147 Up a Tree
- { .rdesc1 = -11773, .rdesc2 = -11846, .rexit =    600, .ractio =      0, .rval =      0, .rflag =   8192 }, // 148 Bank Entrance
- { .rdesc1 = -11848, .rdesc2 = -11885, .rexit =    603, .ractio =      0, .rval =      0, .rflag =   8192 }, // 149 West Teller's Room
- { .rdesc1 = -11888, .rdesc2 = -11925, .rexit =    606, .ractio =      0, .rval =      0, .rflag =   8192 }, // 150 East Teller's Room
- { .rdesc1 = -11928, .rdesc2 = -11983, .rexit =    609, .ractio =      0, .rval =      0, .rflag =   8192 }, // 151 Viewing Room
- { .rdesc1 = -11928, .rdesc2 = -11983, .rexit =    610, .ractio =      0, .rval =      0, .rflag =   8192 }, // 152 Viewing Room
- { .rdesc1 = -11985, .rdesc2 = -11998, .rexit =      0, .ractio =      0, .rval =      0, .rflag =   8192 }, // 153 Small Room
- { .rdesc1 = -12000, .rdesc2 = -12009, .rexit =      0, .ractio =      0, .rval =      0, .rflag =   8192 }, // 154 Vault
- { .rdesc1 = -12010, .rdesc2 = -12065, .rexit =    611, .ractio =     26, .rval =      0, .rflag =  24576 }, // 155 Safety Depository
- { .rdesc1 = -12068, .rdesc2 = -12088, .rexit =    620, .ractio =      0, .rval =      0, .rflag =   8192 }, // 156 Chairman's Office
- { .rdesc1 =      0, .rdesc2 = -12091, .rexit =    621, .ractio =     48, .rval =      5, .rflag =   8208 }, // 157 Crypt
- { .rdesc1 = -12092, .rdesc2 = -12116, .rexit =    627, .ractio =      0, .rval =     10, .rflag =  24592 }, // 158 Top of Stairs
- { .rdesc1 = -12118, .rdesc2 = -12145, .rexit =    631, .ractio =      0, .rval =      0, .rflag =  24592 }, // 159 Stone Room
- { .rdesc1 =      0, .rdesc2 = -11998, .rexit =    634, .ractio =     47, .rval =      0, .rflag =  24592 }, // 160 Small Room
- { .rdesc1 =      0, .rdesc2 = -12147, .rexit =    644, .ractio =     42, .rval =      0, .rflag =  24592 }, // 161 Hallway
- { .rdesc1 =      0, .rdesc2 = -12147, .rexit =    657, .ractio =     41, .rval =      0, .rflag =  24592 }, // 162 Hallway
- { .rdesc1 =      0, .rdesc2 = -12147, .rexit =    678, .ractio =     40, .rval =      0, .rflag =  24592 }, // 163 Hallway
- { .rdesc1 =      0, .rdesc2 = -12147, .rexit =    699, .ractio =     39, .rval =      0, .rflag =  24592 }, // 164 Hallway
- { .rdesc1 =      0, .rdesc2 = -12147, .rexit =    701, .ractio =     38, .rval =      0, .rflag =  24592 }, // 165 Hallway
- { .rdesc1 =      0, .rdesc2 = -12148, .rexit =    713, .ractio =     51, .rval =     15, .rflag =  24592 }, // 166 Dungeon Entrance
- { .rdesc1 =      0, .rdesc2 = -12151, .rexit =    728, .ractio =     45, .rval =      0, .rflag =  24592 }, // 167 Narrow Room
- { .rdesc1 =      0, .rdesc2 = -12151, .rexit =    736, .ractio =     45, .rval =      0, .rflag =  24592 }, // 168 Narrow Room
- { .rdesc1 =      0, .rdesc2 = -12151, .rexit =    744, .ractio =     44, .rval =      0, .rflag =  24592 }, // 169 Narrow Room
- { .rdesc1 =      0, .rdesc2 = -12151, .rexit =    752, .ractio =     44, .rval =      0, .rflag =  24592 }, // 170 Narrow Room
- { .rdesc1 =      0, .rdesc2 = -12151, .rexit =    760, .ractio =     43, .rval =      0, .rflag =  24592 }, // 171 Narrow Room
- { .rdesc1 =      0, .rdesc2 = -12151, .rexit =    768, .ractio =     43, .rval =      0, .rflag =  24592 }, // 172 Narrow Room
- { .rdesc1 =      0, .rdesc2 = -12151, .rexit =      0, .ractio =     39, .rval =      0, .rflag =  24592 }, // 173 Narrow Room
- { .rdesc1 =      0, .rdesc2 = -12151, .rexit =      0, .ractio =     39, .rval =      0, .rflag =  24592 }, // 174 Narrow Room
- { .rdesc1 =      0, .rdesc2 = -12151, .rexit =      0, .ractio =     39, .rval =      0, .rflag =  24592 }, // 175 Narrow Room
- { .rdesc1 =      0, .rdesc2 = -12151, .rexit =      0, .ractio =     39, .rval =      0, .rflag =  24592 }, // 176 Narrow Room
- { .rdesc1 =      0, .rdesc2 = -12153, .rexit =    776, .ractio =     46, .rval =     15, .rflag =  24592 }, // 177 Inside Mirror
- { .rdesc1 =      0, .rdesc2 = -12155, .rexit =    803, .ractio =     50, .rval =     20, .rflag =  24592 }, // 178 Narrow Corridor
- { .rdesc1 =      0, .rdesc2 = -12157, .rexit =    807, .ractio =     49, .rval =      0, .rflag =  24592 }, // 179 South Corridor
- { .rdesc1 = -12159, .rdesc2 = -12177, .rexit =    813, .ractio =      0, .rval =      0, .rflag =  24592 }, // 180 West Corridor
- { .rdesc1 = -12179, .rdesc2 = -12197, .rexit =    815, .ractio =      0, .rval =      0, .rflag =  24592 }, // 181 East Corridor
- { .rdesc1 =      0, .rdesc2 = -12199, .rexit =    817, .ractio =     52, .rval =      0, .rflag =  24592 }, // 182 North Corridor
- { .rdesc1 =      0, .rdesc2 = -12201, .rexit =    826, .ractio =     53, .rval =      0, .rflag =  24592 }, // 183 Parapet
- { .rdesc1 =      0, .rdesc2 = -12202, .rexit =    831, .ractio =     54, .rval =      0, .rflag =  24592 }, // 184 Prison Cell
- { .rdesc1 =      0, .rdesc2 = -12202, .rexit =    840, .ractio =     55, .rval =      0, .rflag =  24592 }, // 185 Prison Cell
- { .rdesc1 =      0, .rdesc2 = -12202, .rexit =    842, .ractio =     56, .rval =      0, .rflag =  24592 }, // 186 Prison Cell
- { .rdesc1 = -12204, .rdesc2 = -12325, .rexit =      0, .ractio =     57, .rval =     35, .rflag =  24592 }, // 187 Nirvana
- { .rdesc1 = -12326, .rdesc2 = -12356, .rexit =    850, .ractio =      0, .rval =      0, .rflag =  24576 }, // 188 Small Square Room
- { .rdesc1 =      0, .rdesc2 = -12359, .rexit =    855, .ractio =     59, .rval =      0, .rflag =  24576 }, // 189 Side Room
- { .rdesc1 =      0, .rdesc2 = -12361, .rexit =    859, .ractio =     60, .rval =      0, .rflag =  24576 }, // 190 Room in a Puzzle
+#define E REND
+#define N RNWALL
+#define H RHOUSE
+#define B RBUCK
+#define M RMUNG
+#define F RFILL
+#define S RSACRD
+#define A RAIR
+#define W RWATER
+#define L RLAND
+#define l RLIGHT
+#define s RSEEN
+
+ { .rdesc1 =  -9590, .rdesc2 =  -9605, .rexit =      1, .ractio =      0, .rval =      5, .rflag = L         }, //   1 East-West Passage
+ { .rdesc1 =  -9608, .rdesc2 =  -9618, .rexit =      5, .ractio =      0, .rval =      0, .rflag = l|L|S|N   }, //   2 West of House
+ { .rdesc1 =  -9620, .rdesc2 =  -9633, .rexit =     10, .ractio =      0, .rval =      0, .rflag = l|L|S|N   }, //   3 North of House
+ { .rdesc1 =  -9635, .rdesc2 =  -9648, .rexit =     15, .ractio =      0, .rval =      0, .rflag = l|L|S|N   }, //   4 South of House
+ { .rdesc1 =      0, .rdesc2 =  -9650, .rexit =     20, .ractio =      1, .rval =      0, .rflag = l|L|S|N   }, //   5 Behind House
+ { .rdesc1 =      0, .rdesc2 =  -9652, .rexit =     29, .ractio =      2, .rval =     10, .rflag = l|L|S|H   }, //   6 Kitchen
+ { .rdesc1 =  -9653, .rdesc2 =  -9661, .rexit =     39, .ractio =      0, .rval =      0, .rflag = L|H       }, //   7 Attic
+ { .rdesc1 =      0, .rdesc2 =  -9662, .rexit =     40, .ractio =      3, .rval =      0, .rflag = l|L|S|H   }, //   8 Living Room
+ { .rdesc1 =      0, .rdesc2 =  -9664, .rexit =     47, .ractio =      4, .rval =     25, .rflag = L         }, //   9 Cellar
+ { .rdesc1 =  -9665, .rdesc2 =  -9682, .rexit =     54, .ractio =      0, .rval =      0, .rflag = L         }, //  10 Troll Room
+ { .rdesc1 =  -9684, .rdesc2 =  -9691, .rexit =     64, .ractio =      0, .rval =      0, .rflag = L         }, //  11 Maze
+ { .rdesc1 =  -9684, .rdesc2 =  -9691, .rexit =     68, .ractio =      0, .rval =      0, .rflag = L         }, //  12 Maze
+ { .rdesc1 =  -9684, .rdesc2 =  -9691, .rexit =     71, .ractio =      0, .rval =      0, .rflag = L         }, //  13 Maze
+ { .rdesc1 =  -9684, .rdesc2 =  -9691, .rexit =     74, .ractio =      0, .rval =      0, .rflag = L         }, //  14 Maze
+ { .rdesc1 =  -9692, .rdesc2 =  -9694, .rexit =     77, .ractio =      0, .rval =      0, .rflag = L         }, //  15 Dead End
+ { .rdesc1 =  -9684, .rdesc2 =  -9691, .rexit =     78, .ractio =      0, .rval =      0, .rflag = L         }, //  16 Maze
+ { .rdesc1 =  -9692, .rdesc2 =  -9694, .rexit =     81, .ractio =      0, .rval =      0, .rflag = L         }, //  17 Dead End
+ { .rdesc1 =  -9684, .rdesc2 =  -9691, .rexit =     82, .ractio =      0, .rval =      0, .rflag = L         }, //  18 Maze
+ { .rdesc1 =  -9684, .rdesc2 =  -9691, .rexit =     86, .ractio =      0, .rval =      0, .rflag = L         }, //  19 Maze
+ { .rdesc1 =  -9684, .rdesc2 =  -9691, .rexit =     91, .ractio =      0, .rval =      0, .rflag = L         }, //  20 Maze
+ { .rdesc1 =  -9692, .rdesc2 =  -9694, .rexit =     94, .ractio =      0, .rval =      0, .rflag = L         }, //  21 Dead End
+ { .rdesc1 =  -9684, .rdesc2 =  -9691, .rexit =     95, .ractio =      0, .rval =      0, .rflag = L         }, //  22 Maze
+ { .rdesc1 =  -9684, .rdesc2 =  -9691, .rexit =    101, .ractio =      0, .rval =      0, .rflag = L         }, //  23 Maze
+ { .rdesc1 =  -9684, .rdesc2 =  -9691, .rexit =    104, .ractio =      0, .rval =      0, .rflag = L         }, //  24 Maze
+ { .rdesc1 =      0, .rdesc2 =  -9696, .rexit =    108, .ractio =      5, .rval =      0, .rflag = L         }, //  25 Grating room
+ { .rdesc1 =  -9684, .rdesc2 =  -9691, .rexit =    112, .ractio =      0, .rval =      0, .rflag = L         }, //  26 Maze
+ { .rdesc1 =  -9692, .rdesc2 =  -9694, .rexit =    117, .ractio =      0, .rval =      0, .rflag = L         }, //  27 Dead End
+ { .rdesc1 =  -9684, .rdesc2 =  -9691, .rexit =    118, .ractio =      0, .rval =      0, .rflag = L         }, //  28 Maze
+ { .rdesc1 =  -9684, .rdesc2 =  -9691, .rexit =    122, .ractio =      0, .rval =      0, .rflag = L         }, //  29 Maze
+ { .rdesc1 =  -9684, .rdesc2 =  -9691, .rexit =    126, .ractio =      0, .rval =      0, .rflag = L         }, //  30 Maze
+ { .rdesc1 =  -9698, .rdesc2 =  -9706, .rexit =    129, .ractio =     11, .rval =      0, .rflag = l|L|S|N   }, //  31 Forest
+ { .rdesc1 =  -9707, .rdesc2 =  -9706, .rexit =    135, .ractio =     11, .rval =      0, .rflag = l|L|S|N   }, //  32 Forest
+ { .rdesc1 =  -9720, .rdesc2 =  -9706, .rexit =    141, .ractio =     11, .rval =      0, .rflag = l|L|S|N   }, //  33 Forest
+ { .rdesc1 =  -9736, .rdesc2 =  -9706, .rexit =    146, .ractio =     11, .rval =      0, .rflag = l|L|S|N   }, //  34 Forest
+ { .rdesc1 =  -9698, .rdesc2 =  -9706, .rexit =    152, .ractio =     11, .rval =      0, .rflag = l|L|S|N   }, //  35 Forest
+ { .rdesc1 =      0, .rdesc2 =  -9751, .rexit =    158, .ractio =      6, .rval =      0, .rflag = l|L|S|N   }, //  36 Clearing
+ { .rdesc1 =  -9753, .rdesc2 =  -9772, .rexit =    167, .ractio =      0, .rval =      0, .rflag = L         }, //  37 Deep Ravine
+ { .rdesc1 =  -9774, .rdesc2 =  -9801, .rexit =    171, .ractio =      0, .rval =      0, .rflag = L         }, //  38 Rocky Crawl
+ { .rdesc1 =      0, .rdesc2 =  -9803, .rexit =    174, .ractio =      7, .rval =      0, .rflag = L|F       }, //  39 Reservoir South
+ { .rdesc1 =      0, .rdesc2 =  -9805, .rexit =    188, .ractio =      8, .rval =      0, .rflag = W|N       }, //  40 Reservoir
+ { .rdesc1 =      0, .rdesc2 =  -9807, .rexit =    195, .ractio =      9, .rval =      0, .rflag = L|F       }, //  41 Reservoir North
+ { .rdesc1 =  -9809, .rdesc2 =  -9822, .rexit =    203, .ractio =      0, .rval =      0, .rflag = L|F       }, //  42 Stream View
+ { .rdesc1 =  -9824, .rdesc2 =  -9847, .rexit =    206, .ractio =      0, .rval =      0, .rflag = W|N       }, //  43 Stream
+ { .rdesc1 =  -9848, .rdesc2 =  -9865, .rexit =    210, .ractio =      0, .rval =      0, .rflag = L         }, //  44 Egyptian Room
+ { .rdesc1 =      0, .rdesc2 =  -9867, .rexit =    215, .ractio =     10, .rval =      0, .rflag = L         }, //  45 Glacier Room
+ { .rdesc1 =  -9869, .rdesc2 =  -9884, .rexit =    220, .ractio =      0, .rval =      0, .rflag = L         }, //  46 Ruby Room
+ { .rdesc1 =  -9886, .rdesc2 =  -9899, .rexit =    222, .ractio =      0, .rval =      0, .rflag = L         }, //  47 Atlantis Room
+ { .rdesc1 =  -9901, .rdesc2 =  -9920, .rexit =    224, .ractio =      0, .rval =      0, .rflag = L         }, //  48 Deep Canyon
+ { .rdesc1 =  -9922, .rdesc2 =  -9953, .rexit =    227, .ractio =      0, .rval =      0, .rflag = L         }, //  49 Loud Room
+ { .rdesc1 =      0, .rdesc2 =  -9955, .rexit =    230, .ractio =     12, .rval =      0, .rflag = L         }, //  50 Mirror Room
+ { .rdesc1 =      0, .rdesc2 =  -9955, .rexit =    233, .ractio =     12, .rval =      0, .rflag = l|L       }, //  51 Mirror Room
+ { .rdesc1 =  -9957, .rdesc2 =  -9968, .rexit =    236, .ractio =      0, .rval =      0, .rflag = L         }, //  52 Cave
+ { .rdesc1 =  -9969, .rdesc2 =  -9968, .rexit =    238, .ractio =     13, .rval =      0, .rflag = L         }, //  53 Cave
+ { .rdesc1 =  -9982, .rdesc2 =  -9994, .rexit =    241, .ractio =      0, .rval =      0, .rflag = L         }, //  54 Steep Crawlway
+ { .rdesc1 =  -9996, .rdesc2 = -10013, .rexit =    243, .ractio =      0, .rval =      0, .rflag = L         }, //  55 Narrow Crawlway
+ { .rdesc1 = -10015, .rdesc2 = -10028, .rexit =    246, .ractio =      0, .rval =      0, .rflag = L         }, //  56 Cold Passage
+ { .rdesc1 = -10030, .rdesc2 = -10051, .rexit =    249, .ractio =      0, .rval =      0, .rflag = L         }, //  57 Winding Passage
+ { .rdesc1 = -10053, .rdesc2 = -10099, .rexit =    252, .ractio =      0, .rval =      0, .rflag = L         }, //  58 Slide Room
+ { .rdesc1 = -10101, .rdesc2 = -10125, .rexit =    255, .ractio =      0, .rval =      0, .rflag = L         }, //  59 Mine Entrance
+ { .rdesc1 = -10127, .rdesc2 = -10145, .rexit =    258, .ractio =      0, .rval =      0, .rflag = L         }, //  60 Squeaky Room
+ { .rdesc1 = -10147, .rdesc2 = -10181, .rexit =    260, .ractio =      0, .rval =      0, .rflag = L         }, //  61 Shaft Room
+ { .rdesc1 = -10183, .rdesc2 = -10205, .rexit =    264, .ractio =      0, .rval =      0, .rflag = L         }, //  62 Wooden Tunnel
+ { .rdesc1 = -10207, .rdesc2 = -10227, .rexit =    267, .ractio =      0, .rval =      0, .rflag = L         }, //  63 Smelly Room
+ { .rdesc1 = -10229, .rdesc2 = -10237, .rexit =    269, .ractio =     14, .rval =      0, .rflag = L|S       }, //  64 Gas Room
+ { .rdesc1 = -10239, .rdesc2 = -10260, .rexit =    270, .ractio =      0, .rval =      0, .rflag = L         }, //  65 Ladder Top
+ { .rdesc1 = -10262, .rdesc2 = -10268, .rexit =    272, .ractio =      0, .rval =      0, .rflag = L         }, //  66 Coal Mine
+ { .rdesc1 = -10262, .rdesc2 = -10268, .rexit =    275, .ractio =      0, .rval =      0, .rflag = L         }, //  67 Coal Mine
+ { .rdesc1 = -10262, .rdesc2 = -10268, .rexit =    279, .ractio =      0, .rval =      0, .rflag = L         }, //  68 Coal Mine
+ { .rdesc1 = -10262, .rdesc2 = -10268, .rexit =    282, .ractio =      0, .rval =      0, .rflag = L         }, //  69 Coal Mine
+ { .rdesc1 = -10262, .rdesc2 = -10268, .rexit =    286, .ractio =      0, .rval =      0, .rflag = L         }, //  70 Coal Mine
+ { .rdesc1 = -10262, .rdesc2 = -10268, .rexit =    292, .ractio =      0, .rval =      0, .rflag = L         }, //  71 Coal Mine
+ { .rdesc1 = -10262, .rdesc2 = -10268, .rexit =    295, .ractio =      0, .rval =      0, .rflag = L         }, //  72 Coal Mine
+ { .rdesc1 = -10270, .rdesc2 = -10289, .rexit =    299, .ractio =      0, .rval =      0, .rflag = L         }, //  73 Ladder Bottom
+ { .rdesc1 =  -9692, .rdesc2 =  -9694, .rexit =    302, .ractio =      0, .rval =      0, .rflag = L         }, //  74 Dead End
+ { .rdesc1 = -10291, .rdesc2 = -10315, .rexit =    303, .ractio =     15, .rval =      0, .rflag = L|S       }, //  75 Timber Room
+ { .rdesc1 = -10317, .rdesc2 = -10341, .rexit =    307, .ractio =     15, .rval =      0, .rflag = L|S       }, //  76 Lower Shaft
+ { .rdesc1 =      0, .rdesc2 = -10343, .rexit =    316, .ractio =     16, .rval =      0, .rflag = L         }, //  77 Machine Room
+ { .rdesc1 =      0, .rdesc2 = -10345, .rexit =    317, .ractio =     17, .rval =      0, .rflag = L|S       }, //  78 Bat Room
+ { .rdesc1 =      0, .rdesc2 = -10347, .rexit =    318, .ractio =     18, .rval =      0, .rflag = L         }, //  79 Dome Room
+ { .rdesc1 =      0, .rdesc2 = -10349, .rexit =    322, .ractio =     19, .rval =      0, .rflag = L         }, //  80 Torch Room
+ { .rdesc1 = -10351, .rdesc2 = -10369, .rexit =    326, .ractio =      0, .rval =      0, .rflag = L         }, //  81 North-South Crawlway
+ { .rdesc1 = -10372, .rdesc2 = -10398, .rexit =    331, .ractio =      0, .rval =      0, .rflag = L         }, //  82 West of Chasm
+ { .rdesc1 =      0, .rdesc2 = -10400, .rexit =    336, .ractio =     20, .rval =      0, .rflag = L         }, //  83 Round Room
+ { .rdesc1 = -10402, .rdesc2 = -10411, .rexit =    363, .ractio =      0, .rval =      0, .rflag = L         }, //  84 North-South Passage
+ { .rdesc1 = -10414, .rdesc2 = -10428, .rexit =    366, .ractio =      0, .rval =      0, .rflag = L         }, //  85 Chasm
+ { .rdesc1 = -10429, .rdesc2 = -10448, .rexit =    370, .ractio =      0, .rval =      0, .rflag = L         }, //  86 Damp Cave
+ { .rdesc1 = -10450, .rdesc2 = -10465, .rexit =    374, .ractio =      0, .rval =      0, .rflag = L         }, //  87 Ancient Chasm
+ { .rdesc1 =  -9692, .rdesc2 =  -9694, .rexit =    378, .ractio =      0, .rval =      0, .rflag = L         }, //  88 Dead End
+ { .rdesc1 =  -9692, .rdesc2 =  -9694, .rexit =    379, .ractio =      0, .rval =      0, .rflag = L         }, //  89 Dead End
+ { .rdesc1 = -10467, .rdesc2 = -10476, .rexit =    380, .ractio =      0, .rval =      0, .rflag = L         }, //  90 Engravings Cave
+ { .rdesc1 = -10478, .rdesc2 = -10517, .rexit =    382, .ractio =      0, .rval =      0, .rflag = L         }, //  91 Riddle Room
+ { .rdesc1 = -10519, .rdesc2 = -10528, .rexit =    386, .ractio =      0, .rval =      0, .rflag = L         }, //  92 Pearl Room
+ { .rdesc1 =      0, .rdesc2 = -10530, .rexit =    388, .ractio =     21, .rval =      0, .rflag = l|L       }, //  93 Entrance to Hades
+ { .rdesc1 =      0, .rdesc2 = -10533, .rexit =    395, .ractio =     22, .rval =     30, .rflag = l|L       }, //  94 Land of the Living Dead
+ { .rdesc1 = -10536, .rdesc2 = -10552, .rexit =    398, .ractio =      0, .rval =      0, .rflag = L         }, //  95 Grail Room
+ { .rdesc1 = -10554, .rdesc2 = -10585, .rexit =    401, .ractio =      0, .rval =      0, .rflag = l|L|S     }, //  96 Temple
+ { .rdesc1 = -10586, .rdesc2 = -10598, .rexit =    403, .ractio =      0, .rval =      0, .rflag = l|L|S     }, //  97 Altar
+ { .rdesc1 =      0, .rdesc2 = -10599, .rexit =    404, .ractio =     23, .rval =      0, .rflag = l|L|F     }, //  98 Dam
+ { .rdesc1 = -10600, .rdesc2 = -10624, .rexit =    408, .ractio =      0, .rval =      0, .rflag = l|L       }, //  99 Dam Lobby
+ { .rdesc1 = -10626, .rdesc2 = -10682, .rexit =    411, .ractio =      0, .rval =      0, .rflag = L         }, // 100 Maintenance Room
+ { .rdesc1 =      0, .rdesc2 = -10685, .rexit =    413, .ractio =     25, .rval =      0, .rflag = L         }, // 101 Cyclops Room
+ { .rdesc1 = -10687, .rdesc2 = -10706, .rexit =    420, .ractio =      0, .rval =     10, .rflag = L         }, // 102 Strange Passage
+ { .rdesc1 = -10708, .rdesc2 = -10737, .rexit =    422, .ractio =     27, .rval =     25, .rflag = L         }, // 103 Treasure Room
+ { .rdesc1 = -10739, .rdesc2 = -10793, .rexit =    424, .ractio =      0, .rval =      0, .rflag = L         }, // 104 Studio
+ { .rdesc1 = -10794, .rdesc2 = -10817, .rexit =    429, .ractio =      0, .rval =      0, .rflag = l|L       }, // 105 Gallery
+ { .rdesc1 = -10818, .rdesc2 = -10855, .rexit =    432, .ractio =      0, .rval =      0, .rflag = l|L|S|F|N }, // 106 Dam Base
+ { .rdesc1 = -10857, .rdesc2 = -10873, .rexit =    435, .ractio =      0, .rval =      0, .rflag = W|S|F|N   }, // 107 Frigid River
+ { .rdesc1 = -10875, .rdesc2 = -10873, .rexit =    442, .ractio =      0, .rval =      0, .rflag = W|S|F|N   }, // 108 Frigid River
+ { .rdesc1 = -10895, .rdesc2 = -10873, .rexit =    447, .ractio =      0, .rval =      0, .rflag = W|S|F|N   }, // 109 Frigid River
+ { .rdesc1 = -10921, .rdesc2 = -10940, .rexit =    454, .ractio =     28, .rval =      0, .rflag = L|S|F     }, // 110 White Cliffs Beach
+ { .rdesc1 = -10943, .rdesc2 = -10940, .rexit =    458, .ractio =     28, .rval =      0, .rflag = L|S|F     }, // 111 White Cliffs Beach
+ { .rdesc1 = -10957, .rdesc2 = -10873, .rexit =    462, .ractio =     29, .rval =      0, .rflag = W|S|F|N   }, // 112 Frigid River
+ { .rdesc1 = -10981, .rdesc2 = -10873, .rexit =    469, .ractio =      0, .rval =      0, .rflag = W|S|F|N   }, // 113 Frigid River
+ { .rdesc1 =      0, .rdesc2 = -10994, .rexit =      0, .ractio =     30, .rval =      0, .rflag = L         }, // 114 Moby Lossage
+ { .rdesc1 = -10996, .rdesc2 = -11018, .rexit =    474, .ractio =      0, .rval =      0, .rflag = L|S|F     }, // 115 Shore
+ { .rdesc1 = -11019, .rdesc2 = -11036, .rexit =    477, .ractio =     31, .rval =      0, .rflag = L|S|F     }, // 116 Sandy Beach
+ { .rdesc1 = -11038, .rdesc2 = -11053, .rexit =    479, .ractio =      0, .rval =      0, .rflag = L|S|F     }, // 117 Rocky Shore
+ { .rdesc1 = -11055, .rdesc2 = -11064, .rexit =    481, .ractio =     32, .rval =      0, .rflag = L         }, // 118 Small Cave
+ { .rdesc1 = -11066, .rdesc2 = -11079, .rexit =    483, .ractio =      0, .rval =      0, .rflag = L|N       }, // 119 Barrel
+ { .rdesc1 =      0, .rdesc2 = -11080, .rexit =    484, .ractio =     33, .rval =      0, .rflag = L|S|F     }, // 120 Aragain Falls
+ { .rdesc1 = -11082, .rdesc2 = -11102, .rexit =    493, .ractio =      0, .rval =      0, .rflag = l|L|S|N   }, // 121 Rainbow room
+ { .rdesc1 = -11104, .rdesc2 = -11142, .rexit =    495, .ractio =      0, .rval =      0, .rflag = l|L|F|N   }, // 122 End of rainbow
+ { .rdesc1 = -11144, .rdesc2 = -11169, .rexit =    505, .ractio =      0, .rval =      0, .rflag = l|L|S|N   }, // 123 Canyon Bottom
+ { .rdesc1 = -11171, .rdesc2 = -11205, .rexit =    507, .ractio =      0, .rval =      0, .rflag = l|L|S|N   }, // 124 Rocky Ledge
+ { .rdesc1 = -11207, .rdesc2 = -11282, .rexit =    509, .ractio =      0, .rval =      0, .rflag = l|L|S|N   }, // 125 Canyon View
+ { .rdesc1 = -11284, .rdesc2 = -11304, .rexit =    512, .ractio =      0, .rval =      0, .rflag = L         }, // 126 Volcano Bottom
+ { .rdesc1 = -11306, .rdesc2 = -11321, .rexit =      0, .ractio =      0, .rval =      0, .rflag = A|S|N     }, // 127 Volcano Core
+ { .rdesc1 = -11323, .rdesc2 = -11341, .rexit =    513, .ractio =      0, .rval =      0, .rflag = A|S|N     }, // 128 Volcano near small ledge
+ { .rdesc1 = -11345, .rdesc2 = -11370, .rexit =      0, .ractio =      0, .rval =      0, .rflag = A|S|N     }, // 129 Volcano near viewing ledge
+ { .rdesc1 = -11374, .rdesc2 = -11391, .rexit =    515, .ractio =      0, .rval =      0, .rflag = A|S|N     }, // 130 Volcano near wide ledge
+ { .rdesc1 = -11394, .rdesc2 = -11420, .rexit =    517, .ractio =      0, .rval =      0, .rflag = L         }, // 131 Narrow Ledge
+ { .rdesc1 = -11422, .rdesc2 = -11463, .rexit =    524, .ractio =      0, .rval =      0, .rflag = L         }, // 132 Volcano View
+ { .rdesc1 =      0, .rdesc2 = -11465, .rexit =    529, .ractio =     34, .rval =      0, .rflag = L         }, // 133 Wide ledge
+ { .rdesc1 = -11467, .rdesc2 = -11491, .rexit =    536, .ractio =      0, .rval =      0, .rflag = L         }, // 134 Library
+ { .rdesc1 =      0, .rdesc2 = -11492, .rexit =    538, .ractio =     35, .rval =      0, .rflag = l|L       }, // 135 Dusty Room
+ { .rdesc1 = -11494, .rdesc2 = -11509, .rexit =    539, .ractio =      0, .rval =      0, .rflag = L         }, // 136 Lava Room
+ { .rdesc1 =      0, .rdesc2 = -11511, .rexit =    541, .ractio =     58, .rval =      0, .rflag = L         }, // 137 Tomb of the Unknown Implementer
+ { .rdesc1 =      0, .rdesc2 = -11515, .rexit =    548, .ractio =     36, .rval =      0, .rflag = L         }, // 138 Low Room
+ { .rdesc1 = -11517, .rdesc2 = -10343, .rexit =    575, .ractio =      0, .rval =      0, .rflag = L         }, // 139 Machine Room
+ { .rdesc1 = -11574, .rdesc2 = -11597, .rexit =    577, .ractio =      0, .rval =      0, .rflag = L         }, // 140 Dingy Closet
+ { .rdesc1 = -11599, .rdesc2 = -11604, .rexit =      0, .ractio =     37, .rval =      0, .rflag = L|N       }, // 141 Cage
+ { .rdesc1 = -11605, .rdesc2 = -11630, .rexit =    578, .ractio =      0, .rval =     10, .rflag = L|B       }, // 142 Top of Well
+ { .rdesc1 = -11632, .rdesc2 = -11658, .rexit =    581, .ractio =      0, .rval =      0, .rflag = L|B       }, // 143 Bottom of Well
+ { .rdesc1 = -11660, .rdesc2 = -11702, .rexit =    584, .ractio =      0, .rval =      0, .rflag = L         }, // 144 Tea Room
+ { .rdesc1 = -11704, .rdesc2 = -11743, .rexit =    588, .ractio =      0, .rval =      0, .rflag = L         }, // 145 Posts Room
+ { .rdesc1 = -11745, .rdesc2 = -11769, .rexit =    595, .ractio =      0, .rval =      0, .rflag = L         }, // 146 Pool Room
+ { .rdesc1 =      0, .rdesc2 = -11771, .rexit =    597, .ractio =     24, .rval =      0, .rflag = l|L|N     }, // 147 Up a Tree
+ { .rdesc1 = -11773, .rdesc2 = -11846, .rexit =    600, .ractio =      0, .rval =      0, .rflag = L         }, // 148 Bank Entrance
+ { .rdesc1 = -11848, .rdesc2 = -11885, .rexit =    603, .ractio =      0, .rval =      0, .rflag = L         }, // 149 West Teller's Room
+ { .rdesc1 = -11888, .rdesc2 = -11925, .rexit =    606, .ractio =      0, .rval =      0, .rflag = L         }, // 150 East Teller's Room
+ { .rdesc1 = -11928, .rdesc2 = -11983, .rexit =    609, .ractio =      0, .rval =      0, .rflag = L         }, // 151 Viewing Room
+ { .rdesc1 = -11928, .rdesc2 = -11983, .rexit =    610, .ractio =      0, .rval =      0, .rflag = L         }, // 152 Viewing Room
+ { .rdesc1 = -11985, .rdesc2 = -11998, .rexit =      0, .ractio =      0, .rval =      0, .rflag = L         }, // 153 Small Room
+ { .rdesc1 = -12000, .rdesc2 = -12009, .rexit =      0, .ractio =      0, .rval =      0, .rflag = L         }, // 154 Vault
+ { .rdesc1 = -12010, .rdesc2 = -12065, .rexit =    611, .ractio =     26, .rval =      0, .rflag = l|L       }, // 155 Safety Depository
+ { .rdesc1 = -12068, .rdesc2 = -12088, .rexit =    620, .ractio =      0, .rval =      0, .rflag = L         }, // 156 Chairman's Office
+ { .rdesc1 =      0, .rdesc2 = -12091, .rexit =    621, .ractio =     48, .rval =      5, .rflag = L|E       }, // 157 Crypt
+ { .rdesc1 = -12092, .rdesc2 = -12116, .rexit =    627, .ractio =      0, .rval =     10, .rflag = l|L|E     }, // 158 Top of Stairs
+ { .rdesc1 = -12118, .rdesc2 = -12145, .rexit =    631, .ractio =      0, .rval =      0, .rflag = l|L|E     }, // 159 Stone Room
+ { .rdesc1 =      0, .rdesc2 = -11998, .rexit =    634, .ractio =     47, .rval =      0, .rflag = l|L|E     }, // 160 Small Room
+ { .rdesc1 =      0, .rdesc2 = -12147, .rexit =    644, .ractio =     42, .rval =      0, .rflag = l|L|E     }, // 161 Hallway
+ { .rdesc1 =      0, .rdesc2 = -12147, .rexit =    657, .ractio =     41, .rval =      0, .rflag = l|L|E     }, // 162 Hallway
+ { .rdesc1 =      0, .rdesc2 = -12147, .rexit =    678, .ractio =     40, .rval =      0, .rflag = l|L|E     }, // 163 Hallway
+ { .rdesc1 =      0, .rdesc2 = -12147, .rexit =    699, .ractio =     39, .rval =      0, .rflag = l|L|E     }, // 164 Hallway
+ { .rdesc1 =      0, .rdesc2 = -12147, .rexit =    701, .ractio =     38, .rval =      0, .rflag = l|L|E     }, // 165 Hallway
+ { .rdesc1 =      0, .rdesc2 = -12148, .rexit =    713, .ractio =     51, .rval =     15, .rflag = l|L|E     }, // 166 Dungeon Entrance
+ { .rdesc1 =      0, .rdesc2 = -12151, .rexit =    728, .ractio =     45, .rval =      0, .rflag = l|L|E     }, // 167 Narrow Room
+ { .rdesc1 =      0, .rdesc2 = -12151, .rexit =    736, .ractio =     45, .rval =      0, .rflag = l|L|E     }, // 168 Narrow Room
+ { .rdesc1 =      0, .rdesc2 = -12151, .rexit =    744, .ractio =     44, .rval =      0, .rflag = l|L|E     }, // 169 Narrow Room
+ { .rdesc1 =      0, .rdesc2 = -12151, .rexit =    752, .ractio =     44, .rval =      0, .rflag = l|L|E     }, // 170 Narrow Room
+ { .rdesc1 =      0, .rdesc2 = -12151, .rexit =    760, .ractio =     43, .rval =      0, .rflag = l|L|E     }, // 171 Narrow Room
+ { .rdesc1 =      0, .rdesc2 = -12151, .rexit =    768, .ractio =     43, .rval =      0, .rflag = l|L|E     }, // 172 Narrow Room
+ { .rdesc1 =      0, .rdesc2 = -12151, .rexit =      0, .ractio =     39, .rval =      0, .rflag = l|L|E     }, // 173 Narrow Room
+ { .rdesc1 =      0, .rdesc2 = -12151, .rexit =      0, .ractio =     39, .rval =      0, .rflag = l|L|E     }, // 174 Narrow Room
+ { .rdesc1 =      0, .rdesc2 = -12151, .rexit =      0, .ractio =     39, .rval =      0, .rflag = l|L|E     }, // 175 Narrow Room
+ { .rdesc1 =      0, .rdesc2 = -12151, .rexit =      0, .ractio =     39, .rval =      0, .rflag = l|L|E     }, // 176 Narrow Room
+ { .rdesc1 =      0, .rdesc2 = -12153, .rexit =    776, .ractio =     46, .rval =     15, .rflag = l|L|E     }, // 177 Inside Mirror
+ { .rdesc1 =      0, .rdesc2 = -12155, .rexit =    803, .ractio =     50, .rval =     20, .rflag = l|L|E     }, // 178 Narrow Corridor
+ { .rdesc1 =      0, .rdesc2 = -12157, .rexit =    807, .ractio =     49, .rval =      0, .rflag = l|L|E     }, // 179 South Corridor
+ { .rdesc1 = -12159, .rdesc2 = -12177, .rexit =    813, .ractio =      0, .rval =      0, .rflag = l|L|E     }, // 180 West Corridor
+ { .rdesc1 = -12179, .rdesc2 = -12197, .rexit =    815, .ractio =      0, .rval =      0, .rflag = l|L|E     }, // 181 East Corridor
+ { .rdesc1 =      0, .rdesc2 = -12199, .rexit =    817, .ractio =     52, .rval =      0, .rflag = l|L|E     }, // 182 North Corridor
+ { .rdesc1 =      0, .rdesc2 = -12201, .rexit =    826, .ractio =     53, .rval =      0, .rflag = l|L|E     }, // 183 Parapet
+ { .rdesc1 =      0, .rdesc2 = -12202, .rexit =    831, .ractio =     54, .rval =      0, .rflag = l|L|E     }, // 184 Prison Cell
+ { .rdesc1 =      0, .rdesc2 = -12202, .rexit =    840, .ractio =     55, .rval =      0, .rflag = l|L|E     }, // 185 Prison Cell
+ { .rdesc1 =      0, .rdesc2 = -12202, .rexit =    842, .ractio =     56, .rval =      0, .rflag = l|L|E     }, // 186 Prison Cell
+ { .rdesc1 = -12204, .rdesc2 = -12325, .rexit =      0, .ractio =     57, .rval =     35, .rflag = l|L|E     }, // 187 Nirvana
+ { .rdesc1 = -12326, .rdesc2 = -12356, .rexit =    850, .ractio =      0, .rval =      0, .rflag = l|L       }, // 188 Small Square Room
+ { .rdesc1 =      0, .rdesc2 = -12359, .rexit =    855, .ractio =     59, .rval =      0, .rflag = l|L       }, // 189 Side Room
+ { .rdesc1 =      0, .rdesc2 = -12361, .rexit =    859, .ractio =     60, .rval =      0, .rflag = l|L       }, // 190 Room in a Puzzle
+#undef E
+#undef N
+#undef H
+#undef B
+#undef M
+#undef F
+#undef S
+#undef A
+#undef W
+#undef L
+#undef l
+#undef s
 };
 
 const int data_exits_count = 886;

@@ -382,9 +382,25 @@ L10000:
     printf("const struct {\n"
            "    int rdesc1, rdesc2, rexit, ractio, rval, rflag;\n"
            "} data_rooms[] = {\n");
-    for (int i=0; i<rooms_1.rlnt; i++)
-        printf(" { .rdesc1 = %6d, .rdesc2 = %6d, .rexit = %6d, .ractio = %6d, .rval = %6d, .rflag = %6d }, // %3d %s\n",
-               rooms_1.rdesc1[i], rooms_1.rdesc2[i], rooms_1.rexit[i], rooms_1.ractio[i], rooms_1.rval[i], rooms_1.rflag[i], i+1, messages[-rooms_1.rdesc2[i]] ? messages[-rooms_1.rdesc2[i]] : "??");
+    char *rflag_s[] = {0,0,0,0,"E\0REND", "N\0RNWALL", "H\0RHOUSE", "B\0RBUCK", "M\0RMUNG", "F\0RFILL", "S\0RSACRD", "A\0RAIR", "W\0RWATER", "L\0RLAND", "l\0RLIGHT", "s\0RSEEN" };
+    for (unsigned i=0; i<lengthof(rflag_s); i++)
+        if (rflag_s[i])
+            printf("#define %s %s\n", rflag_s[i], &rflag_s[i][2]);
+    printf("\n");
+    for (int i=0; i<rooms_1.rlnt; i++) {
+        char rflag[60] = "";
+        for (int b=16; b>=0; b--)
+            if (rooms_1.rflag[i] & (1<<b)) {
+                if (rflag[0])
+                    strcat(rflag,"|");
+                strcat(rflag, rflag_s[b]);
+            }
+        printf(" { .rdesc1 = %6d, .rdesc2 = %6d, .rexit = %6d, .ractio = %6d, .rval = %6d, .rflag = %-9s }, // %3d %s\n",
+               rooms_1.rdesc1[i], rooms_1.rdesc2[i], rooms_1.rexit[i], rooms_1.ractio[i], rooms_1.rval[i], rflag, i+1, messages[-rooms_1.rdesc2[i]] ? messages[-rooms_1.rdesc2[i]] : "??");
+    }
+    for (unsigned i=0; i<lengthof(rflag_s); i++)
+        if (rflag_s[i])
+            printf("#undef %s\n", rflag_s[i]);
     printf("};\n");
 
     printf("\n");
