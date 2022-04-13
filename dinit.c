@@ -6,6 +6,11 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#ifdef DUMP_DTEXT
+extern size_t strlcpy(char *dst, const char *src, size_t siz);
+#include <string.h>
+#include <stdint.h>
+#endif
 
 #ifdef __AMOS__
 #include <amos.h>
@@ -16,6 +21,7 @@
 
 #include "dtextc.c"
 #include "dtextc.h"
+#include "lengthof.h"
 size_t dtextc_length = sizeof(dtextc);
 
 /* This is here to avoid depending on the existence of <stdlib.h> */
@@ -421,6 +427,204 @@ L10000:
 
 /* Save location of start of message text */
     rmsg_1.mrloc = dtextc_ftell(indxfile);
+
+#ifdef DUMP_DTEXT
+    dtextc_fseek(indxfile, rmsg_1.mrloc, SEEK_SET);
+    char *messages[20000] = {};
+
+    const char *zkey = "IanLanceTaylorJr";
+    long x = 0;
+    int c;
+    int end=1;
+    char buffer[16000];
+    int id;
+    char *p;
+    while ((c = dtextc_getc(indxfile)) != -1) {
+        if (end && !(x & 0x7)) {
+            id=-x/8-1;
+            p=buffer;
+            end = 0;
+        }
+
+        c ^= zkey[x & 0xf] ^ (x & 0xff);
+        x = x + 1;
+        if (end)
+            continue;
+        *p++ = c;
+        if (c == '\0') {
+            messages[-id] = strdup(buffer);
+            end = 1;
+        }
+    }
+
+
+
+
+
+    printf("const int data_vers_maj = %d;\n", i);
+    printf("const int data_vers_min = %d;\n", j);
+    printf("const int data_vers_edit = '%c';\n", k);
+
+    printf("\n");
+    printf("const int data_mxscor = %d;\n", state_1.mxscor);
+    printf("const int data_strbit = %d;\n", star_1.strbit);
+    printf("const int data_egmxsc = %d;\n", state_1.egmxsc);
+
+    printf("\n");
+    printf("const int data_rooms_count = %d;\n", rooms_1.rlnt);
+    printf("const struct {\n"
+           "    int rdesc1, rdesc2, rexit, ractio, rval, rflag;\n"
+           "} data_rooms[] = {\n");
+    for (int i=0; i<rooms_1.rlnt; i++)
+        printf(" { .rdesc1 = %6d, .rdesc2 = %6d, .rexit = %6d, .ractio = %6d, .rval = %6d, .rflag = %6d }, // %3d %s\n",
+               rooms_1.rdesc1[i], rooms_1.rdesc2[i], rooms_1.rexit[i], rooms_1.ractio[i], rooms_1.rval[i], rooms_1.rflag[i], i+1, messages[-rooms_1.rdesc2[i]] ? messages[-rooms_1.rdesc2[i]] : "??");
+    printf("};\n");
+
+    printf("\n");
+    printf("const int data_exits_count = %d;\n", exits_1.xlnt);
+    printf("enum { xtype1 = 0, xtype2 = 1, xtype3 = 2, xtype4 = 3 };\n");
+    char *dir_s[] = { "unkn_0", "dir_n","dir_ne","dir_e","dir_se","dir_s","dir_sw","dir_w","dir_nw","dir_u","dir_d","launch","land","enter","d_exit","unkn_f" };
+    printf("enum {\n");
+    for (unsigned i=0; i<lengthof(dir_s); i++)
+        printf("    %-6s= %d,\n", dir_s[i], i);
+    printf("};\n");
+    printf("enum { last = 0x8000 };\n");
+    printf("const int data_exits[] = {\n");
+    int room=-1;
+    for (int i=0; i<exits_1.xlnt; i++) {
+        // O(N^2). Sue me.
+        for (int r=0; r<rooms_1.rlnt; r++)
+            if (rooms_1.rexit[r] == i+1) {
+                room = r;
+                //printf("Found room %d exit %d == %d\n", r, rooms_1.rexit[r], i+1);
+                break;
+            }
+        int dir = (exits_1.travel[i] & xpars_1.xdmask) >> 10;
+        int type = (exits_1.travel[i]>>8 & xpars_1.xfmask) + 1;
+        int exit_to = exits_1.travel[i] & xpars_1.xrmask;
+        int last = exits_1.travel[i] & xpars_1.xlflag;
+        printf("  (%-6s<<10) | (xtype%d<<8) | %3d %6s, // %3d:%04hx %s %s -> %s\n",
+               dir_s[dir], type, exit_to, last ? "| last" : "",
+               i+1, (uint16_t)exits_1.travel[i],
+               messages[-rooms_1.rdesc2[room]] ? messages[-rooms_1.rdesc2[room]] : "??",
+               (exits_1.travel[i] & xpars_1.xdmask) == xsrch_1.xdown  ? "D"  :
+               (exits_1.travel[i] & xpars_1.xdmask) == xsrch_1.xup    ? "U"  :
+               (exits_1.travel[i] & xpars_1.xdmask) == xsrch_1.xnorth ? "N"  :
+               (exits_1.travel[i] & xpars_1.xdmask) == xsrch_1.xsouth ? "S" :
+               (exits_1.travel[i] & xpars_1.xdmask) == xsrch_1.xenter ? "enter" :
+               (exits_1.travel[i] & xpars_1.xdmask) == xsrch_1.xexit  ? "exit" :
+               (exits_1.travel[i] & xpars_1.xdmask) == xsrch_1.xeast  ? "E" :
+               (exits_1.travel[i] & xpars_1.xdmask) == xsrch_1.xwest  ? "W" :
+               (exits_1.travel[i] & xpars_1.xdmask) == 0x8 << 10      ? "NW" : // not sure why these aren't defined in the code
+               (exits_1.travel[i] & xpars_1.xdmask) == 0x2 << 10      ? "NE" :
+               (exits_1.travel[i] & xpars_1.xdmask) == 0x6 << 10      ? "SW" :
+               (exits_1.travel[i] & xpars_1.xdmask) == 0x4 << 10      ? "SE" :
+               (exits_1.travel[i] & xpars_1.xdmask) == 0xc << 10      ? "land" :
+               (exits_1.travel[i] & xpars_1.xdmask) == 0xb << 10      ? "launch" :
+                                                                        "???",
+               messages[-rooms_1.rdesc2[exit_to-1]] ? messages[-rooms_1.rdesc2[exit_to-1]] : exit_to == 0 ? "[deny]" : "??");
+        if (type == 2 || type == 3 || type == 4) {
+            printf("                                           /* %3d:%04hx*/  %6d,", i+1+1, (uint16_t)exits_1.travel[i+1], exits_1.travel[i+1]);
+            if (exits_1.travel[i+1]) printf(" // %s", messages[-exits_1.travel[i+1]]);
+            printf("\n");
+        }
+        if (type == 3 || type == 4)
+            printf("                                           /* %3d:%04hx*/  %d << 8 | %d, // [%s]\n",
+                   i+2+1, (uint16_t) exits_1.travel[i+2], exits_1.travel[i+2] >> 8 & 0xff, exits_1.travel[i+2] & 0xff,
+                   type == 3 ? "action" : type == 4 ? "object/action" : "???");
+        i += xpars_1.xelnt[type-1]-1;
+    }
+    printf("};\n");
+
+    printf("\n");
+    printf("const int data_objcts_count = %d;\n", objcts_1.olnt);
+    printf("const struct {\n"
+           "    int odesc1, odesc2, odesco, oactio, oflag1, oflag2, ofval, otval, osize, ocapac, oroom, oadv, ocan, oread;\n"
+           "} data_objcts[] = {\n");
+    printf("//  %6s, %6s, %6s, %6s, %6s, %6s, %6s, %6s, %6s, %6s, %6s, %4s, %4s, %6s\n",
+           "odesc1", "odesc2", "odesco", "oactio", "oflag1", "oflag2", "ofval", "otval", "osize", "ocapac", "oroom", "oadv", "ocan", "oread");
+    for (int i=0; i<objcts_1.olnt; i++)
+        printf("  { %6d, %6d, %6d, %6d, %6d, %6d, %6d, %6d, %6d, %6d, %6d, %4d, %4d, %6d }, // %3d %s\n",
+               objcts_1.odesc1[i], objcts_1.odesc2[i], objcts_1.odesco[i], objcts_1.oactio[i], objcts_1.oflag1[i],
+               objcts_1.oflag2[i], objcts_1.ofval[i], objcts_1.otval[i], objcts_1.osize[i], objcts_1.ocapac[i],
+               objcts_1.oroom[i], objcts_1.oadv[i], objcts_1.ocan[i], objcts_1.oread[i], i+1, messages[-objcts_1.odesc2[i]] ? messages[-objcts_1.odesc2[i]] : "??");
+    printf("};\n");
+
+    printf("\n");
+    printf("const int data_oroom2_count = %d;\n", oroom2_1.r2lnt);
+    printf("const struct {\n"
+           "    int oroom2, rroom2;\n"
+           "} data_oroom2[] = {\n");
+    for (int i=0; i<oroom2_1.r2lnt; i++)
+        printf("  { .oroom2 = %3d, .rroom2 = %3d }, // %3d\n",
+               oroom2_1.oroom2[i], oroom2_1.rroom2[i], i+1);
+    printf("};\n");
+
+
+    printf("\n");
+    printf("const int data_cevent_count = %d;\n", cevent_1.clnt);
+    printf("const struct {\n"
+           "    int ctick, cactio, cflag;\n"
+           "} data_cevent[] = {\n");
+    for (int i=0; i<cevent_1.clnt; i++)
+        printf("  { .ctick = %3d, .cactio = %3d, .cflag = %3d }, // %3d\n",
+               cevent_1.ctick[i], cevent_1.cactio[i], cevent_1.cflag[i],i+1);
+    printf("};\n");
+
+    printf("\n");
+    printf("const int data_vill_count = %d;\n", vill_1.vlnt);
+    printf("const struct {\n"
+           "    int villns, vprob, vopps, vbest, vmelee;\n"
+           "} data_vill[] = {\n");
+    for (int i=0; i<vill_1.vlnt; i++)
+        printf("  { .villns = %6d, .vprob = %6d, .vopps = %6d, .vbest = %6d, .vmelee = %6d }, // %3d %s\n",
+               vill_1.villns[i], vill_1.vprob[i], vill_1.vopps[i], vill_1.vbest[i], vill_1.vmelee[i], i+1, messages[-objcts_1.odesc2[vill_1.villns[i]-1]]);
+    printf("};\n");
+
+    printf("\n");
+    printf("const int data_advs_count = %d;\n", advs_1.alnt);
+    printf("const struct {\n"
+           "    int aroom, ascore, avehic, aobj, aactio, astren, aflag;\n"
+           "} data_advs[] = {\n");
+    for (int i=0; i<advs_1.alnt; i++)
+        printf(" { .aroom = %3d, .ascore = %d, .avehic = %d, .aobj = %3d, .aactio = %d, .astren = %d, .aflag = %d }, // %3d %s in %s\n",
+               advs_1.aroom[i], advs_1.ascore[i], advs_1.avehic[i], advs_1.aobj[i], advs_1.aactio[i],
+               advs_1.astren[i], advs_1.aflag[i], i+1,
+               messages[-objcts_1.odesc2[advs_1.aobj[i]-1]],
+               messages[-rooms_1.rdesc2[advs_1.aroom[i]-1]]);
+    printf("};\n");
+
+
+    printf("\n");
+    printf("const int data_mbase = %d;\n", star_1.mbase);
+
+    printf("\n");
+    printf("const int data_rmsg_count = %d;\n", rmsg_1.mlnt);
+    printf("const int data_rmsg[] = {\n");
+    for (int i=0; i<rmsg_1.mlnt; i++) {
+        char buffer[30], *n;
+        strlcpy(buffer, messages[-rmsg_1.rtext[i]], sizeof(buffer));
+        while ((n = strchr(buffer, '\n')))
+            *n = ' ';
+        printf("  %6d, // %4d %.30s\n",
+               rmsg_1.rtext[i], i+1, buffer);
+    }
+    printf("};\n");
+
+    printf("\n");
+    printf("const int data_mrloc = %d;\n", rmsg_1.mrloc);
+    printf("\n");
+
+    printf("\n");
+    printf("\n");
+    printf("---- DTEXT ----\n");
+    for (int i=0; i<sizeof(messages)/sizeof(*messages); i++)
+        if (messages[i])
+            printf("\n## %d\n"
+                   "%s\n", -i, messages[i]);
+
+    exit(0);
+#endif
 
 /* 						!INIT DONE. */
 
