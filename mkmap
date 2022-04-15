@@ -1,0 +1,38 @@
+#!/usr/bin/ruby
+
+require 'rmagick'
+include Magick
+require 'fileutils'
+
+src="web/map.png"
+dst="web/map/"
+
+src_img = Image.read(src).first
+
+size=[src_img.rows,src_img.columns].max
+src_img.background_color = "white"
+#src_img.gravity = CenterGravity
+sq = src_img.extent(size,size, -(size-src_img.columns)/2, -(size-src_img.rows)/2)
+src_img.destroy!
+
+#max_zoom=5
+tile_size = 256 # this is standard, apparently
+
+(0..20).each do |zoom|
+  tiles = 2**zoom
+  full_size = tile_size * tiles # 1 tile in zoom 0, 4 in zoom 1, etc.
+  next if full_size > 2*size
+  puts "Building zoom level #{zoom}: #{full_size}"
+  tile_base = sq.resize(full_size, full_size)
+  (0..tiles-1).each { |y|
+    (0..tiles-1).each { |x|
+      puts "creating tile zoom #{zoom} #{x},#{y}"
+      tile = tile_base.crop(x*tile_size, y*tile_size, tile_size, tile_size, true)
+      tile_file="#{dst}/#{zoom}/#{x}/#{y}.png"
+      FileUtils.mkdir_p(File.dirname(tile_file))
+      tile.write(tile_file)
+      tile.destroy!
+    }
+  }
+  tile_base.destroy!
+end
