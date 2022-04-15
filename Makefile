@@ -85,7 +85,7 @@ dungeon.wasm: $(WASM_OBJS) Makefile
 	$(LINK) $(LDFLAGS) -o $@ $(WASM_OBJS) $(LIBS)
 
 # These 2 turn off features that interactively ask questions of the user. wasm code can't block, so there's
-# way to connect these inputs to javascript.
+# no way to connect these inputs to javascript.
 supp.wasm.o: TERMFLAG=-DMORE_NONE
 dso3.wasm.o: CFLAGS+=-DASSUME_YES
 %.wasm.o: CC=clang --target=wasm32-wapi -D__wasi__
