@@ -146,6 +146,7 @@ async function main() {
     const screen = document.getElementById("screen")
     const input = document.getElementById("input")
     screen.onclick = () => input.focus();
+    input.focus(); // the only thing we do is type!
 
     let dungeo = await WebAssembly.instantiateStreaming(fetch("/dungeo.wasm"), {
         env : {},
