@@ -51,7 +51,7 @@ endif
 # GDTFLAG = -DALLOW_GDT
 
 # Compilation flags
-CFLAGS += -O -g
+CFLAGS += -MMD -O -g
 # On SCO Unix Development System 3.2.2a, the const type qualifier does
 # not work correctly when using cc.  The following line will cause it
 # to not be used and should be uncommented.
@@ -79,7 +79,7 @@ dungeon: $(OBJS)
 WASM_OBJS = $(patsubst %.o,%.wasm.o,$(OBJS))
 dungeon.wasm: export CPATH=/usr/include/wasm32-wasi
 dungeon.wasm: LINK=wasm-ld-14 --no-entry --export game_move --import-undefined --export malloc --export free --export play_ --export advs_ -z,'stack-size=$[8 * 1024 * 1024]'
-dungeon.wasm: CFLAGS=
+dungeon.wasm: CFLAGS=-MMD
 dungeon.wasm: LIBS=-L /usr/lib/wasm32-wasi -lc
 dungeon.wasm: $(WASM_OBJS) Makefile
 	$(LINK) $(LDFLAGS) -o $@ $(WASM_OBJS) $(LIBS)
@@ -105,31 +105,4 @@ dtextc.c: dtextc.txt encode.rb
 %.o: %.c
 	$(CC) $(CFLAGS) $(GDTFLAG) $(TERMFLAG) -c $< -o $@
 
-actors.o actors.wasm.o: funcs.h vars.h
-ballop.o ballop.wasm.o: funcs.h vars.h
-clockr.o clockr.wasm.o: funcs.h vars.h
-demons.o demons.wasm.o: funcs.h vars.h
-dmain.o  dmain.wasm.o:  funcs.h vars.h
-dso1.o   dso1.wasm.o:   funcs.h vars.h
-dso2.o   dso2.wasm.o:   funcs.h vars.h
-dso3.o   dso3.wasm.o:   funcs.h vars.h
-dso4.o   dso4.wasm.o:   funcs.h vars.h
-dso5.o   dso5.wasm.o:   funcs.h vars.h
-dso6.o   dso6.wasm.o:   funcs.h vars.h
-dso7.o   dso7.wasm.o:   funcs.h vars.h
-dsub.o   dsub.wasm.o:   funcs.h vars.h dtextc.c
-dverb1.o dverb1.wasm.o: funcs.h vars.h
-dverb2.o dverb2.wasm.o: funcs.h vars.h
-lightp.o lightp.wasm.o: funcs.h vars.h
-nobjs.o  nobjs.wasm.o:  funcs.h vars.h
-np.o     np.wasm.o:     funcs.h vars.h
-np1.o    np1.wasm.o:    funcs.h vars.h parse.h
-np2.o    np2.wasm.o:    funcs.h vars.h parse.h
-np3.o    np3.wasm.o:    funcs.h vars.h parse.h
-nrooms.o nrooms.wasm.o: funcs.h vars.h
-objcts.o objcts.wasm.o: funcs.h vars.h
-rooms.o  rooms.wasm.o:  funcs.h vars.h
-sobjs.o  sobjs.wasm.o:  funcs.h vars.h
-sverbs.o sverbs.wasm.o: funcs.h vars.h
-verbs.o  verbs.wasm.o:  funcs.h vars.h
-villns.o villns.wasm.o: funcs.h vars.h
+-include *.d
