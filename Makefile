@@ -1,5 +1,14 @@
 # Makefile for dungeon
 
+Q=$(if $V,,@)
+_CC:=$(CC)
+ARCH:=$(shell uname -m)
+%.o: override CC=$(Q)printf "%-8s %15s  %s\n" [$(ARCH)] "Compiling"  $<; $(_CC)
+override      CC=$(Q)printf "%-8s %15s  %s\n" [$(ARCH)]   "Linking"  $@; $(_CC)
+_LD:=$(LD)
+override      LD=$(Q)printf "%-8s %15s  %s\n" [wasm]      "Linking"  $@; $(_LD)
+%.wasm.o: override ARCH=wasm
+
 # Where to install the program
 #BINDIR = /usr/games
 BINDIR = .
@@ -78,17 +87,17 @@ dungeon: $(OBJS)
 
 WASM_OBJS = $(patsubst %.o,%.wasm.o,$(OBJS))
 dungeon.wasm: export CPATH=/usr/include/wasm32-wasi
-dungeon.wasm: LINK=wasm-ld-14 --no-entry --export game_move --import-undefined --export malloc --export free --export play_ --export advs_ -z,'stack-size=$[8 * 1024 * 1024]'
+dungeon.wasm: _LD=wasm-ld-14 --no-entry --export game_move --import-undefined --export malloc --export free --export play_ --export advs_ -z,'stack-size=$[8 * 1024 * 1024]'
 dungeon.wasm: CFLAGS=-MMD
 dungeon.wasm: LIBS=-L /usr/lib/wasm32-wasi -lc
 dungeon.wasm: $(WASM_OBJS) Makefile
-	$(LINK) $(LDFLAGS) -o $@ $(WASM_OBJS) $(LIBS)
+	$(LD) $(LDFLAGS) -o $@ $(WASM_OBJS) $(LIBS)
 
 # These 2 turn off features that interactively ask questions of the user. wasm code can't block, so there's
 # no way to connect these inputs to javascript.
 supp.wasm.o: TERMFLAG=-DMORE_NONE
 dso3.wasm.o: CFLAGS+=-DASSUME_YES
-%.wasm.o: CC=clang --target=wasm32-wapi -D__wasi__
+%.wasm.o: _CC=clang --target=wasm32-wapi -D__wasi__
 %.wasm.o: %.c
 	$(CC) $(CFLAGS) $(GDTFLAG) $(TERMFLAG) -c $< -o $@
 
@@ -99,8 +108,9 @@ clean:
 	rm -f $(OBJS) $(WASM_OBJS) dungeon dungeon.wasm core dsave.dat dtextc.c *~
 
 dtextc.c: dtextc.txt encode.rb
-	ruby ./encode.rb $< > $@.new
-	mv $@.new $@
+	$(Q)printf "%-8s %15s  %s\n" "" "Encoding"  $@;
+	$(Q)ruby ./encode.rb $< > $@.new
+	$(Q)mv $@.new $@
 
 %.o: %.c
 	$(CC) $(CFLAGS) $(GDTFLAG) $(TERMFLAG) -c $< -o $@
