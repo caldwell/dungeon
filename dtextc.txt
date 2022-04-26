@@ -78,6 +78,7 @@ Done.
 
 ## -9
 Revision history:
+10-APR-22	Ported to Web Assembly for the world wide web.
 11-MAR-91	Converted to C (V2.7)
 14-SEP-87	Converted to f77/Unix for pdps and Vaxen (V2.6B)
 18-JUL-80	Transportable data base file (V2.5A).
@@ -5064,9 +5065,23 @@ at MIT.  The parser in this version is somewhat simpler than the
 parser in the ARPAnet version;  within this limit, this version
 is fully congruent with the current version on the ARPAnet.
 
-This version has been converted from FORTRAN-IV to C via f77.  If
-you have any problems, please report them to:
-    ian@airs.com or uunet!airs!ian (Ian Lance Taylor)
+This version was converted from FORTRAN-IV to C via f77 in 1991 by
+Ian Lance Taylor.
+
+{TEXT
+The code is largely unchanged since then, with only minor tweaks
+here or there to make the code more portable and convenient to
+build. Some of the messages have been slighly reformatted to
+better accommodate the web assembly version of the build,
+TEXT}
+{HTML
+It was compiled to Web Assembly via clang/llvm in April 2022.  The
+game text has been converted to be HTML instead of plain text,
+HTML}
+but no other logic has been changed. If you have any problems,
+please report them to:
+
+    david@porkrind.org   http://github.com/caldwell/dungeon
 
 ## -13207
 There is a matchbook whose cover says "VISIT BEAUTIFUL FCD #3" here.
