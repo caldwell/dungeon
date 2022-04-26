@@ -606,7 +606,7 @@ You are in a dusty old room which is virtually featureless, except
 for an exit on the north side.
 
 ## -2036
-Imbedded in the far wall is a rusty old box.  It appears that
+Embedded in the far wall is a rusty old box.  It appears that
 the box is somewhat damaged, since an oblong hole has been
 chipped out of the front of it.
 
@@ -1103,7 +1103,7 @@ The balloon is not tied to anything.
 The wire falls off the hook.
 
 ## -3334
-The box is imbedded in the wall.
+The box is embedded in the wall.
 
 ## -3339
 What do you expect, BOOM?
