@@ -27,18 +27,21 @@ end
 
 require 'pp'
 
+raw={}
 id=nil
 text=nil
 (input ? File.readlines(input) : STDIN.readlines()).each do |line|
   if m=line.match(/^## (.*)$/)
-    add(id,text) if id
+    raw[id]=text if id
     id = m[1].to_i
     text = ''
   else
     text += line
   end
 end
-add(id, text)
+raw[id]=text
+
+raw.each {|id, text| add(id, text) }
 
 puts "int dtext_index[] = {"
 $index.each_with_index {|off,i| puts "    [#{i}] = #{off}," if off }
