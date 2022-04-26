@@ -1,3 +1,75 @@
+#################### Dungeon Text Data File ####################
+
+How this file works
+===================
+
+This file is formatted such that encode.rb can parse it with fairly simple
+regular expressions. Each entry starts with `## <id>` and ends at the next
+entry (or end of file). The last newline in each entry is just so this file
+looks good and is stripped when the file is read.
+
+The `<id>` is a negative integer.
+
+This integer corresponds with the original dtextc.dat file. The original
+code used to do `(-id - 1) * 8` to find the offset in the encrypted raw text
+area. These ids were referenced by numerous places in the various data
+structures (room descriptions for instance). These ids are now purely
+logical, so that the rest of the data can remain the same even if lengths
+change in here.
+
+The line following the '##' is the start of the actual text data.  The text
+data is "smartly" unwrapped in html mode, and mostly left verbatim in text
+mode. There are some light markup elements to help wtih html formatting:
+
+Alignment
+---------
+
+These all strip the affected text before aligning it.
+
+    {>   Some text  }   Right justifies "Some text"
+    {<   Some text}     Left justifies "Some text"
+    {= Some text  }     Centers "Some text"
+
+Verbatim
+--------
+
+This is for the various ascii art (looks and acts like markdown):
+
+    ```
+           Anything in here is meant
+                     to look exactly
+           as it appears
+    ```
+
+Conditionals
+------------
+
+These all remove trailing linefeeds after their closing tags. The tags are
+cumbersome so that they can wrap around Alignment and Verbatim blocks and
+still be parsed relatively easily. They cannot be nested themselves,
+however.
+
+    {HTML nested text/markup HTML} Only outputs in html mode
+    {TEXT nested text/markup TEXT} Only outputs in text mode
+    {# Some comment #}             Never outputs
+
+Non-breaking space
+------------------
+
+Outside of verbatim blocks, `_` is a non-breaking space. Html will make it
+`&nbsp;` and text mode will just make it ` `. (Currently there's only one
+use of `_` and it's wrappend in a `{HTML HTML}` conditional.)
+
+This Documentation
+------------------
+
+Due to a quirk of the encoder.rb parser, all text up to the first entry is
+ignored. A perfect spot for some impromtu documentation. :-)
+
+
+
+The real data begins................now!
+
 ## -1
 {<Welcome to Dungeon.}{>This version created 10-APR-22.}
 

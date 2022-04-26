@@ -106,7 +106,7 @@ require 'pp'
 
 raw={}
 id=nil
-text=nil
+text=''
 (input ? File.readlines(input) : STDIN.readlines()).each do |line|
   if m=line.match(/^## (.*)$/)
     raw[id]=text if id
