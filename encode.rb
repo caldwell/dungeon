@@ -1,6 +1,14 @@
 #!/usr/bin/env ruby
 
+require 'optparse'
+
+(opts=OptionParser.new do |opts|
+  opts.banner = "Usage:\n\t#{$0} [options] [dungeon-text-file]"
+  opts.on_tail("-h", "--help") { puts opts; exit }
+end).parse!
+
 input = ARGV.shift
+
 encrypt_key='david+caldwell@porkrind.org'
 
 $encrypt=encrypt_key.split('').map {|c| c.ord}
@@ -21,7 +29,7 @@ require 'pp'
 
 id=nil
 text=nil
-File.readlines(input).each do |line|
+(input ? File.readlines(input) : STDIN.readlines()).each do |line|
   if m=line.match(/^## (.*)$/)
     add(id,text) if id
     id = m[1].to_i
