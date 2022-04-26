@@ -58,6 +58,45 @@ body {
     padding: .75rem;
 }
 
+pre .left {
+    display: inline-block;
+    box-sizing: border-box;
+    padding: 0;
+    width: 50%;
+}
+pre .right {
+    display: inline-block;
+    box-sizing: border-box;
+    padding: 0;
+    text-align: right;
+    width: 50%;
+}
+pre .center {
+    display: inline-block;
+    box-sizing: border-box;
+    padding: 0;
+    text-align: center;
+    width: 100%;
+}
+
+pre h1 {
+    display: inline;
+    margin: 0;
+    font-size: unset;
+    font-family: unset;
+    font-weight: unset;
+}
+pre h2 {
+    display: inline;
+    margin: 0 0 0 4ex; /* simulate tab indented paragraphs */
+    font-size: unset;
+    font-family: unset;
+    font-weight: unset;
+}
+pre p {
+    margin: 0 0 0 8ex; /* simulate tab indented paragraphs */
+}
+
 @media screen and (max-width: 980px) { /* mobile, wide-mobile: ipad, ipad mini */
     #map {
         zindex: 2;
@@ -75,6 +114,9 @@ body {
     #input {
         font-size: 1.5em;
         height: 1.5em;
+    }
+    pre.width_7x,pre.width_6x,pre.width_5x { /* make the zorkmid bills smaller to fit on phones' tiny screens */
+        font-size: x-small;
     }
 }
     </style>

@@ -52,7 +52,10 @@ integer s2;
 
 /* rspsb2nl_ Display a substitutable message with an optional newline */
 
-#include "dtextc.c"
+#ifndef DTEXTC_FILE
+#define DTEXTC_FILE "dtextc.c"
+#endif
+#include DTEXTC_FILE
 static void rspsb2nl_(n, y, z, nl)
 integer n;
 integer y;

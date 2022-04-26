@@ -276,7 +276,7 @@ async function main() {
                     if (fd == STDERR)
                         console.log(text);
                     else
-                        append_screen(text);
+                        add_output(text);
                     return WASI_ERRNO_SUCCESS;
                 }
 
@@ -331,21 +331,38 @@ async function main() {
     const current_room = (ptr) => {
         return mem().getUint32(dungeo.instance.exports.play_+4, true);
     }
+    window.current_room = current_room;
 
-    const game_move = (input) => {
-        const p = strdup(input.toUpperCase())
+    let game_output;
+    const game_move = (input_line) => {
+        game_output = ""; // will accumulate as game prints to us
+        const p = strdup(input_line.toUpperCase())
         try {
             const promtp_ptr = dungeo.instance.exports.game_move(p);
+            append_screen_html(game_output);
             return cstr(promtp_ptr);
         } finally {
             free(p);
         }
     }
 
-    const append_screen = (text) => {
-        screen.insertBefore(document.createTextNode(unwrap(text)), input);
+    const add_output = (text) => {
+        game_output += text
+    }
+
+    const append_screen_node = (node) => {
+        screen.insertBefore(node, input);
         screen.scrollTo(0, screen.scrollTopMax)
         screen.scrollTo(0, 10000000000000) // stupid ios
+    }
+
+    const append_screen_html = (html) => {
+        const span = document.createElement('span');
+        span.innerHTML = html;
+        append_screen_node(span);
+    }
+    const append_screen = (text) => {
+        append_screen_node(document.createTextNode(unwrap(text)), input);
     }
 
     const set_prompt = (prompt) => {

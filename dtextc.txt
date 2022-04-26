@@ -1,5 +1,5 @@
 ## -1
-Welcome to Dungeon.			This version created 11-MAR-91.
+{<Welcome to Dungeon.}{>This version created 10-APR-22.}
 
 ## -8
 Done.
@@ -301,7 +301,7 @@ Unfortunately, you have managed to destroy it by your reckless
 actions.
 
 ## -1282
-		BOOOOOOOOOM
+{=		BOOOOOOOOOM}
 
 ## -1284
 You are in large room which seems to be air conditioned.  In one
@@ -366,7 +366,7 @@ I really don't know, but in any event, something has killed you.
 ## -1525
 You are outside a large gateway, on which is inscribed:
 
-	"Abandon every hope, all ye who enter here."
+{=	"Abandon every hope, all ye who enter here."}
 
 The gate is open.  Through it you can see a desolation, with a pile of
 mangled corpses in one corner.  Thousands of voices, lamenting some
@@ -2897,7 +2897,7 @@ is made of the finest marble and is apparently large enough for four
 headless corpses.  The crypt is #.  Above the entrance is the
 cryptic inscription:
 
-		"Feel Free".
+{=		"Feel Free".}
 
 ## -7829
 The door of the crypt is extremely heavy, but it opens easily.
@@ -3124,7 +3124,7 @@ You are in a room with an exit to the north and a passage to the east.
 The card slides easily into the slot and vanishes, and the steel
 door slides open, revealing a passageway to the west.  A moment
 later, a previously unseen sign flashes:
-	"Unauthorized/Illegal Use of Pass Card -- Card Confiscated"
+{=	"Unauthorized/Illegal Use of Pass Card -- Card Confiscated"}
 
 ## -8348
 The item vanishes into the slot.  A moment later, a previously
@@ -4337,7 +4337,7 @@ which are, respectively, round, triangular, and square.  Naturally,
 above the buttons are instructions written in EBCDIC.  A large sign
 above all the buttons says in English:
 
-		    DANGER:  HIGH VOLTAGE
+{=		    DANGER:  HIGH VOLTAGE}
 
 There are exits to the west and the south.
 
@@ -4345,10 +4345,12 @@ There are exits to the west and the south.
 You are in a dingy closet adjacent to the machine room.  On one wall
 is a small sticker which reads:
 
+```
 		Protected by
 		  FROBOZZ
 	     Magic Alarm Company
 	      (Hello, footpad!).
+```
 
 ## -11597
 Dingy Closet
@@ -4417,7 +4419,7 @@ Most of the furniture has been ravaged by passing scavengers.  All
 that remains are two signs at the northwest and northeast corners of
 the room, which say
 
-	<-- WEST VIEWING ROOM		EAST VIEWING ROOM -->
+{<<-- WEST VIEWING ROOM}{>EAST VIEWING ROOM -->}
 
 ## -11846
 Bank Entrance
@@ -4428,7 +4430,7 @@ whose job it was to retrieve safety deposit boxes for the customer.
 On the north side of the room is a sign which reads "Viewing Room".
 On the west side of the room, above an open door, is a sign reading
 
-		    BANK PERSONNEL ONLY
+{=		    BANK PERSONNEL ONLY}
 
 ## -11885
 West Teller's Room
@@ -4439,7 +4441,7 @@ whose job it was to retrieve safety deposit boxes for the customer.
 On the north side of the room is a sign which reads "Viewing Room".
 On the east side of the room, above an open door, is a sign reading
 
-		    BANK PERSONNEL ONLY
+{=		    BANK PERSONNEL ONLY}
 
 ## -11925
 East Teller's Room
@@ -4448,11 +4450,22 @@ East Teller's Room
 You are in a room used by holders of safety deposit boxes to view
 their contents.  On the north side of the room is a sign which says
 
-   REMAIN HERE WHILE THE BANK OFFICER RETRIEVES YOUR DEPOSIT BOX
-    WHEN YOU ARE FINISHED, LEAVE THE BOX, AND EXIT TO THE SOUTH
-     AN ADVANCED PROTECTIVE DEVICE PREVENTS ALL CUSTOMERS FROM
-      REMOVING ANY SAFETY DEPOSIT BOX FROM THIS VIEWING AREA!
-               Thank you for banking at the Zork!
+{HTML
+{# Hack: This is very carefully crafted to look good on both mobile and
+   desktop browser widths, with the &nbsp;s breaking things up _just
+   right_. I did it by trial and error and am not sure how to make it pretty
+   algorithmically #}
+{=REMAIN HERE WHILE THE BANK OFFICER RETRIEVES YOUR DEPOSIT BOX. WHEN_YOU_ARE_FINISHED, LEAVE THE_BOX,_AND_EXIT TO THE SOUTH}
+{=  AN ADVANCED PROTECTIVE DEVICE PREVENTS ALL_CUSTOMERS FROM REMOVING_ANY_SAFETY DEPOSIT_BOX_FROM THIS VIEWING AREA! }
+{=           Thank you for banking at the Zork!}
+HTML}
+{TEXT
+{=   REMAIN HERE WHILE THE BANK OFFICER RETRIEVES YOUR DEPOSIT BOX}
+{=    WHEN YOU ARE FINISHED, LEAVE THE BOX, AND EXIT TO THE SOUTH}
+{=     AN ADVANCED PROTECTIVE DEVICE PREVENTS ALL CUSTOMERS FROM}
+{=      REMOVING ANY SAFETY DEPOSIT BOX FROM THIS VIEWING AREA!}
+{=               Thank you for banking at the Zork!}
+TEXT}
 
 ## -11983
 Viewing Room
@@ -4898,7 +4911,7 @@ book
 On the alter is a large black book, open to page 569.
 
 ## -12858
-		Commandment #12592
+{=		Commandment #12592}
 Oh ye who go about saying unto each other:  "Hello sailor":
 Dost thou know the magnitude of thy sin before the gods?
 Yea, verily, thou shalt be ground between two stones.
@@ -4928,8 +4941,8 @@ A guidebook entitled "FLOOD CONTROL DAM #3" is on the
 reception desk.
 
 ## -12943
-		   Guide Book To
-		Flood Control Dam #3
+{=		   Guide Book To}
+{=		Flood Control Dam #3}
 
   Flood control dam #3 (FCD #3) was constructed in year 783 of the
 Great Underground Empire to harness the destructive power of the
@@ -4952,8 +4965,10 @@ processors, and nearly one million dead trees.
   We will now point out some of the more interesting features of
 FCD #3 as we conduct you on a guided tour of the facilities.
 
+```
   1)	You start your tour here in the dam lobby.
 	You will notice on your right that ...........
+```
 
 ## -13105
 There is an issue of US NEWS & DUNGEON REPORT dated 11-MAR-91 here.
@@ -4962,14 +4977,14 @@ There is an issue of US NEWS & DUNGEON REPORT dated 11-MAR-91 here.
 newspaper
 
 ## -13116
-		 US NEWS & DUNGEON REPORT
-11-MAR-91					Late Dungeon Edition
+{=		 US NEWS & DUNGEON REPORT}
+{<10-APR-22}{>Late Dungeon Edition}
 
-		--- LATE NEWS FLASH!! ---
+{=		--- LATE NEWS FLASH!! ---}
 The endgame is here!  (Somewhere)
 There have been some puzzling new discoveries near the Thief's hideaway.
 
-		--- BACKGROUND INFORMATION ---
+{=		--- BACKGROUND INFORMATION ---}
 
 This version of Dungeon for the PDP-11/VAX-11 has been completely
 reimplemented in FORTRAN-IV from the original MDL sources created
@@ -4988,10 +5003,10 @@ There is a matchbook whose cover says "VISIT BEAUTIFUL FCD #3" here.
 matchbook
 
 ## -13218
-		[Close cover before striking BKD]
+{=		[Close cover before striking BKD]}
 
-	You too can make BIG MONEY in the exciting field of
-		      PAPER SHUFFLING!
+{=	You too can make BIG MONEY in the exciting field of}
+{=		      PAPER SHUFFLING!}
 
 Mr. TAA of Muddle, Mass. says:  "Before I took this course I used
 to be a lowly bit twiddler.  Now with what I learned at MIT Tech
@@ -5004,7 +5019,7 @@ future and make really big Zorkmids."
 MIT Tech can't promise these fantastic results to everyone, but when
 you earn your MDL degree from MIT Tech your future will be brighter.
 
-		Send for our free brochure today!
+{=		Send for our free brochure today!}
 
 ## -13302
 There is a small leaflet here.
@@ -5013,7 +5028,7 @@ There is a small leaflet here.
 leaflet
 
 ## -13307
-		    Welcome to Dungeon!
+{=		    Welcome to Dungeon!}
 
    Dungeon is a game of adventure, danger, and low cunning.  In it
 you will explore some of the most amazing territory ever seen by mortal
@@ -5197,7 +5212,7 @@ There is a tan label here.
 tan label
 
 ## -13615
-	!!!! FROBOZZ MAGIC BOAT COMPANY !!!!
+{=	!!!! FROBOZZ MAGIC BOAT COMPANY !!!!}
 
 Hello, sailor!
 
@@ -5284,6 +5299,7 @@ gold zorkmid
 On the floor is a gold zorkmid coin (a valuable collector's item).
 
 ## -13772
+```
 
 	       --------------------------
 	      /       Gold Zorkmid        \
@@ -5306,6 +5322,7 @@ On the floor is a gold zorkmid coin (a valuable collector's item).
 	      \                           /
 	       \                         /
 	         -----------------------
+```
 
 ## -13877
 box
@@ -5320,8 +5337,8 @@ card
 Warning:
    This room was constructed over very weak rock strata.  Detonation
 of exposives in this room is strictly prohibited!
-			Frobozz Magic Safe Company
-			per M. Agrippa, foreman
+{>			Frobozz Magic Safe Company}
+{>			per M. Agrippa, foreman}
 
 ## -13909
 hole
@@ -5360,7 +5377,7 @@ There is a blue label here.
 blue label
 
 ## -13952
-	!!!! FROBOZZ MAGIC BALLOON COMPANY !!!!
+{=	!!!! FROBOZZ MAGIC BALLOON COMPANY !!!!}
 
 Hello, aviator!
 
@@ -5416,6 +5433,7 @@ There is a Flathead commemorative stamp here.
 stamp
 
 ## -14034
+```
 
 ---V----V----V----V----V----V----V----V---
 |                                        |
@@ -5435,6 +5453,7 @@ stamp
 >    G.U.E. POSTAGE        3 Zorkmids    <
 |                                        |
 ---^----^----^----^----^----^----^----^---
+```
 
 ## -14131
 tomb
@@ -5472,9 +5491,11 @@ paper once contained useful information, almost nothing can be
 distinguished now.
 
 ## -14221
+```
 <DEFINE FEEL-FREE (LOSER)
 	<TELL "FEEL FREE, CHOMPER!">
 	<MEMQ ......
+```
 The rest is, alas, unintelligable (as were the implementers).
 
 ## -14238
@@ -5505,20 +5526,24 @@ crystal sphere
 wall with etchings
 
 ## -14276
+```
 		o  b  o
 
 		A  G  I
 		 E   L
 
 		m  p  a
+```
 
 ## -14282
+```
 	        o  b  o
 	    r             z
 	 f   M  A  G  I  C    z
 	 c    W  E   L  L     y
 	    o             n
 	        m  p  a
+```
 
 ## -14298
 A stoppered glass flask with skull-and-crossbones markings is here.
@@ -5589,7 +5614,7 @@ There is a green piece of paper here.
 green piece of paper
 
 ## -14404
-	!!!! FROBOZZ MAGIC ROBOT COMPANY !!!!
+{=!!!! FROBOZZ MAGIC ROBOT COMPANY !!!!}
 
 Hello, master!
 
@@ -5628,6 +5653,7 @@ stack of zorkmid bills
 On the floor sit 200 neatly stacked zorkmid bills.
 
 ## -14473
+```
 
  _______________________________________________________________
 | 1  0   0         GREAT UNDERGROUND EMPIRE           1  0   0  |
@@ -5647,6 +5673,7 @@ On the floor sit 200 neatly stacked zorkmid bills.
 | 1  0   0        One Hundred Royal Zorkmids          1  0   0  |
 |_______________________________________________________________|
 
+```
 
 ## -14614
 A portrait of J. Pierpont Flathead is here.
@@ -5658,6 +5685,7 @@ portrait of J. Pierpont Flathead
 A portrait of J. Pierpont Flathead hangs on the wall.
 
 ## -14632
+```
 
                 ||||||||||||||
                ||   __  __   ||
@@ -5682,15 +5710,16 @@ A portrait of J. Pierpont Flathead hangs on the wall.
 
             J.  PIERPONT  FLATHEAD
                    CHAIRMAN
+```
 
 ## -14728
 large stone cube
 
 ## -14731
-             Bank of Zork
-                VAULT
-              *722 GUE*
-       Frobozz Magic Vault Company
+{=             Bank of Zork}
+{=                VAULT}
+{=              *722 GUE*}
+{=       Frobozz Magic Vault Company}
 
 ## -14745
 shimmering curtain of light
@@ -5877,6 +5906,7 @@ gold card
 Nestled inside the niche is an engraved gold card.
 
 ## -15062
+```
  __________________________________________________________
 |                                                          |
 |             FROBOZZ MAGIC SECURITY SYSTEMS               |
@@ -5895,6 +5925,7 @@ Nestled inside the niche is an engraved gold card.
 |                                                          |
 |                                       Expires 792 G.U.E. |
 |__________________________________________________________|
+```
 
 ## -15200
 steel door

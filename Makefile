@@ -101,9 +101,13 @@ install: dungeon
 clean:
 	rm -f $(OBJS) $(WASM_OBJS) dungeon dungeon.wasm core dsave.dat dtextc.c *~
 
-dtextc.c: dtextc.txt encode.rb
+dsub.o: dtextc-text.c
+dsub.o: CFLAGS+=-DDTEXTC_FILE='"dtextc-text.c"'
+dsub.wasm.o: dtextc-html.c
+dsub.wasm.o: CFLAGS+=-DDTEXTC_FILE='"dtextc-html.c"'
+dtextc-%.c: dtextc.txt encode.rb
 	$(Q)printf "%-8s %15s  %s\n" "" "Encoding"  $@;
-	$(Q)ruby ./encode.rb $< > $@.new
+	$(Q)ruby ./encode.rb --format=$* $< > $@.new
 	$(Q)mv $@.new $@
 
 %.o: %.c
