@@ -400,6 +400,21 @@ async function main() {
         } else if (line.toLowerCase() == "/map") {
             game.classList.toggle("map");
             line = undefined
+        } else if (line.toLowerCase() == "/green") {
+            game.classList.add("green");
+            game.classList.remove("amber");
+            game.classList.remove("blue");
+            line = undefined
+        } else if (line.toLowerCase() == "/amber") {
+            game.classList.remove("green");
+            game.classList.add("amber");
+            game.classList.remove("blue");
+            line = undefined
+        } else if (line.toLowerCase() == "/blue") {
+            game.classList.remove("green");
+            game.classList.remove("amber");
+            game.classList.add("blue");
+            line = undefined
         }
         prompt = undefined;
         if (line != undefined) {

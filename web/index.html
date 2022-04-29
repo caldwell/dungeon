@@ -4,9 +4,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <style>
+
+#game, #game.green {
+    /* https://porkrind.org/phosphor.html
+     * http://www.labguysworld.com/crt_phosphor_research.pdf
+     * https://en.wikipedia.org/wiki/Phosphor#Standard_phosphor_types
+     */
+    /* P31 phosphor, wavelength 531nm, lightness: 50 */
+    --fg: hsl(101,100%,50%);
+}
+#game.amber {
+    /* P3 phosphor, wavelength 602nm, lightness: 50 */
+    --fg: hsl(39,100%,50%);
+}
+#game.blue {
+    /* P4 phosphor, wavelengths 540nm+435nm, lightness: 70 */
+    --fg: hsl(180,32%,80%);
+}
+
 body {
     background: #222;
-    color: #0c0;
 }
 #screen {
     /* border: 1px solid black; */
@@ -23,6 +40,7 @@ body {
     white-space: pre-wrap;
     max-width: 40rem;
     background: #1d1d1d;
+    color: var(--fg);
 }
 
 pre, #input {
@@ -45,7 +63,7 @@ pre, #input {
     margin: 0;
     border: none;
     background: #1d1d1d;
-    color: #0c0;
+    color: var(--fg);
     font-size: 1em;
 }
 #input:focus-visible {
