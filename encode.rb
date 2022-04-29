@@ -79,6 +79,9 @@ def format_html(id, text)
   text.gsub!(/,\n(\S)/, ' \1')               # Line ends with a comma
   text.gsub!(/\.\n(\S)/, '  \1')             # Line ends with a period and the next sentence is not indented
 
+  # Link things that look like links
+  text.gsub!(%r@(https?://\S+)@, '<a href="\1\">\1</a>')
+
   text.gsub!(/\{\{([^}]+)\}\}/) { || # Restore verbatim stuff
     pre = Base64.decode64($1)
     longest_line = pre.split("\n").map {|s| s.length }.max
