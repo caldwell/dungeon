@@ -144,6 +144,11 @@ const DSAVE_DAT    = 3;
 const DSAVE_DAT_RD = 4;
 const DSAVE_DAT_WR = 5;
 
+// This isn't standard but it is quite useful :-)
+window.DOMTokenList.prototype.set = function(present, property) {
+    if (present) this.add(property);
+    else this.remove(property); }; // Not sure where to put this and why it doesn't already exist.
+
 async function main() {
     const screen = document.getElementById("screen")
     const input = document.getElementById("input")
@@ -152,6 +157,11 @@ async function main() {
     screen.onclick = () => input.focus();
     input.focus(); // the only thing we do is type!
     help.onclick = () => handle_input_line("/help");
+    game.classList.set(localStorage.getItem("map")   == "true",  "map");
+    game.classList.set(localStorage.getItem("fancy") != "false", "fancy");
+    game.classList.set(localStorage.getItem("color") == "green", "green");
+    game.classList.set(localStorage.getItem("color") == "amber", "amber");
+    game.classList.set(localStorage.getItem("color") == "blue",  "blue");
 
     let dungeo = await WebAssembly.instantiateStreaming(fetch("/dungeo.wasm"), {
         env : {},
@@ -416,24 +426,29 @@ async function main() {
             line = "look";
         } else if (line.toLowerCase() == "/font") {
             game.classList.toggle("fancy");
+            localStorage.setItem("fancy", game.classList.contains("fancy"));
             line = undefined
         } else if (line.toLowerCase() == "/map") {
             game.classList.toggle("map");
+            localStorage.setItem("map", game.classList.contains("map"));
             line = undefined
         } else if (line.toLowerCase() == "/green") {
             game.classList.add("green");
             game.classList.remove("amber");
             game.classList.remove("blue");
+            localStorage.setItem("color", "green");
             line = undefined
         } else if (line.toLowerCase() == "/amber") {
             game.classList.remove("green");
             game.classList.add("amber");
             game.classList.remove("blue");
+            localStorage.setItem("color", "amber");
             line = undefined
         } else if (line.toLowerCase() == "/blue") {
             game.classList.remove("green");
             game.classList.remove("amber");
             game.classList.add("blue");
+            localStorage.setItem("color", "blue");
             line = undefined
         } else if (line.toLowerCase() == "/help") {
             append_screen(document.getElementById("help-text").textContent);
