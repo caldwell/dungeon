@@ -52,10 +52,10 @@ class BinaryEncoder # Built to match the decoder in dsub.c
   end
 end
 
-require 'cgi'
 require 'base64'
 def format_html(id, text)
-  text = CGI::escapeHTML(text)
+  text.gsub!(/</, "&lt;")
+  text.gsub!(/>/, "&gt;")
   text.gsub!(/```\n(.*)```\n/m) {|| "{{ #{Base64.encode64($1)} }}" } # Hide verbatim stuff. b64 doesn't use '{' so we're ok
   text.gsub!('{&lt;', '{<') # sigh, this is gross
   text.gsub!('{&gt;', '{>')
