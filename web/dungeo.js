@@ -397,11 +397,9 @@ async function main() {
             el.type="file";
             el.style.display = "none";
             append_screen_node(el);
-            el.onchange = async (e) => {
-                const blob = new Blob(el.files);
+            el.onchange = (e) => {
                 screen.removeChild(el);
-                external_save_data = await blob.arrayBuffer();
-                handle_input_line(line, "restore");
+                restore_file(el.files);
             };
             el.click();
             return;
@@ -456,6 +454,35 @@ async function main() {
           }
         }
         set_prompt(prompt);
+    };
+
+    screen.ondragover = (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+    };
+    screen.ondragenter = (e) => {
+        e.target.classList.add("dragging");
+        e.stopPropagation();
+        e.preventDefault();
+    };
+
+    screen.ondragleave = (e) => {
+        e.target.classList.remove("dragging");
+        e.stopPropagation();
+        e.preventDefault();
+    };
+
+    screen.ondrop = (e) => {
+        console.log(e.dataTransfer);
+        e.target.classList.remove("dragging");
+        e.stopPropagation();
+        e.preventDefault();
+        restore_file(e.dataTransfer.files);
+    }
+    const restore_file = async (files) => {
+        const blob = new Blob(files);
+        external_save_data = await blob.arrayBuffer();
+        handle_input_line("restore from file", "restore");
     };
 
     window.dungeo = dungeo; // for debugging
