@@ -147,6 +147,7 @@ const DSAVE_DAT_WR = 5;
 async function main() {
     const screen = document.getElementById("screen")
     const input = document.getElementById("input")
+    const game = document.getElementById("game")
     screen.onclick = () => input.focus();
     input.focus(); // the only thing we do is type!
 
@@ -365,8 +366,11 @@ async function main() {
         append_screen_node(document.createTextNode(unwrap(text)), input);
     }
 
+    let last_prompt;
     const set_prompt = (prompt) => {
-        append_screen(prompt);
+        if (prompt != undefined)
+            last_prompt = prompt;
+        append_screen(last_prompt);
         input.focus();
     }
 
@@ -380,23 +384,33 @@ async function main() {
         if (input.value == "")
             return;
         let line = input.value;
+        handle_input_line(line);
+    }
+
+    const handle_input_line = (line, line_to_send) => {
         input.value = "";
         append_screen(line+"\n");
         if (line.startsWith("/tp ")) {
             mem().setUint32(dungeo.instance.exports.play_+4, line.slice(4)-0, true);
             mem().setUint32(dungeo.instance.exports.advs_+4, line.slice(4)-0, true);
             line = "look";
+        } else if (line.toLowerCase() == "/font") {
+            game.classList.toggle("fancy");
+            line = undefined
         }
-        try {
-            prompt = game_move(line);
+        prompt = undefined;
+        if (line != undefined) {
+          try {
+            prompt = game_move(line_to_send || line);
             update_map();
-        } catch(e) {
+          } catch(e) {
             if (e == 'done') { // as thrown from proc_exit()
                 append_screen("END OF LINE\n");
                 input.onkeypress = () => {};
                 return;
             }
             throw e;
+          }
         }
         set_prompt(prompt);
     };
