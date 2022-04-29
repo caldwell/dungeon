@@ -13,10 +13,9 @@ body {
     box-sizing: border-box;
     bottom: 0;
     position: absolute;
-    top: 20%;
-    top: calc(20% + .75rem/2);
     left: 0;
     right: 0;
+    top: 0;
     overflow-y: scroll;
     padding: .75rem;
     margin: 0 auto;
@@ -64,6 +63,14 @@ pre, #input {
     max-width: 40rem;
     margin: .5em auto;
     padding: .75rem;
+}
+
+#game.map #map {
+    display: block;
+}
+#game.map #screen {
+    top: 20%;
+    top: calc(20% + .75rem/2);
 }
 
 pre .left {
@@ -131,7 +138,7 @@ a {
 }
 
 @media screen and (max-width: 980px) { /* mobile, wide-mobile: ipad, ipad mini */
-    #map {
+    #game.map #map {
         zindex: 2;
         position: fixed;
         top: 270px;
@@ -140,7 +147,7 @@ a {
         height: 8rem;
         width: 100%;
     }
-    #screen {
+    #game.map #screen {
         top: calc(8rem + 270px);
         bottom: 0;
     }
@@ -155,7 +162,7 @@ a {
     </style>
   </head>
   <body>
-    <div id="game" class="fancy">
+    <div id="game" class="fancy map">
     <div id="map"></div>
     <pre id="screen"><input type="text" id="input" minlength="1" maxlength="78"></pre>
     </game>

@@ -397,6 +397,9 @@ async function main() {
         } else if (line.toLowerCase() == "/font") {
             game.classList.toggle("fancy");
             line = undefined
+        } else if (line.toLowerCase() == "/map") {
+            game.classList.toggle("map");
+            line = undefined
         }
         prompt = undefined;
         if (line != undefined) {
