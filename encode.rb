@@ -75,9 +75,9 @@ def format_html(id, text)
   text.gsub!('_', '&nbsp;')
 
   # generally unwrap paragraphs
-  text.gsub!(/\n([a-z(])/, ' \1')
-  text.gsub!(/,\n(\S)/, ' \1')
-  text.gsub!(/\.\n(\S)/, '  \1')
+  text.gsub!(/([^\n])\n([a-z(])/i, '\1 \2')  # Line starts with non-indented character after a non-blank line
+  text.gsub!(/,\n(\S)/, ' \1')               # Line ends with a comma
+  text.gsub!(/\.\n(\S)/, '  \1')             # Line ends with a period and the next sentence is not indented
 
   text.gsub!(/\{\{([^}]+)\}\}/) { || # Restore verbatim stuff
     pre = Base64.decode64($1)
