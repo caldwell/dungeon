@@ -25,6 +25,15 @@ body {
     max-width: 40rem;
     background: #1d1d1d;
 }
+
+pre, #input {
+    font-family: monospace;
+}
+
+.fancy pre, .fancy #input {
+    font-family: "Glass_TTY_VT220", monospace;
+}
+
 #input {
     /* position: absolute; */
     box-sizing: border-box;
@@ -38,7 +47,6 @@ body {
     border: none;
     background: #1d1d1d;
     color: #0c0;
-    font-family: monospace;
     font-size: 1em;
 }
 #input:focus-visible {
@@ -107,6 +115,21 @@ a {
     }
 }
 
+@font-face {
+    font-family: 'Glass_TTY_VT220';
+    src: url('Glass_TTY_VT220.ttf');
+}
+
+@media screen and (min-width: 980px) and (max-resolution: 1dppx),
+       screen and (min-width: 980px) and (-webkit-max-device-pixel-ratio: 1) { /* Desktop machines without retina displays */
+    .fancy #screen, .fancy pre, .fancy #input {
+        font-size: 20px; /* This font looks terrible unless it's >= 20px (10px on retina) */
+    }
+    .fancy #screen, .fancy #map { /* enlarge the window a bit so the zorkmid bills still fit at the larger font size */
+        max-width: 43rem;
+    }
+}
+
 @media screen and (max-width: 980px) { /* mobile, wide-mobile: ipad, ipad mini */
     #map {
         zindex: 2;
@@ -114,11 +137,11 @@ a {
         top: 270px;
         left: 0;
         right: 0;
-        height: 8em;
+        height: 8rem;
         width: 100%;
     }
     #screen {
-        top: calc(8em + 270px);
+        top: calc(8rem + 270px);
         bottom: 0;
     }
     #input {
@@ -132,8 +155,10 @@ a {
     </style>
   </head>
   <body>
+    <div id="game" class="fancy">
     <div id="map"></div>
     <pre id="screen"><input type="text" id="input" minlength="1" maxlength="78"></pre>
+    </game>
     <script src="map.js" type="module"></script>
     <script src="dungeo.js" type="module"></script>
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
