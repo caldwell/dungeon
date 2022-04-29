@@ -60,7 +60,11 @@ pre, #input {
 }
 
 #input {
-    /* position: absolute; */
+    /* These 3 things fix the leftmost pixel of the vt-220 font getting truncated */
+    position: relative;
+    left: -5px;
+    text-indent: 5px;
+
     box-sizing: border-box;
     height: 1em;
     width: calc(100% - 2ch - 1em);
