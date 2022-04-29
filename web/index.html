@@ -11,15 +11,18 @@
      * https://en.wikipedia.org/wiki/Phosphor#Standard_phosphor_types
      */
     /* P31 phosphor, wavelength 531nm, lightness: 50 */
-    --fg: hsl(101,100%,50%);
+    --fg:     hsl(101,100%,50%);
+    --fg-dim: hsl(101,100%,50%,60%);
 }
 #game.amber {
     /* P3 phosphor, wavelength 602nm, lightness: 50 */
-    --fg: hsl(39,100%,50%);
+    --fg:     hsl(39,100%,50%);
+    --fg-dim: hsl(39,100%,50%,60%);
 }
 #game.blue {
     /* P4 phosphor, wavelengths 540nm+435nm, lightness: 70 */
-    --fg: hsl(180,32%,80%);
+    --fg:     hsl(180,32%,80%);
+    --fg-dim: hsl(180,32%,80%,60%);
 }
 
 body {
@@ -54,11 +57,8 @@ pre, #input {
 #input {
     /* position: absolute; */
     box-sizing: border-box;
-    left: 2ex;
-    right: .75rem;
-    bottom: 0;
     height: 1em;
-    width: 95%;
+    width: calc(100% - 2ch - 1em);
     padding: 0;
     margin: 0;
     border: none;
@@ -130,14 +130,28 @@ pre p {
     margin: 0 0 0 8ex; /* simulate tab indented paragraphs */
 }
 
+#help {
+    float: right;
+    width: 1em;
+    height: 1em;
+    color: var(--fg-dim);
+}
+
 a {
     color: unset;
 }
 
 @media (hover:hover) {
+    #help:hover {
+        color: var(--fg);
+    }
     a:hover {
         background-color: #1f331f;
     }
+}
+
+.source {
+    display:none;
 }
 
 @font-face {
@@ -169,9 +183,12 @@ a {
         top: calc(8rem + 270px);
         bottom: 0;
     }
-    #input {
+    #input, #help {
         font-size: 1.5em;
         height: 1.5em;
+    }
+    #input {
+        width: calc(100% - 2ch / 1.5 - 1em);
     }
     pre.width_7x,pre.width_6x,pre.width_5x { /* make the zorkmid bills smaller to fit on phones' tiny screens */
         font-size: x-small;
@@ -182,8 +199,28 @@ a {
   <body>
     <div id="game" class="fancy map">
     <div id="map"></div>
-    <pre id="screen"><input type="text" id="input" minlength="1" maxlength="78"></pre>
+    <pre id="screen"><input type="text" id="input" minlength="1" maxlength="78"><svg id="help" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-question-circle" viewBox="0 0 16 16">
+  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+  <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+</svg></pre>
     </game>
+    <pre id="help-text" class="source">
+Welcome To Dungeon!
+
+If you have never played before, type "info" to get a general overview of
+the goal and "help" to get detailed info about what sorts of things you can
+type.
+
+In addition, there are some special commands just for this web based
+version:
+
+/help     This message.
+/font     Toggle fancy vt-220 font.
+/map      Toggle the map.
+/amber    Switch to an amber terminal (P3 phosphor)
+/green    Switch to a green terminal (P31 phosphor)
+/blue     Switch to a light blue terminal (P4 phosphor)
+</pre>
     <script src="map.js" type="module"></script>
     <script src="dungeo.js" type="module"></script>
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>

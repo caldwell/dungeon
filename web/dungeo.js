@@ -147,9 +147,11 @@ const DSAVE_DAT_WR = 5;
 async function main() {
     const screen = document.getElementById("screen")
     const input = document.getElementById("input")
+    const help = document.getElementById("help")
     const game = document.getElementById("game")
     screen.onclick = () => input.focus();
     input.focus(); // the only thing we do is type!
+    help.onclick = () => handle_input_line("/help");
 
     let dungeo = await WebAssembly.instantiateStreaming(fetch("/dungeo.wasm"), {
         env : {},
@@ -414,6 +416,9 @@ async function main() {
             game.classList.remove("green");
             game.classList.remove("amber");
             game.classList.add("blue");
+            line = undefined
+        } else if (line.toLowerCase() == "/help") {
+            append_screen(document.getElementById("help-text").textContent);
             line = undefined
         }
         prompt = undefined;
