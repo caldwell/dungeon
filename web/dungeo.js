@@ -214,7 +214,11 @@ async function main() {
                         });
                     else {
                         let data;
-                        try { data = base64decode(localStorage.getItem("dsave.dat")) } catch {};
+                        if (external_save_data) {
+                            data = new Uint8Array(external_save_data);
+                            external_save_data = undefined; // We get one shot to read it
+                        } else
+                            try { data = base64decode(localStorage.getItem("dsave.dat")) } catch {};
                         if (!data)
                             return WASI_ERRNO_NFILE;
                         newfd = open("dsave.dat", "read", data);
@@ -342,6 +346,7 @@ async function main() {
         const p = strdup(input_line.toUpperCase())
         try {
             const promtp_ptr = dungeo.instance.exports.game_move(p);
+            game_output = game_output.replace("Saved.", `Saved. <a href="data:application/dungeon-save;base64,${localStorage.getItem("dsave.dat")}" download="dsave.dat">🔗</a>`);
             append_screen_html(game_output);
             return cstr(promtp_ptr);
         } finally {
@@ -380,12 +385,27 @@ async function main() {
 
     window.game_move = game_move;
 
+    let external_save_data;
     input.onkeypress = (e) => {
         if (e.key != "Enter")
             return;
         if (input.value == "")
             return;
         let line = input.value;
+        if (line.toLowerCase() == "restore from file") {
+            const el = document.createElement('input');
+            el.type="file";
+            el.style.display = "none";
+            append_screen_node(el);
+            el.onchange = async (e) => {
+                const blob = new Blob(el.files);
+                screen.removeChild(el);
+                external_save_data = await blob.arrayBuffer();
+                handle_input_line(line, "restore");
+            };
+            el.click();
+            return;
+        }
         handle_input_line(line);
     }
 

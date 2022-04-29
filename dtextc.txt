@@ -104,6 +104,10 @@ of what the game is about.
 to continue playing.
    The 'SAVE' command saves the state of the game for later continuation.
    The 'RESTORE' command restores a saved game.
+{HTML
+   The 'RESTORE FROM FILE' command lets you upload and restore a saved
+game from a file on your local computer.
+HTML}
    The 'INVENTORY' command lists the objects in your possession.
    The 'LOOK' command prints a description of your surroundings.
    The 'SCORE' command prints your current score and ranking.
