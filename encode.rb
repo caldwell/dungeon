@@ -59,10 +59,6 @@ def format_html(id, text)
   text.gsub!(/```\n(.*)```\n/m) {|| "{{ #{Base64.encode64($1)} }}" } # Hide verbatim stuff. b64 doesn't use '{' so we're ok
   text.gsub!('{&lt;', '{<') # sigh, this is gross
   text.gsub!('{&gt;', '{>')
-  if id == -64 # help is full of special cases
-    text.gsub!(/^( *)([A-Za-z ]+:) *$/m) {|| h = $1 == '' ? 'h1' : 'h2'; "<#{h}>#{$2}</#{h}>"}
-    text.gsub!(/(?:^\t.+\n)+/) {|paragraph| "<p>#{paragraph.chomp.gsub("\t","").gsub("\n", " ")}</p>" }
-  end
 
   text.gsub!(/\{#([^}]+)#\}\n/m) {|| ''}
   text.gsub!(/\{HTML\n(.+?)HTML\}\n/m) {|| $1}
@@ -75,9 +71,15 @@ def format_html(id, text)
   text.gsub!('_', '&nbsp;')
 
   # generally unwrap paragraphs
+  text.gsub!(/([^-])-\n\t?([a-z])/i, '\1\2') # Line ends with a dash (but not 2!) then reconnect the split word
   text.gsub!(/([^\n])\n([a-z(])/i, '\1 \2')  # Line starts with non-indented character after a non-blank line
   text.gsub!(/,\n(\S)/, ' \1')               # Line ends with a comma
   text.gsub!(/\.\n(\S)/, '  \1')             # Line ends with a period and the next sentence is not indented
+
+  if id == -64 # help is full of special cases
+    text.gsub!(/^( *)([A-Za-z ]+:) *$/m) {|| h = $1 == '' ? 'h1' : 'h2'; "<#{h}>#{$2}</#{h}>"}
+    text.gsub!(/(?:^\t.+\n)+/) {|paragraph| "<p>#{paragraph.chomp.gsub("\t","").gsub("\n", " ")}</p>" }
+  end
 
   # Link things that look like links
   text.gsub!(%r@(https?://\S+)@, '<a href="\1\">\1</a>')
