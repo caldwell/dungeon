@@ -5085,7 +5085,7 @@ HTML}
 but no other logic has been changed. If you have any problems,
 please report them to:
 
-    david@porkrind.org   http://github.com/caldwell/dungeon
+    david@porkrind.org   https://github.com/caldwell/dungeon
 
 ## -13207
 There is a matchbook whose cover says "VISIT BEAUTIFUL FCD #3" here.
