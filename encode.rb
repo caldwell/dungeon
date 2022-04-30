@@ -72,7 +72,7 @@ def format_html(id, text)
 
   # generally unwrap paragraphs
   text.gsub!(/([^-])-\n\t?([a-z])/i, '\1\2') # Line ends with a dash (but not 2!) then reconnect the split word
-  text.gsub!(/([^\n])\n([a-z(])/i, '\1 \2')  # Line starts with non-indented character after a non-blank line
+  text.gsub!(/([^\n"])\n([a-z(])/i, '\1 \2') # Line starts with non-indented character after a non-blank line (but not if the line ended in a quote)
   text.gsub!(/,\n(\S)/, ' \1')               # Line ends with a comma
   text.gsub!(/\.\n(\S)/, '  \1')             # Line ends with a period and the next sentence is not indented
 
