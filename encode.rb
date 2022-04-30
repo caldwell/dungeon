@@ -142,3 +142,6 @@ encoder = BinaryEncoder.new()
 formatted.each {|id, text| encoder.add(id, text) }
 
 puts encoder.to_s
+
+# Check the current text output against the pre-marked up dtextc.txt:
+# ./encode.rb dtextc.txt --format=text --dump | diff -u <(git show 6752adfd0d02e655b97bb9b02c008227e56dd025:dtextc.txt) -
