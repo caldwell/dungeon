@@ -77,8 +77,10 @@ def format_html(id, text)
   text.gsub!(/\.\n(\S)/, '  \1')             # Line ends with a period and the next sentence is not indented
 
   if id == -64 # help is full of special cases
-    text.gsub!(/^( *)([A-Za-z ]+:) *$/m) {|| h = $1 == '' ? 'h1' : 'h2'; "<#{h}>#{$2}</#{h}>"}
-    text.gsub!(/(?:^\t.+\n)+/) {|paragraph| "<p>#{paragraph.chomp.gsub("\t","").gsub("\n", " ")}</p>" }
+    text.gsub!(/^( *)([A-Za-z ]+:) *$/m) {|| tag = $1 == '' ? 'h1' : 'dt'; "<#{tag}>#{$2}</#{tag}>"}
+    text.gsub!(/(?:^\t.+\n)+/) {|paragraph| "<dd>#{paragraph.chomp.gsub("\t","").gsub("\n", " ")}</dd>" }
+    text.gsub!(%r'(<dt>.*</dd>)'m, '<dl>\1</dl>') # Wrap the all the dd/dt in a dl
+    text.gsub!(%r'</dt>\n<dd>', '</dt><dd>')   # Remove extra return between the headings and paragraphs (since we live in a <pre>)
   end
 
   # Link things that look like links
