@@ -141,8 +141,6 @@ const STDIN        = 0;
 const STDOUT       = 1;
 const STDERR       = 2;
 const DSAVE_DAT    = 3;
-const DSAVE_DAT_RD = 4;
-const DSAVE_DAT_WR = 5;
 
 // This isn't standard but it is quite useful :-)
 window.DOMTokenList.prototype.set = function(present, property) {
@@ -171,7 +169,7 @@ async function main() {
             },
             fd_fdstat_get: (fd, out_stat) => {
                 console.log(`fd_fdstat_get ${fd}`)
-                if (fd == DSAVE_DAT || fd == DSAVE_DAT_WR || fd == DSAVE_DAT_RD) {
+                if (fd == DSAVE_DAT) {
                     memcpy(out_stat, wasi_struct(wasi_u8(WASI_FILETYPE_REGULAR_FILE),  // fs_filetype
                                                  wasi_u16(0),                          // fs_flags
                                                  wasi_u64(WASI_RIGHTS_FD_READ |        // fs_rights_base
