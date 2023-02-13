@@ -812,6 +812,7 @@ function base64encode(a) {
 }
 
 function base64decode(s) {
+    if (s == undefined) return undefined;
     let bs = atob(s);
     let a = new Uint8Array(bs.length);
     for (let i=0; i<bs.length; i++)
