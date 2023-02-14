@@ -368,6 +368,7 @@ async function main() {
         const textEncoder = new TextEncoder();
         const buf = textEncoder.encode(s+"\0");
         const ptr = ffi.fn.malloc(buf.length);
+        if (ptr == 0) throw(`strdup failed for ${s}`);
         memcpy(ptr, buf);
         return ptr;
     }
