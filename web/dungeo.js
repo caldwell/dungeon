@@ -220,9 +220,8 @@ async function main() {
                 if (prestat[fd].name == "dsave.dat") {
                     let newfd;
                     if (fs_rights_base & WASI_RIGHTS_FD_WRITE)
-                        newfd = open("dsave.dat", "write", (data) => {
-                            localStorage.setItem("dsave.dat", base64encode(data));
-                            console.log(data);
+                        newfd = open(prestat[fd].name, "write", (data) => {
+                            localStorage.setItem(prestat[fd].name, base64encode(data));
                         });
                     else {
                         let data;
@@ -230,10 +229,10 @@ async function main() {
                             data = new Uint8Array(external_save_data);
                             external_save_data = undefined; // We get one shot to read it
                         } else
-                            try { data = base64decode(localStorage.getItem("dsave.dat")) } catch {};
+                            try { data = base64decode(localStorage.getItem(prestat[fd].name)) } catch {};
                         if (!data)
                             return WASI_ERRNO_NFILE;
-                        newfd = open("dsave.dat", "read", data);
+                        newfd = open(prestat[fd].name, "read", data);
                     }
 
                     memcpy(newfd_ptr, wasi_u32(newfd));
