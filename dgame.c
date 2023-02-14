@@ -23,6 +23,9 @@ char *game_move(char *line)
     logical f;
     integer i;
 
+    if (line == NULL)
+        game_input_block = start;
+
     switch (game_input_block) {
         case start:     if (!init_()) exit_(); break;
         case input:     goto input;

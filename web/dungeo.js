@@ -393,7 +393,7 @@ async function main() {
     let game_output;
     const game_move = (input_line) => {
         game_output = ""; // will accumulate as game prints to us
-        const promtp_ptr = ffi.fn.game_move(input_line.toUpperCase());
+        const promtp_ptr = ffi.fn.game_move(input_line == undefined ? undefined : input_line.toUpperCase());
         game_output = game_output.replace("Saved.", `Saved. <a href="data:application/dungeon-save;base64,${localStorage.getItem("dsave.dat")}" download="dsave.dat">🔗</a>`);
         append_screen_html(game_output);
         return cstr(promtp_ptr);
@@ -426,7 +426,11 @@ async function main() {
         input.focus();
     }
 
-    set_prompt(game_move("")); // First one just inits and returns the first prompt.
+    const restart = () => {
+        set_prompt(game_move(undefined)); // First one just inits and returns the first prompt.
+    }
+
+    restart(); // really just "start" at this point.
 
     window.game_move = game_move;
 
@@ -488,6 +492,8 @@ async function main() {
         } else if (line.toLowerCase() == "/help") {
             append_screen(document.getElementById("help-text").textContent);
             line = undefined
+        } else if (line.toLowerCase() == "/restart") {
+            line = "quit";
         }
         prompt = undefined;
         if (line != undefined) {
@@ -496,8 +502,9 @@ async function main() {
             update_map();
           } catch(e) {
             if (e == 'done') { // as thrown from proc_exit()
-                append_screen("END OF LINE\n");
-                input.onkeypress = () => {};
+                append_screen("Dungeo exited.\n\n...Restarting!\n\n");
+                restart();
+                update_map();
                 return;
             }
             throw e;
