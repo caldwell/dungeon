@@ -140,7 +140,6 @@ const WASI_OFLAGS_TRUNC      = 1 << 3;
 const STDIN        = 0;
 const STDOUT       = 1;
 const STDERR       = 2;
-const DSAVE_DAT    = 3;
 
 // This isn't standard but it is quite useful :-)
 window.DOMTokenList.prototype.set = function(present, property) {
@@ -161,6 +160,22 @@ async function main() {
     game.classList.set(localStorage.getItem("color") == "amber", "amber");
     game.classList.set(localStorage.getItem("color") == "blue",  "blue");
 
+    var read_write_perms = wasi_struct(wasi_u8(WASI_FILETYPE_REGULAR_FILE),  // fs_filetype
+                                       wasi_u16(0),                          // fs_flags
+                                       wasi_u64(WASI_RIGHTS_FD_READ |        // fs_rights_base
+                                                WASI_RIGHTS_FD_SEEK |
+                                                WASI_RIGHTS_FD_WRITE |
+                                                WASI_RIGHTS_PATH_CREATE_FILE |
+                                                WASI_RIGHTS_PATH_OPEN),
+                                       wasi_u64(WASI_RIGHTS_FD_READ |        // fs_rights_inheriting
+                                                WASI_RIGHTS_FD_SEEK |
+                                                WASI_RIGHTS_FD_WRITE |
+                                                WASI_RIGHTS_PATH_CREATE_FILE |
+                                                WASI_RIGHTS_PATH_OPEN));
+    // prestat fds (technically a different namespace from read/write/close fds, though they also reserve 0-2 for std{in,out,err})
+    var prestat = [ undefined, undefined, undefined,
+                    { name: "dsave.dat",    perms: read_write_perms } ];
+
     let dungeo = await WebAssembly.instantiateStreaming(fetch("/dungeo.wasm"), {
         env : {},
         wasi_snapshot_preview1: {
@@ -169,19 +184,8 @@ async function main() {
             },
             fd_fdstat_get: (fd, out_stat) => {
                 console.log(`fd_fdstat_get ${fd}`)
-                if (fd == DSAVE_DAT) {
-                    memcpy(out_stat, wasi_struct(wasi_u8(WASI_FILETYPE_REGULAR_FILE),  // fs_filetype
-                                                 wasi_u16(0),                          // fs_flags
-                                                 wasi_u64(WASI_RIGHTS_FD_READ |        // fs_rights_base
-                                                          WASI_RIGHTS_FD_SEEK |
-                                                          WASI_RIGHTS_FD_WRITE |
-                                                          WASI_RIGHTS_PATH_CREATE_FILE |
-                                                          WASI_RIGHTS_PATH_OPEN),
-                                                 wasi_u64(WASI_RIGHTS_FD_READ |        // fs_rights_inheriting
-                                                          WASI_RIGHTS_FD_SEEK |
-                                                          WASI_RIGHTS_FD_WRITE |
-                                                          WASI_RIGHTS_PATH_CREATE_FILE |
-                                                          WASI_RIGHTS_PATH_OPEN)));
+                if (prestat[fd] != undefined) {
+                    memcpy(out_stat, prestat[fd].perms);
                     return WASI_ERRNO_SUCCESS;
                 }
                 return WASI_ERRNO_BADF;
@@ -195,8 +199,8 @@ async function main() {
             // things as overcomplicated as possible??)
             fd_prestat_get: (fd, out_prestat) => {
                 // console.log("fd_prestat_get")
-                if (fd == DSAVE_DAT) {
-                    memcpy(out_prestat, wasi_variant(0, wasi_u32("dsave.dat".length)));
+                if (prestat[fd] != undefined) {
+                    memcpy(out_prestat, wasi_variant(0, wasi_u32(prestat[fd].name.length)));
                     return WASI_ERRNO_SUCCESS;
                 }
                 return WASI_ERRNO_BADF;
@@ -204,8 +208,8 @@ async function main() {
             // Now that we're returned the length of the dirname, the wasi c lib has malloced space for it,
             // so they call here to actually get it.
             fd_prestat_dir_name: (fd, out_prefix, out_prefix_len) => {
-                if (fd == DSAVE_DAT) {
-                    memcpy(out_prefix, "dsave.dat")
+                if (prestat[fd] != undefined) {
+                    memcpy(out_prefix, prestat[fd].name);
                     return WASI_ERRNO_SUCCESS;
                 }
                 // console.log("fd_prestat_dir_name")
@@ -213,7 +217,7 @@ async function main() {
             },
             path_open: (fd, dirflags, path, path_len, oflags, fs_rights_base, fs_rights_inheriting, fdflags, newfd_ptr) => {
                 //console.log(`path_open(${fd}, ${dirflags}, ${path}, ${path_len}, ${oflags}, ${fs_rights_base}, ${fs_rights_inheriting}, ${fdflags}, ${newfd_ptr})`)
-                if (fd == DSAVE_DAT) {
+                if (prestat[fd].name == "dsave.dat") {
                     let newfd;
                     if (fs_rights_base & WASI_RIGHTS_FD_WRITE)
                         newfd = open("dsave.dat", "write", (data) => {
