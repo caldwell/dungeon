@@ -732,18 +732,20 @@ async function main() {
         { /*189*/ name: "Side Room",                       lat:-93.60259242045218,  lng:212.68818136770588  },
         { /*190*/ name: "Room in a Puzzle",                lat:-71.91318113712273,  lng:221.84226749869282  },
     ];
+    let marker;
     const update_map = () => {
-        marker.remove();
+        let zoom;
+        if (!marker) {
+            marker = L.marker().bindPopup('You are here');
+            zoom = 3; // Only set zoom up front, otherwise let the user control it
+        } else
+            marker.remove();
         if (room_on_map[current_room()].lat) {
             marker.setLatLng(room_on_map[current_room()]);
             marker.addTo(map);
-            map.setView(marker.getLatLng());
+            map.setView(marker.getLatLng(), zoom);
         }
     }
-
-    let marker = L.marker(room_on_map[current_room()]).bindPopup('You are here').addTo(map);
-
-    map.setView(marker.getLatLng(), 3)
 
     map.on('click', (event) => {
         if (event.originalEvent.altKey) {
@@ -754,6 +756,8 @@ async function main() {
         }
         input.focus();
     });
+
+    update_map();
 }
 
 function wasi_variant(tag, data) {
