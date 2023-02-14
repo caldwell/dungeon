@@ -229,9 +229,12 @@ async function main() {
                             data = new Uint8Array(external_save_data);
                             external_save_data = undefined; // We get one shot to read it
                         } else
-                            try { data = base64decode(localStorage.getItem(prestat[fd].name)) } catch {};
-                        if (!data)
-                            return WASI_ERRNO_NFILE;
+                            try {
+                                if (!(data = base64decode(localStorage.getItem(prestat[fd].name))))
+                                    return WASI_ERRNO_INVAL;
+                            } catch {
+                                return WASI_ERRNO_IO
+                            };
                         newfd = open(prestat[fd].name, "read", data);
                     }
 
@@ -243,8 +246,7 @@ async function main() {
             fd_close: (fd) => {
                 console.log(`fd_close(${fd})`)
                 if (validfd(fd)) {
-                    close(fd);
-                    return WASI_ERRNO_SUCCESS;
+                    return close(fd) == undefined ? WASI_ERRNO_SUCCESS : WASI_ERRNO_IO;
                 }
 
                 return WASI_ERRNO_BADF;
@@ -788,8 +790,12 @@ function* file_writer_iterate(callback) {
         u8p += c.length;
     }
     if (callback)
-        callback(u8);
-    return u8;
+        try {
+            callback(u8);
+        } catch (e) {
+            return e;
+        }
+    return undefined;
 }
 
 function* file_reader_iterate(data) {
@@ -797,6 +803,7 @@ function* file_reader_iterate(data) {
 
     while ((count = yield data.subarray(pos-count, pos)) != undefined)
         pos += count;
+    return undefined;
 }
 
 function open(name, direction, data_or_callback) {
@@ -824,7 +831,9 @@ function read(fd, count) {
 function close(fd) {
     const f = files[fd];
     files[fd] = {};
-    return f.iterator.next().value;
+    let e = f.iterator.next().value;
+    if (e) console.log(`close(${f.name}): ${e}`);
+    return e;
 }
 
 function base64encode(a) {
