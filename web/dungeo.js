@@ -264,7 +264,7 @@ async function main() {
                     //console.log(`fd: ${fd}, buf: ${buf}, len: ${len}, data: ${d}`);
                     total += len;
                 }
-                mem().setUint32(read_ptr, total, true);
+                ffi.mem().setUint32(read_ptr, total, true);
                 return WASI_ERRNO_SUCCESS;
             },
             fd_seek: (fd, offset, whence, new_offset_ptr) => {
@@ -283,10 +283,10 @@ async function main() {
                 let u8 = new Uint8Array(total);
                 for (let iovp = u32ptr(iov), u8p = 0, i = 0; i < iovcnt; i++) {
                     let buf = iovp.deref_pp(), len = iovp.deref_pp();
-                    u8.set(new Uint8Array(mem().buffer).subarray(buf, buf+len), u8p);
+                    u8.set(new Uint8Array(ffi.mem().buffer).subarray(buf, buf+len), u8p);
                     u8p += len;
                 }
-                mem().setUint32(written_ptr, total, true);
+                ffi.mem().setUint32(written_ptr, total, true);
 
                 if (fd == STDOUT || fd == STDERR) {
                     const textDecoder = new TextDecoder()
@@ -311,18 +311,45 @@ async function main() {
             },
         },
     });
-    const mem = () => new DataView(dungeo.instance.exports.memory.buffer);
+
+    const ffi = { fn:{},
+                  global:{},
+                  mem: () => new DataView(dungeo.instance.exports.memory.buffer), };
+    for (let [k,v] of Object.entries(dungeo.instance.exports))
+        if (typeof v == "function")
+            // This wrapper finds strings in the argument list, strdup()s to replace them with a ptr, then frees them after the call
+            ffi.fn[k] = (...args) => {
+                let allocced = [];
+                let converted = args.map((a) => {
+                    if (typeof a == "string") {
+                        let ptr = strdup(a)
+                        allocced.push(ptr);
+                        return ptr;
+                    }
+                    return a;
+                });
+                try {
+                    return v.apply(this, converted);
+                } finally {
+                    for (let ptr of allocced)
+                        free(ptr);
+                }
+            };
+        else if (v.constructor == WebAssembly.Global)
+            ffi.global[k] = v;
+    window.ffi = ffi;
+
     const u32ptr = (ptr) => {
         return {
             deref_pp: () => { // *p++
-                let v = mem().getUint32(ptr, true);
+                let v = ffi.mem().getUint32(ptr, true);
                 ptr += 4;
                 return v;
             }
         }
     }
     const cstr = (ptr) => {
-        const s=new Uint8Array(mem().buffer).subarray(ptr);
+        const s=new Uint8Array(ffi.mem().buffer).subarray(ptr);
         const textDecoder = new TextDecoder();
         return textDecoder.decode(s.subarray(0, s.findIndex((c) => c == 0)));
     }
@@ -330,7 +357,7 @@ async function main() {
     const strdup = (s) => {
         const textEncoder = new TextEncoder();
         const buf = textEncoder.encode(s+"\0");
-        const ptr = dungeo.instance.exports.malloc(buf.length);
+        const ptr = ffi.fn.malloc(buf.length);
         memcpy(ptr, buf);
         return ptr;
     }
@@ -340,30 +367,25 @@ async function main() {
             const textEncoder = new TextEncoder();
             src = textEncoder.encode(src);
         }
-        (new Uint8Array(mem().buffer)).set(src, ptr)
+        (new Uint8Array(ffi.mem().buffer)).set(src, ptr)
     }
 
     const free = (ptr) => {
-        dungeo.instance.exports.free(ptr);
+        ffi.fn.free(ptr);
     }
 
     const current_room = (ptr) => {
-        return mem().getUint32(dungeo.instance.exports.play_+4, true);
+        return ffi.mem().getUint32(ffi.global.play_+4, true);
     }
     window.current_room = current_room;
 
     let game_output;
     const game_move = (input_line) => {
         game_output = ""; // will accumulate as game prints to us
-        const p = strdup(input_line.toUpperCase())
-        try {
-            const promtp_ptr = dungeo.instance.exports.game_move(p);
-            game_output = game_output.replace("Saved.", `Saved. <a href="data:application/dungeon-save;base64,${localStorage.getItem("dsave.dat")}" download="dsave.dat">🔗</a>`);
-            append_screen_html(game_output);
-            return cstr(promtp_ptr);
-        } finally {
-            free(p);
-        }
+        const promtp_ptr = ffi.fn.game_move(input_line.toUpperCase());
+        game_output = game_output.replace("Saved.", `Saved. <a href="data:application/dungeon-save;base64,${localStorage.getItem("dsave.dat")}" download="dsave.dat">🔗</a>`);
+        append_screen_html(game_output);
+        return cstr(promtp_ptr);
     }
 
     const add_output = (text) => {
@@ -423,8 +445,8 @@ async function main() {
         input.value = "";
         append_screen(line+"\n");
         if (line.startsWith("/tp ")) {
-            mem().setUint32(dungeo.instance.exports.play_+4, line.slice(4)-0, true);
-            mem().setUint32(dungeo.instance.exports.advs_+4, line.slice(4)-0, true);
+            ffi.mem().setUint32(ffi.global.play_+4, line.slice(4)-0, true);
+            ffi.mem().setUint32(ffi.global.advs_+4, line.slice(4)-0, true);
             line = "look";
         } else if (line.toLowerCase() == "/font") {
             game.classList.toggle("fancy");
