@@ -313,6 +313,15 @@ async function main() {
         },
     });
 
+    class global {
+        constructor(g) {
+            this.g = g;
+        }
+        u32() { return ffi.mem().getUint32(this.g, true) }
+        set_u32(val) { return  ffi.mem().setUint32(this.g, val, true) }
+        off(off) { return new global(this.g + off) }
+    }
+
     const ffi = { fn:{},
                   global:{},
                   mem: () => new DataView(dungeo.instance.exports.memory.buffer), };
@@ -337,7 +346,7 @@ async function main() {
                 }
             };
         else if (v.constructor == WebAssembly.Global)
-            ffi.global[k] = v;
+            ffi.global[k] = new global(v),
     window.ffi = ffi;
 
     const u32ptr = (ptr) => {
@@ -376,7 +385,7 @@ async function main() {
     }
 
     const current_room = (ptr) => {
-        return ffi.mem().getUint32(ffi.global.play_+4, true);
+        return ffi.global.play_.off(+4).u32();
     }
     window.current_room = current_room;
 
@@ -446,8 +455,8 @@ async function main() {
         input.value = "";
         append_screen(line+"\n");
         if (line.startsWith("/tp ")) {
-            ffi.mem().setUint32(ffi.global.play_+4, line.slice(4)-0, true);
-            ffi.mem().setUint32(ffi.global.advs_+4, line.slice(4)-0, true);
+            ffi.global.play_.off(+4).set_u32(line.slice(4)-0);
+            ffi.global.advs_.off(+4).set_u32(line.slice(4)-0);
             line = "look";
         } else if (line.toLowerCase() == "/font") {
             game.classList.toggle("fancy");
