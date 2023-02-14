@@ -174,7 +174,8 @@ async function main() {
                                                 WASI_RIGHTS_PATH_OPEN));
     // prestat fds (technically a different namespace from read/write/close fds, though they also reserve 0-2 for std{in,out,err})
     var prestat = [ undefined, undefined, undefined,
-                    { name: "dsave.dat",    perms: read_write_perms } ];
+                    { name: "dsave.dat",    perms: read_write_perms },
+                    { name: "autosave.dat", perms: read_write_perms } ];
 
     let dungeo = await WebAssembly.instantiateStreaming(fetch("/dungeo.wasm"), {
         env : {},
@@ -217,7 +218,7 @@ async function main() {
             },
             path_open: (fd, dirflags, path, path_len, oflags, fs_rights_base, fs_rights_inheriting, fdflags, newfd_ptr) => {
                 //console.log(`path_open(${fd}, ${dirflags}, ${path}, ${path_len}, ${oflags}, ${fs_rights_base}, ${fs_rights_inheriting}, ${fdflags}, ${newfd_ptr})`)
-                if (prestat[fd].name == "dsave.dat") {
+                if (prestat[fd].name == "dsave.dat" || prestat[fd].name == "autosave.dat") {
                     let newfd;
                     if (fs_rights_base & WASI_RIGHTS_FD_WRITE)
                         newfd = open(prestat[fd].name, "write", (data) => {
@@ -542,6 +543,26 @@ async function main() {
         handle_input_line("restore from file", "restore");
     };
 
+    const autosave_available = () => "autosave.dat" in localStorage;
+    const autosave_save = () => {
+        if (ffi.fn.savegm_to("autosave.dat") != 0)
+            console.log(`Warning: autosave failed ${strerror()}`);
+    };
+    const autosave_restore = () => {
+        let r = ffi.fn.rstrgm_from("autosave.dat");
+        if (r == 1)
+            console.log(`Warning: autosave failed ${strerror()}`);
+        if (r == 2)
+            console.log(`Warning: autosave failed to restore because there was a version mismatch`);
+    };
+    const strerror = () => { return cstr(ffi.fn.strerror(ffi.global.errno.u32())) };
+
+    document.onvisibilitychange = () => {
+        if (document.visibilityState === 'hidden')
+            autosave_save();
+    };
+
+
     window.dungeo = dungeo; // for debugging
 
     const map = Map.create("map");
@@ -764,7 +785,14 @@ async function main() {
         input.focus();
     });
 
-    update_map();
+    if (autosave_available()) {
+        autosave_restore();
+        // HACK:
+        screen.childNodes[0].childNodes[2].textContent = "\n";  // You are in an open field west of a big white house...
+        screen.childNodes[1].textContent="\n";                  // >
+        handle_input_line("Restoring from autosave... Type \"/restart\" to start fresh.\n", "look");
+    } else
+        update_map();
 }
 
 function wasi_variant(tag, data) {

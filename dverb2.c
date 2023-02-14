@@ -12,18 +12,18 @@
 
 static integer cxappl_ P((integer));
 
-void savegm_()
+enum save_game_status { success, failure, version_mismatch };
+
+enum save_game_status savegm_to(char *file)
 {
     /* Local variables */
     integer i;
     FILE *e;
 
-    prsvec_1.prswon = FALSE_;
-/* 						!DISABLE GAME. */
 /* Note: save file format is different for PDP vs. non-PDP versions */
 
-    if ((e = fopen("dsave.dat", BINWRITE)) == NULL)
-	goto L100;
+    if ((e = fopen(file, BINWRITE)) == NULL)
+	return failure;
 
     gttime_(&i);
 /* 						!GET TIME. */
@@ -88,8 +88,15 @@ void savegm_()
 
 #undef do_uio
 
-    if (fclose(e) == EOF)
-	goto L100;
+    return fclose(e) == EOF ? failure : success;
+}
+
+void savegm_()
+{
+    prsvec_1.prswon = FALSE_;
+/* 						!DISABLE GAME. */
+    if (savegm_to("dsave.dat") != success)
+        goto L100;
 
     rspeak_(597);
     return;
@@ -104,7 +111,7 @@ L100:
 
 /* DECLARATIONS */
 
-void rstrgm_()
+enum save_game_status rstrgm_from(char *file)
 {
     /* Local variables */
     integer i, j, k;
@@ -114,8 +121,8 @@ void rstrgm_()
 /* 						!DISABLE GAME. */
 /* Note: save file format is different for PDP vs. non-PDP versions */
 
-    if ((e = fopen("dsave.dat", BINREAD)) == NULL)
-	goto L100;
+    if ((e = fopen(file, BINREAD)) == NULL)
+	return failure;
 
 #define do_uio(i, zbuf, cbytes) \
 	(void)fread((char *)(zbuf), (cbytes), (i), e)
@@ -125,7 +132,8 @@ void rstrgm_()
     do_uio(1, &k, sizeof(integer));
 
     if (i != vers_1.vmaj | j != vers_1.vmin) {
-	goto L200;
+        (void)fclose(e);
+	return version_mismatch;
     }
 
     do_uio(1, &play_1.winner, sizeof(integer));
@@ -180,6 +188,16 @@ void rstrgm_()
     do_uio(25, &cevent_1.ctick[0], sizeof(integer));
 
     (void)fclose(e);
+    return success;
+}
+
+void rstrgm_()
+{
+    int status = rstrgm_from("dsave.dat");
+    if (status == version_mismatch)
+        goto L200;
+    if (status == failure)
+        goto L100;
 
     rspeak_(599);
     return;
@@ -192,7 +210,6 @@ L100:
 L200:
     rspeak_(600);
 /* 						!OBSOLETE VERSION */
-    (void)fclose(e);
 } /* rstrgm_ */
 
 /* WALK- MOVE IN SPECIFIED DIRECTION */
